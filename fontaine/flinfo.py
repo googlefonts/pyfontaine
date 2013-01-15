@@ -1,22 +1,19 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # fontaine.py
 #
-# Copyright (c) 2013, 
-# Виталий Волков <hash.3g@gmail.com> 
+# Copyright (c) 2013,
+# Виталий Волков <hash.3g@gmail.com>
 # Dave Crossland <dave@understandinglimited.com>
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
 
 import freetype
-import logging
 
-from fontTools.unicode import Unicode
+from ttfquery import describe, glyphquery
 
-
-log = logging.getLogger(__name__)
-
+from fontaine.cmap import library
 
 FT_STYLE_FLAG_ITALIC = (1 << 0)
 FT_STYLE_FLAG_BOLD = (1 << 1)
@@ -78,17 +75,7 @@ class Font:
 
     def __init__(self, fontfile):
         self._fontFace = freetype.Face(fontfile)
-
         self.refresh_sfnt_properties()
-
-        self.codes = set()
-        self.complete = set(Unicode.codes.keys())
-
-        charcode, agindex = self._fontFace.get_first_char()
-        while agindex != 0:
-            self.codes.add(charcode)
-            charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
-            self._character_count += 1
 
     def refresh_sfnt_properties(self):
         sfnt_count = self._fontFace.sfnt_name_count
@@ -190,6 +177,21 @@ class Fonts:
     _fonts = []
 
     def add_font(self, fontfile):
+        font = describe.openFont(fontfile)
+        for cmap in library.charmaps:
+            print
+            print cmap.name
+            missing = []
+            for char in cmap.glyphs:
+                if not glyphquery.hasGlyph(font, chr(char)):
+                    missing.append(char)
+
+            if not missing:
+                print 'Support level: full'
+            else:
+                print 'Support level: fragmentary'
+                print 'Missing values', missing
+
         font = Font(fontfile)
         self._fonts.append(font)
 

@@ -1,14 +1,20 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 #
 # fontaine.py
 #
-# Copyright (c) 2013, 
+# Copyright (c) 2013,
 # Виталий Волков <hash.3g@gmail.com> 
 # Dave Crossland <dave@understandinglimited.com>
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
-
+import os
+import sys
+sys.path.append(os.path.realpath(
+        os.path.join(os.path.dirname(__file__), '..')
+    )
+)
 import argparse
 
 from flinfo import Fonts
@@ -35,6 +41,4 @@ def main(*argv):
     elif args.xml:
         fonts.print_xml()
 
-
-if __name__ == '__main__':
-    main()
+main()

@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 #!/usr/bin/env python
 #
 # fontaine.py
@@ -8,5 +9,3 @@
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
-
-from fontaine.fontaine import *
