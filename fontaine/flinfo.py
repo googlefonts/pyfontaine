@@ -39,10 +39,6 @@ class Font:
             propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
             setattr(self, '_%s' % propname, sfnt_record.string)
 
-    @staticmethod
-    def unicodevalues_asstring(values):
-        return map(lambda x: u'U+%04x (%s)' % (x, unichr(x)), values)
-
     def get_othography_info(self, charmap, hits=0):
         ''' Return 4-tuple list with short orthographies information
             * selected supported character map by py-fontaine
@@ -174,38 +170,31 @@ class Fonts:
         self._fonts.append(font)
 
     def print_plain_text(self):
-        print 'Fonts'
-        print
-        for font in self._fonts:
-            print '  Font'
-            print
-            print '    Common name:', font.common_name
-            print '    Sub family:', font.sub_family
-            print '    Style:', font.style_flags
-            print '    Weight:', font.weight
-            print '    Fixed width:', 'yes' if font.is_fixed_width else 'no'
-            print '    Fixed sizes:', 'yes' if font.has_fixed_sizes else 'no'
-            print '    Copyright:', font.copyright
-            print '    License:', font.license
-            print '    License url:', font.license_url
-            print '    Version:', font.version
-            print '    Vendor:', font.vendor
-            print '    Vendor url:', font.vendor_url
-            print '    Designer:', font.designer
-            print '    Designer url:', font.designer_url
-            print '    Glyph count:', font.glyph_num
-            print '    Character count:', font.character_count
-            print '    Orthographies:'
-            for orth, level, coverage, missing in font.get_orthographies():
-                print '      Orthography:'
-                print '         Common Name:', orth.common_name
-                print '         Native Name:', orth.native_name
-                print '         Support Level:', level
-                if level == SUPPORT_LEVEL_FRAGMENTARY:
-                    print '         Percent coverage:', coverage
-                    print u'         Missing values:',
-                    print u', '.join(Font.unicodevalues_asstring(missing))
-                print
+        from fontaine.builder import Director, TextBuilder
+        builder = Director(TextBuilder())
+        builder.construct_tree(self._fonts)
+        builder.build()
 
     def print_xml(self):
         raise NotImplementedError
+
+
+class Builder(object):
+
+    _internalTree = []
+
+    def add_section(self, name, parent=None):
+        section = {name: []}
+        if not parent:
+            self._internalTree.append(section)
+            return section[name]
+        assert not isinstance(parent, list)
+        parent.append(section)
+        return section[name]
+
+    def add_key(self, section, name, value):
+        assert not isinstance(section, dict)
+        section[name] = value
+
+    def as_text(self):
+        print self._internalTree
