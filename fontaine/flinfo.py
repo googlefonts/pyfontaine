@@ -10,7 +10,6 @@
 # See accompanying LICENSE.txt file for details.
 
 import freetype
-import numpy
 
 from fontaine.cmap import library
 from fontaine.const import *
@@ -26,7 +25,7 @@ class Font:
         charcode, agindex = self._fontFace.get_first_char()
         while agindex != 0:
             charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
-            self._unicodeValues.append(numpy.uint32(charcode))
+            self._unicodeValues.append(charcode)
 
     def refresh_sfnt_properties(self):
         sfnt_count = self._fontFace.sfnt_name_count
@@ -40,7 +39,8 @@ class Font:
             propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
             setattr(self, '_%s' % propname, sfnt_record.string)
 
-    def unicodevalues_asstring(self, values):
+    @staticmethod
+    def unicodevalues_asstring(values):
         return map(lambda x: u'U+%04x (%s)' % (x, unicode(unichr(x))), values)
 
     def get_orthographies(self):
@@ -56,7 +56,7 @@ class Font:
 
             for char in cmap.glyphs:
                 tries += 1
-                if numpy.uint32(char) not in self._unicodeValues:
+                if char not in self._unicodeValues:
                     missing.append(char)
                 else:
                     hits += 1
@@ -194,7 +194,7 @@ class Fonts:
                 print '         Support Level:', level
                 if level == SUPPORT_LEVEL_FRAGMENTARY:
                     print '         Percent coverage:', coverage
-                    print '         Missing values:', font.unicodevalues_asstring(missing)
+                    print '         Missing values:', Font.unicodevalues_asstring(missing)
                 print
 
     def print_xml(self):
