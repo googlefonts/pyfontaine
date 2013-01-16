@@ -11,6 +11,7 @@
 # See accompanying LICENSE.txt file for details.
 import os
 import sys
+
 sys.path.append(os.path.realpath(
         os.path.join(os.path.dirname(__file__), '..')
     )

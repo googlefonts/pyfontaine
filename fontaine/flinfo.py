@@ -41,7 +41,7 @@ class Font:
 
     @staticmethod
     def unicodevalues_asstring(values):
-        return map(lambda x: u'U+%04x (%s)' % (x, unicode(unichr(x))), values)
+        return map(lambda x: u'U+%04x (%s)' % (x, unichr(x)), values)
 
     def get_orthographies(self):
         orths = []
@@ -199,7 +199,8 @@ class Fonts:
                 print '         Support Level:', level
                 if level == SUPPORT_LEVEL_FRAGMENTARY:
                     print '         Percent coverage:', coverage
-                    print '         Missing values:', Font.unicodevalues_asstring(missing)
+                    print u'         Missing values:',
+                    print u', '.join(Font.unicodevalues_asstring(missing))
                 print
 
     def print_xml(self):
