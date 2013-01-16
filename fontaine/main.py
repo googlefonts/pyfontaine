@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 #
-# fontaine.py
+# main.py
 #
 # Copyright (c) 2013,
 # Виталий Волков <hash.3g@gmail.com> 
@@ -36,9 +36,9 @@ def main(*argv):
     for _fontname in args.font:
         fonts.add_font(_fontname)
 
-    if args.text:
-        fonts.print_plain_text()
-    elif args.xml:
+    if args.xml:
         fonts.print_xml()
+    else:
+        fonts.print_plain_text()
 
 main()

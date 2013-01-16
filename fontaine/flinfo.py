@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# fontaine.py
+# flinfo.py
 #
 # Copyright (c) 2013,
 # Виталий Волков <hash.3g@gmail.com>
@@ -10,65 +10,10 @@
 # See accompanying LICENSE.txt file for details.
 
 import freetype
-
-from ttfquery import describe, glyphquery
+import numpy
 
 from fontaine.cmap import library
-
-FT_STYLE_FLAG_ITALIC = (1 << 0)
-FT_STYLE_FLAG_BOLD = (1 << 1)
-FT_FACE_FLAG_SFNT = (1L << 3)
-
-FT_STYLE_ITALIC = 'italic'
-FT_STYLE_BOLD = 'bold'
-FT_STYLE_NORMAL = 'normal'
-
-NID_COPYRIGHT = 0
-NID_FONT_FAMILY = 1
-NID_FONT_SUBFAM = 2
-NID_UNIQUE_ID = 3
-NID_FULL_NAME = 4
-NID_VERSION = 5
-NID_POSTSCRIPT = 6
-NID_TRADEMARK = 7
-NID_VENDOR = 8
-NID_DESIGNER = 9
-NID_DESCRIPTION = 10
-NID_URL_VENDOR = 11
-NID_URL_DESIGNER = 12
-NID_LICENSE = 13
-NID_URL_LICENSE = 14
-NID_RESERVED = 15
-NID_PREF_NAME = 16
-NID_PREF_SUBFAM = 17
-NID_MAC_FULLNAME = 18
-NID_SAMPLETEXT = 19
-NID_FINDFONT_NM = 20
-
-
-NAME_ID_FONTPROPMAP = {
-    NID_COPYRIGHT: 'copyright',
-    NID_FONT_FAMILY: 'common_name',
-    NID_FONT_SUBFAM: 'sub_family',
-    NID_UNIQUE_ID: 'unique_id',
-    NID_FULL_NAME: 'full_name',
-    NID_VERSION: 'version',
-    NID_POSTSCRIPT: 'postscript',
-    NID_TRADEMARK: 'trademark',
-    NID_VENDOR: 'vendor',
-    NID_DESIGNER: 'designer',
-    NID_DESCRIPTION: 'description',
-    NID_URL_VENDOR: 'vendor_url',
-    NID_URL_DESIGNER: 'designer_url',
-    NID_LICENSE: 'license',
-    NID_URL_LICENSE: 'license_url',
-    NID_RESERVED: 'reserved',
-    NID_PREF_NAME: 'pref_name',
-    NID_PREF_SUBFAM: 'sub_family',
-    NID_MAC_FULLNAME: 'mac_fullname',
-    NID_SAMPLETEXT: 'sample_text',
-    NID_FINDFONT_NM: 'findfont_nm',
-}
+from fontaine.const import *
 
 
 class Font:
@@ -76,6 +21,12 @@ class Font:
     def __init__(self, fontfile):
         self._fontFace = freetype.Face(fontfile)
         self.refresh_sfnt_properties()
+
+        self._unicodeValues = []
+        charcode, agindex = self._fontFace.get_first_char()
+        while agindex != 0:
+            charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
+            self._unicodeValues.append(numpy.uint32(charcode))
 
     def refresh_sfnt_properties(self):
         sfnt_count = self._fontFace.sfnt_name_count
@@ -89,12 +40,45 @@ class Font:
             propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
             setattr(self, '_%s' % propname, sfnt_record.string)
 
-    def find_missing(self):
-        return map(hex, sorted(self.complete.difference(self.codes)))
+    def unicodevalues_asstring(self, values):
+        return map(lambda x: u'U+%04x (%s)' % (x, unicode(unichr(x))), values)
+
+    def get_orthographies(self):
+        orths = []
+        missing = []
+        for cmap in library.charmaps:
+
+            if cmap.key not in self._unicodeValues:
+                continue
+
+            tries = 0
+            hits = 0
+
+            for char in cmap.glyphs:
+                tries += 1
+                if numpy.uint32(char) not in self._unicodeValues:
+                    missing.append(char)
+                else:
+                    hits += 1
+
+            if hits == tries:
+                orths.append((cmap, SUPPORT_LEVEL_FULL, 100, []))
+            else:
+                orths.append((cmap, SUPPORT_LEVEL_FRAGMENTARY, hits * 100 / tries, missing))
+
+        return orths
+
+    _supported_orthographies = []
+
+    @property
+    def orthographies(self):
+        if not self._supported_orthographies:
+            self._supported_orthographies = self.get_orthographies()
+        return self._supported_orthographies
 
     @property
     def character_count(self):
-        return self._character_count
+        return len(self._unicodeValues)
     _character_count = 0
 
     @property
@@ -177,21 +161,6 @@ class Fonts:
     _fonts = []
 
     def add_font(self, fontfile):
-        font = describe.openFont(fontfile)
-        for cmap in library.charmaps:
-            print
-            print cmap.name
-            missing = []
-            for char in cmap.glyphs:
-                if not glyphquery.hasGlyph(font, chr(char)):
-                    missing.append(char)
-
-            if not missing:
-                print 'Support level: full'
-            else:
-                print 'Support level: fragmentary'
-                print 'Missing values', missing
-
         font = Font(fontfile)
         self._fonts.append(font)
 
@@ -217,7 +186,16 @@ class Fonts:
             print '    Designer url:', font.designer_url
             print '    Glyph count:', font.glyph_num
             print '    Character count:', font.character_count
-            print
+            print '    Orthographies:'
+            for orth, level, coverage, missing in font.get_orthographies():
+                print '      Orthography:'
+                print '         Common Name:', orth.common_name
+                print '         Native Name:', orth.native_name
+                print '         Support Level:', level
+                if level == SUPPORT_LEVEL_FRAGMENTARY:
+                    print '         Percent coverage:', coverage
+                    print '         Missing values:', font.unicodevalues_asstring(missing)
+                print
 
     def print_xml(self):
         raise NotImplementedError
