@@ -171,8 +171,10 @@ class Fonts:
 
     def print_plain_text(self):
         from fontaine.builder import Director, TextBuilder
-        builder = Director(TextBuilder())
-        builder.construct_tree(self._fonts)
+        director = Director()
+        tree = director.construct_tree(self._fonts)
+
+        builder = TextBuilder(tree)
         builder.build()
 
     def print_xml(self):
