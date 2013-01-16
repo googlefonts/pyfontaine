@@ -64,7 +64,12 @@ class Font:
             if hits == tries:
                 orths.append((cmap, SUPPORT_LEVEL_FULL, 100, []))
             else:
-                orths.append((cmap, SUPPORT_LEVEL_FRAGMENTARY, hits * 100 / tries, missing))
+                coverage = hits * 100 / tries
+                if coverage < COVERAGE_MINIMAL:
+                    support_level = SUPPORT_LEVEL_FRAGMENTARY
+                else:
+                    support_level = SUPPORT_LEVEL_PARTIAL
+                orths.append((cmap, support_level, coverage, missing))
 
         return orths
 

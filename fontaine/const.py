@@ -3,7 +3,7 @@
 # const.py
 #
 # Copyright (c) 2013,
-# Виталий Волков <hash.3g@gmail.com> 
+# Виталий Волков <hash.3g@gmail.com>
 # Dave Crossland <dave@understandinglimited.com>
 #
 # Released under the GNU General Public License version 3 or later.
@@ -38,8 +38,11 @@ NID_MAC_FULLNAME = 18
 NID_SAMPLETEXT = 19
 NID_FINDFONT_NM = 20
 
+COVERAGE_MINIMAL = 80
+
 SUPPORT_LEVEL_FRAGMENTARY = 'fragmentary'
 SUPPORT_LEVEL_FULL = 'full'
+SUPPORT_LEVEL_PARTIAL = 'partial'
 
 NAME_ID_FONTPROPMAP = {
     NID_COPYRIGHT: 'copyright',
