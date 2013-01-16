@@ -1,3 +1,5 @@
+from lxml import etree
+
 from fontaine.const import SUPPORT_LEVEL_FULL
 
 
@@ -78,18 +80,8 @@ class Section(object):
 
 class Builder(object):
 
-    sections = []
-
-    def __init__(self, tree):
-        self.tree = tree
-
-    def build(self):
-        self.build_section(self.tree)
-
-
-class TextBuilder(Builder):
-
-    def build_section(self, section, level=0):
+    @staticmethod
+    def build_plaintext(section, level=0):
         for x in xrange(level):
             print ' ',
         print u'%s:' % section.name
@@ -99,4 +91,26 @@ class TextBuilder(Builder):
                 print ' ',
             print u'  %s: %s' % (k['name'], k['value'])
         for section in section.sections:
-            self.build_section(section, level + 1)
+            Builder.build_plaintext(section, level + 1)
+
+    @staticmethod
+    def build_xml(section, element=None):
+        if element is not None:
+            el = etree.SubElement(element, section.name)
+        else:
+            el = etree.XML("<report></report>")
+            el = etree.SubElement(el, section.name)
+
+        for k in section.keys:
+            keyel = etree.SubElement(element, k['name'].replace(' ', ''))
+            if isinstance(k['value'], int):
+                k['value'] = str(k['value'])
+            try:
+                keyel.text = k['value']
+            except Exception, ex:
+                print ex
+                print k['value']
+
+        for section in section.sections:
+            Builder.build_xml(section, el)
+        return el

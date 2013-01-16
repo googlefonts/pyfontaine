@@ -170,12 +170,15 @@ class Fonts:
         self._fonts.append(font)
 
     def print_plain_text(self):
-        from fontaine.builder import Director, TextBuilder
+        from fontaine.builder import Director, Builder
         director = Director()
         tree = director.construct_tree(self._fonts)
-
-        builder = TextBuilder(tree)
-        builder.build()
+        Builder.build_plaintext(tree)
 
     def print_xml(self):
-        raise NotImplementedError
+        from fontaine.builder import Director, Builder
+        director = Director()
+        tree = director.construct_tree(self._fonts)
+        from lxml import etree
+
+        print etree.tostring(Builder.build_xml(tree), encoding="UTF-8")
