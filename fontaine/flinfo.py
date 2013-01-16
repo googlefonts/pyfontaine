@@ -179,24 +179,3 @@ class Fonts:
 
     def print_xml(self):
         raise NotImplementedError
-
-
-class Builder(object):
-
-    _internalTree = []
-
-    def add_section(self, name, parent=None):
-        section = {name: []}
-        if not parent:
-            self._internalTree.append(section)
-            return section[name]
-        assert not isinstance(parent, list)
-        parent.append(section)
-        return section[name]
-
-    def add_key(self, section, name, value):
-        assert not isinstance(section, dict)
-        section[name] = value
-
-    def as_text(self):
-        print self._internalTree
