@@ -1,3 +1,5 @@
-from .basiclatin import Charmap as BasicLatin
-from .africaan import Charmap as African
-from .panafricanlatin import Charmap as PanAfricanLatin
+import os
+import glob
+
+__all__ = [
+    os.path.basename(f)[:-3] for f in glob.glob(os.path.dirname(__file__) + "/*.py")]
