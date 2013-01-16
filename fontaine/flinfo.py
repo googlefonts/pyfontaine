@@ -43,35 +43,39 @@ class Font:
     def unicodevalues_asstring(values):
         return map(lambda x: u'U+%04x (%s)' % (x, unichr(x)), values)
 
-    def get_orthographies(self):
-        orths = []
+    def get_othography_info(self, charmap, hits=0):
+        ''' Return 4-tuple list with short orthographies information
+            * selected supported character map by py-fontaine
+            * support level with current font instance
+            * percent of coverage filled glyphs
+            * array of missing unicode characters codes
+        '''
         missing = []
-        for cmap in library.charmaps:
-
-            if cmap.key not in self._unicodeValues:
-                continue
-
-            tries = 0
-            hits = 0
-
-            for char in cmap.glyphs:
-                tries += 1
-                if char not in self._unicodeValues:
-                    missing.append(char)
-                else:
-                    hits += 1
-
-            if hits == tries:
-                orths.append((cmap, SUPPORT_LEVEL_FULL, 100, []))
+        for char in charmap.glyphs:
+            if char not in self._unicodeValues:
+                missing.append(char)
             else:
-                coverage = hits * 100 / tries
-                if coverage < COVERAGE_MINIMAL:
-                    support_level = SUPPORT_LEVEL_FRAGMENTARY
-                else:
-                    support_level = SUPPORT_LEVEL_PARTIAL
-                orths.append((cmap, support_level, coverage, missing))
+                hits += 1
+        glyphs_count = len(charmap.glyphs)
+        if hits == glyphs_count:
+            return (charmap, SUPPORT_LEVEL_FULL, 100, [])
 
-        return orths
+        coverage = hits * 100 / glyphs_count
+        if coverage == 0:
+            return (charmap, SUPPORT_LEVEL_UNSUPPORTED, 0, [])
+        elif coverage < COVERAGE_MINIMAL:
+            support_level = SUPPORT_LEVEL_FRAGMENTARY
+        else:
+            support_level = SUPPORT_LEVEL_PARTIAL
+        return (charmap, support_level, coverage, missing)
+
+    def get_orthographies(self):
+        ''' Return array of 4-tuples lists about supported orthographies
+        for current font instance'''
+        for charmap in library.charmaps:
+            if charmap.key not in self._unicodeValues:
+                continue
+            yield self.get_othography_info(charmap)
 
     _supported_orthographies = []
 
