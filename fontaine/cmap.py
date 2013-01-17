@@ -13,7 +13,7 @@ class Library(object):
     _charmaps = []
 
     def register(self, charmap):
-        self._charmaps.append(charmap)
+        self._charmaps.append(charmap())
 
     @property
     def charmaps(self):

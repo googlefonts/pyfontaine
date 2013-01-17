@@ -47,12 +47,17 @@ class Font:
             * array of missing unicode characters codes
         '''
         missing = []
-        for char in charmap.glyphs:
+
+        glyphs = getattr(charmap, 'glyphs', [])
+        if callable(glyphs):
+            glyphs = glyphs()
+
+        for char in glyphs:
             if char not in self._unicodeValues:
                 missing.append(char)
             else:
                 hits += 1
-        glyphs_count = len(charmap.glyphs)
+        glyphs_count = len(glyphs)
         if hits == glyphs_count:
             return (charmap, SUPPORT_LEVEL_FULL, 100, [])
 
