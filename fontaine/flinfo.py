@@ -37,7 +37,7 @@ class Font:
             except freetype.FT_Exception:
                 continue
             propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
-            setattr(self, '_%s' % propname, sfnt_record.string)
+            setattr(self, '_%s' % propname, sfnt_record.string.replace('\x00', '').decode('utf8', 'ignore'))
 
     def get_othography_info(self, charmap, hits=0):
         ''' Return 4-tuple list with short orthographies information
