@@ -1,9 +1,9 @@
 py-fontaine
-===========
+-----------
 
 
 Dependencies
 ============
 
-freetype-py
+* [freetype-py](http://code.google.com/p/freetype-py/)
 
