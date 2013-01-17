@@ -94,15 +94,20 @@ class Builder(object):
             Builder.build_plaintext(section, level + 1)
 
     @staticmethod
+    def build_xml_report(section):
+        root = etree.Element("report")
+        return Builder.build_xml(section, root)
+
+    @staticmethod
     def build_xml(section, element=None):
         if element is not None:
-            el = etree.SubElement(element, section.name)
+            el = etree.SubElement(element, letterlower(section.name))
         else:
-            el = etree.XML("<report></report>")
-            el = etree.SubElement(el, section.name)
+            el = etree.Element(letterlower(section.name))
 
         for k in section.keys:
-            keyel = etree.SubElement(element, k['name'].replace(' ', ''))
+            keyel = etree.SubElement(el,
+                letterlower(k['name']).replace(' ', ''))
             if isinstance(k['value'], int):
                 k['value'] = str(k['value'])
             try:
@@ -113,4 +118,6 @@ class Builder(object):
 
         for section in section.sections:
             Builder.build_xml(section, el)
-        return el
+        return element
+
+letterlower = lambda s: s[:1].lower() + s[1:] if s else ''

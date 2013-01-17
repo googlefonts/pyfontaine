@@ -181,4 +181,4 @@ class Fonts:
         tree = director.construct_tree(self._fonts)
         from lxml import etree
 
-        print etree.tostring(Builder.build_xml(tree), encoding="UTF-8")
+        print etree.tostring(Builder.build_xml_report(tree), encoding="UTF-8", pretty_print=True)
