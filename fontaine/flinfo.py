@@ -69,8 +69,6 @@ class Font:
         ''' Return array of 4-tuples lists about supported orthographies
         for current font instance'''
         for charmap in library.charmaps:
-            if charmap.key not in self._unicodeValues:
-                continue
             yield self.get_othography_info(charmap)
 
     _supported_orthographies = []
@@ -108,7 +106,10 @@ class Font:
 
     @property
     def license(self):
-        return self._license
+        try:
+            return self._license.split('\n')[0]
+        except IndexError:
+            return self._license
     _license = ''
 
     @property
@@ -179,6 +180,4 @@ class Fonts:
         from fontaine.builder import Director, Builder
         director = Director()
         tree = director.construct_tree(self._fonts)
-        from lxml import etree
-
-        print etree.tostring(Builder.build_xml_report(tree), encoding="UTF-8", pretty_print=True)
+        Builder.build_xml_report(tree)

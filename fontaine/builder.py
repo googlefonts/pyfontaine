@@ -1,6 +1,6 @@
 from lxml import etree
 
-from fontaine.const import SUPPORT_LEVEL_FULL
+from fontaine.const import SUPPORT_LEVEL_FULL, SUPPORT_LEVEL_UNSUPPORTED
 
 
 def yesno(val):
@@ -39,6 +39,8 @@ class Director(object):
 
             orthgraph = None
             for charmap, level, coverage, missing in font.get_orthographies():
+                if level == SUPPORT_LEVEL_UNSUPPORTED:
+                    continue
                 if not orthgraph:
                     orthgraph = fs.add_section('Orthographies')
 
@@ -96,7 +98,8 @@ class Builder(object):
     @staticmethod
     def build_xml_report(section):
         root = etree.Element("report")
-        return Builder.build_xml(section, root)
+        print etree.tostring(Builder.build_xml(section, root),
+            encoding="UTF-8", pretty_print=True)
 
     @staticmethod
     def build_xml(section, element=None):
@@ -114,7 +117,7 @@ class Builder(object):
                 keyel.text = k['value']
             except Exception, ex:
                 print ex
-                print k['value']
+                print k
 
         for section in section.sections:
             Builder.build_xml(section, el)
