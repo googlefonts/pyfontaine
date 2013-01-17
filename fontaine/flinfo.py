@@ -175,6 +175,10 @@ class Fonts:
         font = Font(fontfile)
         self._fonts.append(font)
 
+    def print_csv(self):
+        from fontaine.builder import Builder
+        Builder.build_csv_report(self._fonts)
+
     def print_plain_text(self):
         from fontaine.builder import Director, Builder
         director = Director()

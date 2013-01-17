@@ -27,6 +27,7 @@ def usage():
     parser.add_argument('--text', action='store_true', help='Output information in plain text')
     parser.add_argument('--xml', action='store_true', help='Output information into XML')
     parser.add_argument('--json', action='store_true', help='Output information in JSON')
+    parser.add_argument('--csv', action='store_true', help='Output font coverage information in CSV')
     return parser.parse_args()
 
 
@@ -39,6 +40,8 @@ def main(*argv):
 
     if args.xml:
         fonts.print_xml()
+    elif args.csv:
+        fonts.print_csv()
     else:
         fonts.print_plain_text()
 

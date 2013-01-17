@@ -1,6 +1,10 @@
+import csv
+import StringIO
+
 from lxml import etree
 
 from fontaine.const import SUPPORT_LEVEL_FULL, SUPPORT_LEVEL_UNSUPPORTED
+from fontaine.cmap import library
 
 
 def yesno(val):
@@ -100,6 +104,26 @@ class Builder(object):
         root = etree.Element("report")
         print etree.tostring(Builder.build_xml(section, root),
             encoding="UTF-8", pretty_print=True)
+
+    @staticmethod
+    def build_csv_report(fonts):
+        data = StringIO.StringIO()
+        doc = csv.writer(data, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+
+        headers = ['Common Name']
+        for subset in library.charmaps:
+            headers.append(subset.common_name)
+        doc.writerow(headers)
+
+        for font in fonts:
+            row = [font.common_name]
+            for subset in library.charmaps:
+                charmap, support_level, coverage, missing = font.get_othography_info(subset)
+                row.append(str(coverage))
+            doc.writerow(row)
+
+        data.seek(0)
+        print data.read()
 
     @staticmethod
     def build_xml(section, element=None):
