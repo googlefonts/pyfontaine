@@ -1,12 +1,13 @@
 import csv
 import os
+import re
 import StringIO
 
 try:
     from unicodenames import unicodenames
-    UNAMES_INSTALLED = True
+    os.environ['UNAMES_INSTALLED'] = 'uname-installed'
 except ImportError:
-    UNAMES_INSTALLED = False
+    pass
 
 from lxml import etree
 
@@ -22,11 +23,16 @@ db = os.environ.get('UNAMES_DB') or os.path.join(
         os.path.dirname(__file__), 'charmaps', 'names.db', 'en.names-db')
 
 
+def format(x):
+    return u'U+%04x\x20\x20%s\x20\x20%s' % \
+        (x, unichr(x), unicodenames(db).name(x) or '')
+
+
 def unicodevalues_asstring(values):
     """ Return string with unicodenames if db defined """
-    if UNAMES_INSTALLED and not os.environ.get('DISABLE_UNAMES'):
-        return map(lambda x: u'\nU+%04x, %s' % (x, unicodenames(db).name(x)), values)
-    return map(lambda x: u'U+%04x (%s)' % (x, unichr(x)), values)
+    if os.environ.get('UNAMES_INSTALLED') and not os.environ.get('DISABLE_UNAMES'):
+        return map(lambda x: '%s' % format(x).strip(), values)
+    return map(lambda x: u'U+%04x %s' % (x, unichr(x)), values)
 
 
 class Director(object):
@@ -69,10 +75,10 @@ class Director(object):
                     charmap.native_name)
                 root.add_key(o, 'Support Level', level)
                 if level != SUPPORT_LEVEL_FULL:
+                    values = u'\n%s' % u'\n'.join(unicodevalues_asstring(missing))
                     root.add_key(o,
                         'Percent coverage', coverage)
-                    root.add_key(o, 'Missing values',
-                        u', '.join(unicodevalues_asstring(missing)))
+                    root.add_key(o, 'Missing values', values)
 
         return root
 
@@ -106,10 +112,17 @@ class Builder(object):
             print ' ',
         print u'%s:' % section.name
 
+        def ljust(s):
+            return str.rjust(str(s.group(0)), len(s.group(0)) + level + 13)
+
         for k in section.keys:
             for x in xrange(level):
                 print ' ',
-            print u'  %s: %s' % (k['name'], k['value'])
+            value = k['value']
+            if isinstance(value, unicode):
+                p = re.compile(r'U\+', re.M | re.U)
+                value = p.sub(ljust, value)
+            print u'  %s: %s' % (k['name'], value)
         for section in section.sections:
             Builder.build_plaintext(section, level + 1)
 
@@ -153,9 +166,8 @@ class Builder(object):
                 k['value'] = str(k['value'])
             try:
                 keyel.text = k['value']
-            except Exception, ex:
-                print ex
-                print k
+            except Exception:
+                pass
 
         for section in section.sections:
             Builder.build_xml(section, el)

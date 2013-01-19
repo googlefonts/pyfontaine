@@ -49,4 +49,7 @@ def main(*argv):
     else:
         fonts.print_plain_text()
 
+    if not os.environ.get('UNAMES_INSTALLED'):
+        print
+        print 'Warning: package `libunicodenames` is not installed'
 main()
