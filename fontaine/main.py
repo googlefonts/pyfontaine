@@ -24,6 +24,7 @@ from flinfo import Fonts
 def usage():
     parser = argparse.ArgumentParser(description='Output information about fonts in different formats')
     parser.add_argument('font', metavar='font', type=str, nargs='+')
+    parser.add_argument('--disable-unames', action='store_true', help='If libunicodenames is installed this will prevent using it')
     parser.add_argument('--text', action='store_true', help='Output information in plain text')
     parser.add_argument('--xml', action='store_true', help='Output information into XML')
     parser.add_argument('--json', action='store_true', help='Output information in JSON')
@@ -37,6 +38,9 @@ def main(*argv):
     fonts = Fonts()
     for _fontname in args.font:
         fonts.add_font(_fontname)
+
+    if args.disable_unames:
+        os.environ['DISABLE_UNAMES'] = 'disable'
 
     if args.xml:
         fonts.print_xml()
