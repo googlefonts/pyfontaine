@@ -1,5 +1,12 @@
 import csv
+import os
 import StringIO
+
+try:
+    from unicodenames import unicodenames
+    UNICODENAMES_INSTALLED = True
+except ImportError:
+    UNICODENAMES_INSTALLED = False
 
 from lxml import etree
 
@@ -11,8 +18,15 @@ def yesno(val):
     return 'yes' if val else 'no'
 
 
+db = os.environ.get('UNICODENAMES_DB') or os.path.join(
+        os.path.dirname(__file__), 'charmaps', 'names.db', 'en.names-db')
+
+
 def unicodevalues_asstring(values):
-        return map(lambda x: u'U+%04x (%s)' % (x, unichr(x)), values)
+    """ Return string with unicodenames if db defined """
+    if UNICODENAMES_INSTALLED:
+        return map(lambda x: u'U+%04x, %s' % (x, unicodenames(db).name(x)), values)
+    return map(lambda x: u'U+%04x (%s)' % (x, unichr(x)), values)
 
 
 class Director(object):
@@ -58,7 +72,7 @@ class Director(object):
                     root.add_key(o,
                         'Percent coverage', coverage)
                     root.add_key(o, 'Missing values',
-                        u', '.join(unicodevalues_asstring(missing)))
+                        u',\n'.join(unicodevalues_asstring(missing)))
 
         return root
 
