@@ -119,7 +119,7 @@ class Builder(object):
             for x in xrange(level):
                 print ' ',
             value = k['value']
-            if isinstance(value, unicode):
+            if k['name'] == 'Missing values':
                 p = re.compile(r'U\+', re.M | re.U)
                 value = p.sub(ljust, value)
             print u'  %s: %s' % (k['name'], value)
