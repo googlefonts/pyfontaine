@@ -49,7 +49,7 @@ class Director(object):
             root.add_key(fs, 'Weight', font.weight)
             root.add_key(fs, 'Fixed width', yesno(font.is_fixed_width))
             root.add_key(fs, 'Fixed sizes',
-                yesno(font.has_fixed_sizes))
+                         yesno(font.has_fixed_sizes))
             root.add_key(fs, 'Copyright', font.copyright)
             root.add_key(fs, 'License', font.license)
             root.add_key(fs, 'License url', font.license_url)
@@ -69,15 +69,12 @@ class Director(object):
                     orthgraph = fs.add_section('Orthographies')
 
                 o = orthgraph.add_section('Orthography')
-                root.add_key(o, 'Common Name',
-                    charmap.common_name)
-                root.add_key(o, 'Native Name',
-                    charmap.native_name)
+                root.add_key(o, 'Common Name', charmap.common_name)
+                root.add_key(o, 'Native Name', charmap.native_name)
                 root.add_key(o, 'Support Level', level)
                 if level != SUPPORT_LEVEL_FULL:
                     values = u'\n%s' % u'\n'.join(unicodevalues_asstring(missing))
-                    root.add_key(o,
-                        'Percent coverage', coverage)
+                    root.add_key(o, 'Percent coverage', coverage)
                     root.add_key(o, 'Missing values', values)
 
         return root
@@ -107,7 +104,11 @@ class Section(object):
 class Builder(object):
 
     @staticmethod
-    def build_plaintext(section, level=0):
+    def json_(section):
+        raise NotImplementedError('Json output is not available yet')
+
+    @staticmethod
+    def text_(section, level=0):
         for x in xrange(level):
             print ' ',
         print u'%s:' % section.name
@@ -124,16 +125,16 @@ class Builder(object):
                 value = p.sub(ljust, value)
             print u'  %s: %s' % (k['name'], value)
         for section in section.sections:
-            Builder.build_plaintext(section, level + 1)
+            Builder.text_(section, level + 1)
 
     @staticmethod
-    def build_xml_report(section):
+    def xml_(section):
         root = etree.Element("report")
         print etree.tostring(Builder.build_xml(section, root),
-            encoding="UTF-8", pretty_print=True)
+                             encoding="UTF-8", pretty_print=True)
 
     @staticmethod
-    def build_csv_report(fonts):
+    def csv_(fonts):
         data = StringIO.StringIO()
         doc = csv.writer(data, delimiter=',', quoting=csv.QUOTE_MINIMAL)
 
@@ -161,7 +162,7 @@ class Builder(object):
 
         for k in section.keys:
             keyel = etree.SubElement(el,
-                letterlower(k['name']).replace(' ', ''))
+                                     letterlower(k['name']).replace(' ', ''))
             if isinstance(k['value'], int):
                 k['value'] = str(k['value'])
             try:

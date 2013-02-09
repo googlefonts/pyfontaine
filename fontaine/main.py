@@ -46,16 +46,17 @@ def main(*argv):
     if args.disable_unames:
         os.environ['DISABLE_UNAMES'] = 'disable'
 
+    director = Director()
     if args.xml:
-        director = Director()
         tree = director.construct_tree(fonts)
-        Builder.build_xml_report(tree)
+        Builder.xml_(tree)
     elif args.csv:
-        Builder.build_csv_report(fonts)
+        Builder.csv_(fonts)
+    elif args.json:
+        Builder.json_(fonts)
     else:
-        director = Director()
         tree = director.construct_tree(fonts)
-        Builder.build_plaintext(tree)
+        Builder.text_(tree)
 
     if not os.environ.get('UNAMES_INSTALLED'):
         print
