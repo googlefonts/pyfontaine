@@ -18,3 +18,7 @@ To output plain text:
 To output XML:
 
     python fontaine/main.py --xml font.ttf
+
+To output percent coveraging in CSV:
+
+    python fontaine/main.py --csv font.ttf
