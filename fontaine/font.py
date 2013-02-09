@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# flinfo.py
+# font.py
 #
 # Copyright (c) 2013,
 # Виталий Волков <hash.3g@gmail.com>
@@ -37,7 +37,9 @@ class Font:
             except freetype.FT_Exception:
                 continue
             propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
-            setattr(self, '_%s' % propname, sfnt_record.string.replace('\x00', '').decode('utf8', 'ignore'))
+            setattr(self, '_%s' % propname,
+                    sfnt_record.string.replace('\x00', '').decode('utf8',
+                                                                  'ignore'))
 
     def get_othography_info(self, charmap, hits=0):
         ''' Return 4-tuple list with short orthographies information
@@ -130,7 +132,7 @@ class Font:
     def style_flags(self):
         return FT_STYLE_ITALIC \
             if self._fontFace.style_flags & FT_STYLE_FLAG_ITALIC \
-                else ''
+            else ''
 
     @property
     def sub_family(self):
@@ -156,7 +158,7 @@ class Font:
     def weight(self):
         return FT_STYLE_BOLD \
             if self._fontFace.style_flags & FT_STYLE_FLAG_BOLD \
-                else FT_STYLE_NORMAL
+            else FT_STYLE_NORMAL
 
     @property
     def is_fixed_width(self):
@@ -165,28 +167,3 @@ class Font:
     @property
     def has_fixed_sizes(self):
         return self._fontFace.has_fixed_sizes
-
-
-class Fonts:
-
-    _fonts = []
-
-    def add_font(self, fontfile):
-        font = Font(fontfile)
-        self._fonts.append(font)
-
-    def print_csv(self):
-        from fontaine.builder import Builder
-        Builder.build_csv_report(self._fonts)
-
-    def print_plain_text(self):
-        from fontaine.builder import Director, Builder
-        director = Director()
-        tree = director.construct_tree(self._fonts)
-        Builder.build_plaintext(tree)
-
-    def print_xml(self):
-        from fontaine.builder import Director, Builder
-        director = Director()
-        tree = director.construct_tree(self._fonts)
-        Builder.build_xml_report(tree)
