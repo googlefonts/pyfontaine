@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collections import OrderedDict
 import re
 
 from xml.dom.minidom import Document
@@ -9,6 +10,8 @@ class dict2xml(object):
     doc = Document()
 
     def __init__(self, structure):
+        import pdb
+        pdb.set_trace()
         if len(structure) == 1:
             rootName = unicode(structure.keys()[0])
             self.root = self.doc.createElement(rootName)
@@ -17,8 +20,8 @@ class dict2xml(object):
             self.build(self.root, structure[rootName])
 
     def build(self, father, structure):
-        if type(structure) == dict:
-            for k in structure:
+        if type(structure) == OrderedDict:
+            for k in structure.keys():
                 tag = self.doc.createElement(k)
                 father.appendChild(tag)
                 self.build(tag, structure[k])
@@ -56,9 +59,9 @@ class dict2txt(object):
         return self.names.get(key, key)
 
     def build(self, structure, indent=''):
-        if isinstance(structure, dict):
+        if isinstance(structure, OrderedDict):
             for k in structure.keys():
-                if isinstance(structure[k], dict):
+                if isinstance(structure[k], OrderedDict):
                     self.output += u'%s%s:' % (indent, self.name(k)) + '\n'
                     self.build(structure[k], indent + self.indent)
                 elif isinstance(structure[k], list):

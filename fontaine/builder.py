@@ -40,10 +40,10 @@ class Director(object):
 
     def construct_tree(self, fonts):
 
-        tree = {'fonts': []}
+        tree = OrderedDict({'fonts': []})
 
         for font in fonts:
-            F = {}
+            F = OrderedDict()
             desc = OrderedDict()
             desc['commonName'] = font.common_name,
             desc['subFamily'] = font.sub_family,
@@ -67,7 +67,7 @@ class Director(object):
                 if 'orthographies' not in desc:
                     desc['orthographies'] = []
 
-                orth = {'orthography': OrderedDict({})}
+                orth = OrderedDict({'orthography': OrderedDict()})
                 orth['orthography']['commonName'] = charmap.common_name
                 orth['orthography']['nativeName'] = charmap.native_name
                 orth['orthography']['supportLevel'] = support_level
