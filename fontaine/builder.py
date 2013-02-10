@@ -104,7 +104,8 @@ class Builder(object):
 
     @staticmethod
     def json_(tree):
-        pprint(tree)
+        items_length = 0
+        pprint(tree, indent='', items_length=items_length)
 
     @staticmethod
     def csv_(fonts):
@@ -155,28 +156,37 @@ NAMES = {
 }
 
 
-def pprint(obj, indent=''):
+def pprint_dict(obj, indent, length):
+    for i, key in enumerate(obj.keys()):
+        comma = ', '
+        if i + 1 == length:
+            comma = ''
+        if type(obj[key]) in [str, int, unicode]:
+            value = unicode(obj[key]).replace('\n', ', ').strip(', ')
+            value = value.replace('"', '\"').replace('\\', '\\\\')
+            print("%s  %r: \"%s\"%s" % (indent, key, value, comma))
+        else:
+            print("%s  %r:" % (indent, key))
+            pprint(obj[key], indent + '  ')
+
+
+def pprint(obj, indent='', items_length=0):
+    comma = ''
     if isinstance(obj, OrderedDict):
         length = len(obj.keys())
         if length == 1:
-            pprint(obj[obj.keys()[0]], indent)
+            pprint(obj[obj.keys()[0]], indent, items_length=items_length)
             return
-        
+
         print("%s{" % indent)
-        for i, key in enumerate(obj.keys()):
+        pprint_dict(obj, indent, length)
+        if items_length > 0:
             comma = ', '
-            if i + 1 == length:
-                comma = ''
-            if type(obj[key]) in [str, int, unicode]:
-                value = unicode(obj[key]).replace('\n', ', ').strip(', ')
-                value = value.replace('"', '\"')
-                print("%s  %r: \"%s\"%s" % (indent, key, value, comma))
-            else:
-                print("%s  %r:" % (indent, key))
-                pprint(obj[key], indent + '  ')
-        print("%s}," % indent)
+        print("%s}%s" % (indent, comma))
     elif isinstance(obj, list):
         print("%s[" % indent)
+        length = len(obj)
         for i, o in enumerate(obj):
-            pprint(o, indent + '  ')
-        print("%s]," % indent)
+            length -= 1
+            pprint(o, indent + '  ', items_length=length)
+        print("%s]%s" % (indent, comma))
