@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+#
+# builder.py
+#
+# Copyright (c) 2013,
+# Виталий Волков <hash.3g@gmail.com>
+# Dave Crossland <dave@understandinglimited.com>
+#
+# Released under the GNU General Public License version 3 or later.
+# See accompanying LICENSE.txt file for details.
+
 from __future__ import print_function
 import csv
 import os
