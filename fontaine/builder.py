@@ -2,6 +2,7 @@ from __future__ import print_function
 import csv
 import os
 import StringIO
+import sys
 
 from collections import OrderedDict
 
@@ -165,9 +166,9 @@ def pprint_dict(obj, indent, length):
             value = unicode(obj[key]).replace('\n', ', ').strip(', ')
             value = value.replace('"', '\"').replace('\\', '\\\\')
             value = value.replace('\r', '')
-            print("%s  %r: \"%s\"%s" % (indent, key, value, comma))
+            sys.stdout.write((u"%s  %r: \"%s\"%s" % (indent, key, value, comma)).encode('utf-8'))
         else:
-            print("%s  %r:" % (indent, key))
+            sys.stdout.write((u"%s  %r:" % (indent, key)).encode('utf-8'))
             pprint(obj[key], indent + '  ')
 
 
@@ -179,15 +180,15 @@ def pprint(obj, indent='', items_length=0):
             pprint(obj[obj.keys()[0]], indent, items_length=items_length)
             return
 
-        print("%s{" % indent)
+        sys.stdout.write((u"%s{" % indent).encode('utf-8'))
         pprint_dict(obj, indent, length)
         if items_length > 0:
             comma = ', '
-        print("%s}%s" % (indent, comma))
+        sys.stdout.write((u"%s}%s" % (indent, comma)).encode('utf-8'))
     elif isinstance(obj, list):
-        print("%s[" % indent)
+        sys.stdout.write((u"%s[" % indent).encode('utf-8'))
         length = len(obj)
         for i, o in enumerate(obj):
             length -= 1
             pprint(o, indent + '  ', items_length=length)
-        print("%s]%s" % (indent, comma))
+        sys.stdout.write((u"%s]%s" % (indent, comma)).encode('utf-8'))

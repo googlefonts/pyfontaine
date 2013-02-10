@@ -2,6 +2,7 @@
 from __future__ import print_function
 from collections import OrderedDict
 import re
+import sys
 
 from xml.dom.minidom import Document
 
@@ -39,7 +40,7 @@ class dict2xml(object):
             father.appendChild(tag)
 
     def display(self):
-        print(self.doc.toprettyxml(indent="  "))
+        sys.stdout.write(self.doc.toprettyxml(indent="  ").encode('utf-8'))
 
 
 class dict2txt(object):
@@ -80,4 +81,4 @@ class dict2txt(object):
             self.output += u' %s' % unicode(structure) + '\n'
 
     def display(self):
-        print(self.output)
+        sys.stdout.write(self.output.encode('utf-8'))

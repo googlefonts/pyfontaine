@@ -52,7 +52,7 @@ def main(*argv):
         tree = director.construct_tree(fonts)
         Builder.xml_(tree).display()
     elif args.csv:
-        print(Builder.csv_(fonts))
+        sys.stdout.write(Builder.csv_(fonts).encode('utf-8'))
     elif args.json:
         tree = director.construct_tree(fonts)
         Builder.json_(tree)
