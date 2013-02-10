@@ -2,6 +2,8 @@ import csv
 import os
 import StringIO
 
+from collections import OrderedDict
+
 try:
     from unicodenames import unicodenames
     os.environ['UNAMES_INSTALLED'] = 'uname-installed'
@@ -42,32 +44,30 @@ class Director(object):
 
         for font in fonts:
             F = {}
-            desc = {
-                'commonName': font.common_name,
-                'subFamily': font.sub_family,
-                'style': font.style_flags,
-                'weight': font.weight,
-                'fixedWidth': yesno(font.is_fixed_width),
-                'fixedSizes': yesno(font.has_fixed_sizes),
-                'copyright': (font.copyright or '').split('\n')[0],
-                'license': (font.license or '').split('\n')[0],
-                'licenseUrl': font.license_url,
-                'version': font.version,
-                'vendor': (font.vendor or '').split('\n')[0],
-                'vendorUrl': font.vendor_url,
-                'designer': font.designer,
-                'designerUrl': font.designer_url,
-                'glyphCount': font.glyph_num,
-                'characterCount': font.character_count
-            }
-            desc = {}
+            desc = OrderedDict()
+            desc['commonName'] = font.common_name,
+            desc['subFamily'] = font.sub_family,
+            desc['style'] = font.style_flags,
+            desc['weight'] = font.weight,
+            desc['fixedWidth'] = yesno(font.is_fixed_width),
+            desc['fixedSizes'] = yesno(font.has_fixed_sizes),
+            desc['copyright'] = (font.copyright or '').split('\n')[0],
+            desc['license'] = (font.license or '').split('\n')[0],
+            desc['licenseUrl'] = font.license_url,
+            desc['version'] = font.version,
+            desc['vendor'] = (font.vendor or '').split('\n')[0],
+            desc['vendorUrl'] = font.vendor_url,
+            desc['designer'] = font.designer,
+            desc['designerUrl'] = font.designer_url,
+            desc['glyphCount'] = font.glyph_num,
+            desc['characterCount'] = font.character_count
             for charmap, support_level, coverage, missing in font.get_orthographies():
                 if support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
                 if 'orthographies' not in desc:
                     desc['orthographies'] = []
 
-                orth = {'orthography': {}}
+                orth = {'orthography': OrderedDict({})}
                 orth['orthography']['commonName'] = charmap.common_name
                 orth['orthography']['nativeName'] = charmap.native_name
                 orth['orthography']['supportLevel'] = support_level
