@@ -164,6 +164,7 @@ def pprint_dict(obj, indent, length):
         if type(obj[key]) in [str, int, unicode]:
             value = unicode(obj[key]).replace('\n', ', ').strip(', ')
             value = value.replace('"', '\"').replace('\\', '\\\\')
+            value = value.replace('\r', '')
             print("%s  %r: \"%s\"%s" % (indent, key, value, comma))
         else:
             print("%s  %r:" % (indent, key))
