@@ -11,7 +11,6 @@
 # See accompanying LICENSE.txt file for details.
 import argparse
 import os
-import pprint
 import sys
 
 path = os.path.join(os.path.dirname(__file__), '..')
@@ -55,7 +54,7 @@ def main(*argv):
         print Builder.csv_(fonts)
     elif args.json:
         tree = director.construct_tree(fonts)
-        pprint.pprint(tree)
+        Builder.json_(tree)
     else:
         tree = director.construct_tree(fonts)
         Builder.text_(tree).display()

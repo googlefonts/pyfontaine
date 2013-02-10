@@ -96,6 +96,10 @@ class Builder(object):
         return dict2xml({'report': tree})
 
     @staticmethod
+    def json_(tree):
+        pprint(tree)
+
+    @staticmethod
     def csv_(fonts):
         data = StringIO.StringIO()
         doc = csv.writer(data, delimiter=',', quoting=csv.QUOTE_MINIMAL)
@@ -142,3 +146,25 @@ NAMES = {
     'percentCoverage': 'Percent coverage',
     'missingValues': 'Missing values'
 }
+
+
+def pprint(obj, indent=''):
+    if isinstance(obj, OrderedDict):
+        print "%s{" % indent
+        length = len(obj.keys())
+        for i, key in enumerate(obj.keys()):
+            comma = ', '
+            if i + 1 == length:
+                comma = ''
+            if isinstance(obj[key], str) or isinstance(obj[key], int) or isinstance(obj[key], unicode):
+                print u"%s  %r: \"%s\"%s" % (indent, key, unicode(obj[key]).replace('\n', ', ').strip(', '), comma)
+            else:
+                print "%s  %r:" % (indent, key)
+                pprint(obj[key], indent + '  ')
+        print "%s}," % indent
+    elif isinstance(obj, list):
+        print "%s[" % indent
+        length = len(obj)
+        for i, o in enumerate(obj):
+            pprint(o, indent + '  ')
+        print "%s]," % indent
