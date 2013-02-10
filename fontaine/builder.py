@@ -20,8 +20,9 @@ def yesno(val):
     return 'yes' if val else 'no'
 
 
-db = os.environ.get('UNAMES_DB') or os.path.join(
-        os.path.dirname(__file__), 'charmaps', 'names.db', 'en.names-db')
+db = os.environ.get('UNAMES_DB') or os.path.join(os.path.dirname(__file__),
+                                                 'charmaps', 'names.db',
+                                                 'en.names-db')
 
 
 def format(x):
@@ -31,9 +32,14 @@ def format(x):
 
 def unicodevalues_asstring(values):
     """ Return string with unicodenames if db defined """
-    if os.environ.get('UNAMES_INSTALLED') and not os.environ.get('DISABLE_UNAMES'):
+    if os.environ.get('UNAMES_INSTALLED') \
+            and not os.environ.get('DISABLE_UNAMES'):
         return map(lambda x: '%s' % format(x).strip(), values)
     return map(lambda x: u'U+%04x %s' % (x, unichr(x)), values)
+
+
+extract_firstline = lambda text: \
+    (text or '').replace('\r', '\n').split('\n')[0]
 
 
 class Director(object):
@@ -51,11 +57,11 @@ class Director(object):
             desc['weight'] = font.weight
             desc['fixedWidth'] = yesno(font.is_fixed_width)
             desc['fixedSizes'] = yesno(font.has_fixed_sizes)
-            desc['copyright'] = (font.copyright or '').replace('\r', '\n').split('\n')[0]
-            desc['license'] = (font.license or '').replace('\r', '\n').split('\n')[0]
+            desc['copyright'] = extract_firstline(font.copyright or '')
+            desc['license'] = extract_firstline(font.license or '')
             desc['licenseUrl'] = font.license_url
             desc['version'] = font.version
-            desc['vendor'] = (font.vendor or '').replace('\r', '\n').split('\n')[0]
+            desc['vendor'] = extract_firstline(font.vendor or '')
             desc['vendorUrl'] = font.vendor_url
             desc['designer'] = font.designer
             desc['designerUrl'] = font.designer_url
@@ -159,7 +165,9 @@ def pprint(obj, indent=''):
             comma = ', '
             if i + 1 == length:
                 comma = ''
-            if isinstance(obj[key], str) or isinstance(obj[key], int) or isinstance(obj[key], unicode) or isinstance(obj[key], tuple):
+            if isinstance(obj[key], str) or isinstance(obj[key], int) \
+                or isinstance(obj[key], unicode) \
+                    or isinstance(obj[key], tuple):
                 value = unicode(obj[key]).replace('\n', ', ').strip(', ')
                 value = value.replace('"', '\"')
                 print u"%s  %r: \"%s\"%s" % (indent, key, value, comma)
