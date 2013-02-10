@@ -11,6 +11,7 @@
 # See accompanying LICENSE.txt file for details.
 import argparse
 import os
+import pprint
 import sys
 
 path = os.path.join(os.path.dirname(__file__), '..')
@@ -49,14 +50,15 @@ def main(*argv):
     director = Director()
     if args.xml:
         tree = director.construct_tree(fonts)
-        Builder.xml_(tree)
+        Builder.xml_(tree).display()
     elif args.csv:
         Builder.csv_(fonts)
     elif args.json:
-        Builder.json_(fonts)
+        tree = director.construct_tree(fonts)
+        pprint.pprint(tree)
     else:
         tree = director.construct_tree(fonts)
-        Builder.text_(tree)
+        Builder.text_(tree).display()
 
     if not os.environ.get('UNAMES_INSTALLED'):
         print
