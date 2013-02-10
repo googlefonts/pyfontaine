@@ -49,11 +49,11 @@ class Director(object):
                 'weight': font.weight,
                 'fixedWidth': yesno(font.is_fixed_width),
                 'fixedSizes': yesno(font.has_fixed_sizes),
-                'copyright': font.copyright,
-                'license': font.license.replace('\r', ' '),
+                'copyright': (font.copyright or '').split('\n')[0],
+                'license': (font.license or '').split('\n')[0],
                 'licenseUrl': font.license_url,
-                'Version': font.version,
-                'Vendor': font.vendor,
+                'version': font.version,
+                'vendor': (font.vendor or '').split('\n')[0],
                 'vendorUrl': font.vendor_url,
                 'designer': font.designer,
                 'designerUrl': font.designer_url,
@@ -89,7 +89,7 @@ class Builder(object):
 
     @staticmethod
     def text_(tree):
-        return dict2txt(tree)
+        return dict2txt(tree, names=NAMES)
 
     @staticmethod
     def xml_(tree):
@@ -115,4 +115,30 @@ class Builder(object):
         data.seek(0)
         return data.read()
 
-letterlower = lambda s: s[:1].lower() + s[1:] if s else ''
+
+NAMES = {
+    'fonts': 'Fonts',
+    'font': 'Font',
+    'commonName': 'Common name',
+    'nativeName': 'Common name',
+    'subFamily': 'Sub family',
+    'style': 'Style',
+    'weight': 'Weight',
+    'fixedWidth': 'Fixed width',
+    'fixedSizes': 'Fixed sizes',
+    'copyright': 'Copyright',
+    'license': 'License',
+    'licenseUrl': 'License url',
+    'version': 'Version',
+    'vendor': 'Vendor',
+    'vendorUrl': 'Vendor url',
+    'designer': 'Designer',
+    'designerUrl': 'Designer url',
+    'glyphCount': 'Glyph count',
+    'characterCount': 'Character count',
+    'orthographies': 'Orthographies',
+    'orthography': 'Orthography',
+    'supportLevel': 'Support level',
+    'percentCoverage': 'Percent coverage',
+    'missingValues': 'Missing values'
+}

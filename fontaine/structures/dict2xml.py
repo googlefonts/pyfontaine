@@ -43,25 +43,29 @@ class dict2xml(object):
 
 class dict2txt(object):
 
-    def __init__(self, structure, indent='  '):
+    def __init__(self, structure, names=None, indent='  '):
         self.output = u''
         self.indent = indent
+        self.names = names
         if len(structure) == 1:
             rootName = unicode(structure.keys()[0])
-            self.output += rootName + '\n'
+            self.output += self.name(rootName) + '\n'
             self.build(structure[rootName])
+
+    def name(self, key):
+        return self.names.get(key, key)
 
     def build(self, structure, indent=''):
         if isinstance(structure, dict):
             for k in structure.keys():
                 if isinstance(structure[k], dict):
-                    self.output += u'%s%s:' % (indent, k) + '\n'
+                    self.output += u'%s%s:' % (indent, self.name(k)) + '\n'
                     self.build(structure[k], indent + self.indent)
                 elif isinstance(structure[k], list):
-                    self.output += u'%s%s:' % (indent, k) + '\n'
+                    self.output += u'%s%s:' % (indent, self.name(k)) + '\n'
                     self.build(structure[k], indent + self.indent)
                 elif structure[k]:
-                    self.output += u'%s%s:' % (indent, k)
+                    self.output += u'%s%s:' % (indent, self.name(k))
                     if k == 'missingValues':
                         self.build(re.sub(r'U\+',
                                           '%sU+' % (indent + self.indent * 2),
