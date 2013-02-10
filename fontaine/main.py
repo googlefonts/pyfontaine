@@ -52,7 +52,7 @@ def main(*argv):
         tree = director.construct_tree(fonts)
         Builder.xml_(tree).display()
     elif args.csv:
-        Builder.csv_(fonts)
+        print Builder.csv_(fonts)
     elif args.json:
         tree = director.construct_tree(fonts)
         pprint.pprint(tree)

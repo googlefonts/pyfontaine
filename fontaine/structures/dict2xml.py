@@ -63,7 +63,7 @@ class dict2txt(object):
                 elif structure[k]:
                     self.output += u'%s%s:' % (indent, k)
                     if k == 'missingValues':
-                        self.build(re.sub(r'U+',
+                        self.build(re.sub(r'U\+',
                                           '%sU+' % (indent + self.indent * 2),
                                           structure[k]))
                     else:
