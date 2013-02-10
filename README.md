@@ -19,6 +19,10 @@ To output XML:
 
     python fontaine/main.py --xml font.ttf
 
+To output JSON:
+
+    python fontaine/main.py --json font.ttf
+
 To output percent coveraging in CSV:
 
     python fontaine/main.py --csv font.ttf
