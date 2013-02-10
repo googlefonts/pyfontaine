@@ -60,11 +60,11 @@ class Director(object):
                 'glyphCount': font.glyph_num,
                 'characterCount': font.character_count
             }
-            orthgraph = None
+            desc = {}
             for charmap, support_level, coverage, missing in font.get_orthographies():
                 if support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
-                if not orthgraph:
+                if 'orthographies' not in desc:
                     desc['orthographies'] = []
 
                 orth = {'orthography': {}}
