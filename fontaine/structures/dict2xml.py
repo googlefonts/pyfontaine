@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from __future__ import print_function
 from collections import OrderedDict
 import re
 
@@ -39,7 +39,7 @@ class dict2xml(object):
             father.appendChild(tag)
 
     def display(self):
-        print self.doc.toprettyxml(indent="  ")
+        print(self.doc.toprettyxml(indent="  "))
 
 
 class dict2txt(object):
@@ -80,4 +80,4 @@ class dict2txt(object):
             self.output += u' %s' % unicode(structure) + '\n'
 
     def display(self):
-        print self.output
+        print(self.output)

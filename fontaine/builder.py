@@ -1,3 +1,4 @@
+from __future__ import print_function
 import csv
 import os
 import StringIO
@@ -160,7 +161,8 @@ def pprint(obj, indent=''):
         if length == 1:
             pprint(obj[obj.keys()[0]], indent)
             return
-        print "%s{" % indent
+        
+        print("%s{" % indent)
         for i, key in enumerate(obj.keys()):
             comma = ', '
             if i + 1 == length:
@@ -170,14 +172,14 @@ def pprint(obj, indent=''):
                     or isinstance(obj[key], tuple):
                 value = unicode(obj[key]).replace('\n', ', ').strip(', ')
                 value = value.replace('"', '\"')
-                print u"%s  %r: \"%s\"%s" % (indent, key, value, comma)
+                print("%s  %r: \"%s\"%s" % (indent, key, value, comma))
             else:
-                print "%s  %r:" % (indent, key)
+                print("%s  %r:" % (indent, key))
                 pprint(obj[key], indent + '  ')
-        print "%s}," % indent
+        print("%s}," % indent)
     elif isinstance(obj, list):
-        print "%s[" % indent
+        print("%s[" % indent)
         length = len(obj)
         for i, o in enumerate(obj):
             pprint(o, indent + '  ')
-        print "%s]," % indent
+        print("%s]," % indent)

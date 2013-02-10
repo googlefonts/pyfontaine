@@ -9,6 +9,7 @@
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
+from __future__ import print_function
 import argparse
 import os
 import sys
@@ -51,7 +52,7 @@ def main(*argv):
         tree = director.construct_tree(fonts)
         Builder.xml_(tree).display()
     elif args.csv:
-        print Builder.csv_(fonts)
+        print(Builder.csv_(fonts))
     elif args.json:
         tree = director.construct_tree(fonts)
         Builder.json_(tree)
@@ -60,8 +61,8 @@ def main(*argv):
         Builder.text_(tree).display()
 
     if not os.environ.get('UNAMES_INSTALLED'):
-        print
-        print 'Warning: package `libunicodenames` is not installed'
+        print('Warning: package `libunicodenames` is not installed',
+              file=sys.stderr)
 
 
 if __name__ == '__main__':
