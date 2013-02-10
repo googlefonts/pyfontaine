@@ -123,13 +123,13 @@ class Builder(object):
         data = StringIO.StringIO()
         doc = csv.writer(data, delimiter=',', quoting=csv.QUOTE_MINIMAL)
 
-        headers = ['Common Name']
+        headers = ['Family', 'Style']
         for subset in library.charmaps:
             headers.append(subset.common_name)
         doc.writerow(headers)
 
         for font in fonts:
-            row = [font.common_name]
+            row = [font.common_name] + [font.sub_family]
             for subset in library.charmaps:
                 charmap, support_level, coverage, missing = font.get_othography_info(subset)
                 row.append(str(coverage))
