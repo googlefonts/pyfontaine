@@ -167,9 +167,7 @@ def pprint(obj, indent=''):
             comma = ', '
             if i + 1 == length:
                 comma = ''
-            if isinstance(obj[key], str) or isinstance(obj[key], int) \
-                or isinstance(obj[key], unicode) \
-                    or isinstance(obj[key], tuple):
+            if type(obj[key]) in [str, int, unicode]:
                 value = unicode(obj[key]).replace('\n', ', ').strip(', ')
                 value = value.replace('"', '\"')
                 print("%s  %r: \"%s\"%s" % (indent, key, value, comma))
@@ -179,7 +177,6 @@ def pprint(obj, indent=''):
         print("%s}," % indent)
     elif isinstance(obj, list):
         print("%s[" % indent)
-        length = len(obj)
         for i, o in enumerate(obj):
             pprint(o, indent + '  ')
         print("%s]," % indent)
