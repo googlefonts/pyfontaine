@@ -45,21 +45,21 @@ class Director(object):
         for font in fonts:
             F = OrderedDict()
             desc = OrderedDict()
-            desc['commonName'] = font.common_name,
-            desc['subFamily'] = font.sub_family,
-            desc['style'] = font.style_flags,
-            desc['weight'] = font.weight,
-            desc['fixedWidth'] = yesno(font.is_fixed_width),
-            desc['fixedSizes'] = yesno(font.has_fixed_sizes),
-            desc['copyright'] = (font.copyright or '').split('\n')[0],
-            desc['license'] = (font.license or '').split('\n')[0],
-            desc['licenseUrl'] = font.license_url,
-            desc['version'] = font.version,
-            desc['vendor'] = (font.vendor or '').split('\n')[0],
-            desc['vendorUrl'] = font.vendor_url,
-            desc['designer'] = font.designer,
-            desc['designerUrl'] = font.designer_url,
-            desc['glyphCount'] = font.glyph_num,
+            desc['commonName'] = font.common_name
+            desc['subFamily'] = font.sub_family
+            desc['style'] = font.style_flags
+            desc['weight'] = font.weight
+            desc['fixedWidth'] = yesno(font.is_fixed_width)
+            desc['fixedSizes'] = yesno(font.has_fixed_sizes)
+            desc['copyright'] = (font.copyright or '').replace('\r', '\n').split('\n')[0]
+            desc['license'] = (font.license or '').replace('\r', '\n').split('\n')[0]
+            desc['licenseUrl'] = font.license_url
+            desc['version'] = font.version
+            desc['vendor'] = (font.vendor or '').replace('\r', '\n').split('\n')[0]
+            desc['vendorUrl'] = font.vendor_url
+            desc['designer'] = font.designer
+            desc['designerUrl'] = font.designer_url
+            desc['glyphCount'] = font.glyph_num
             desc['characterCount'] = font.character_count
             for charmap, support_level, coverage, missing in font.get_orthographies():
                 if support_level == SUPPORT_LEVEL_UNSUPPORTED:
@@ -159,8 +159,10 @@ def pprint(obj, indent=''):
             comma = ', '
             if i + 1 == length:
                 comma = ''
-            if isinstance(obj[key], str) or isinstance(obj[key], int) or isinstance(obj[key], unicode):
-                print u"%s  %r: \"%s\"%s" % (indent, key, unicode(obj[key]).replace('\n', ', ').strip(', '), comma)
+            if isinstance(obj[key], str) or isinstance(obj[key], int) or isinstance(obj[key], unicode) or isinstance(obj[key], tuple):
+                value = unicode(obj[key]).replace('\n', ', ').strip(', ')
+                value = value.replace('"', '\"')
+                print u"%s  %r: \"%s\"%s" % (indent, key, value, comma)
             else:
                 print "%s  %r:" % (indent, key)
                 pprint(obj[key], indent + '  ')
