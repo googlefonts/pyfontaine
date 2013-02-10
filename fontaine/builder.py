@@ -150,8 +150,11 @@ NAMES = {
 
 def pprint(obj, indent=''):
     if isinstance(obj, OrderedDict):
-        print "%s{" % indent
         length = len(obj.keys())
+        if length == 1:
+            pprint(obj[obj.keys()[0]], indent)
+            return
+        print "%s{" % indent
         for i, key in enumerate(obj.keys()):
             comma = ', '
             if i + 1 == length:
