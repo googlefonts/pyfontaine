@@ -1,6 +1,9 @@
 # -*- coding: utf8 -*-
 from fontaine.cmap import library
 
+# 2009.08.31.ET :: Revised and expanded based on patch from Dwayne Bailey
+# 2013.02.12 DC :: Ported from ET's fontaine Afrikaans.h
+
 
 class Charmap:
 
