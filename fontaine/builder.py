@@ -144,7 +144,7 @@ NAMES = {
     'fonts': 'Fonts',
     'font': 'Font',
     'commonName': 'Common name',
-    'nativeName': 'Common name',
+    'nativeName': 'Native name',
     'subFamily': 'Sub family',
     'style': 'Style',
     'weight': 'Weight',
