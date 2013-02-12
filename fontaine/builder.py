@@ -130,7 +130,7 @@ class Builder(object):
         doc.writerow(headers)
 
         for font in fonts:
-            row = [font.common_name] + [font.sub_family]
+            row = [font.common_name.encode('ascii', 'ignore')] + [font.sub_family.encode('ascii', 'ignore')]
             for subset in library.charmaps:
                 charmap, support_level, coverage, missing = font.get_othography_info(subset)
                 row.append(str(coverage))
