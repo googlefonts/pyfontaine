@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+#
+# builder.py
+#
+# Copyright (c) 2013,
+# Виталий Волков <hash.3g@gmail.com>
+# Dave Crossland <dave@understandinglimited.com>
+#
+# Released under the GNU General Public License version 3 or later.
+# See accompanying LICENSE.txt file for details.
+
 from __future__ import print_function
 import csv
 import os
@@ -113,13 +124,13 @@ class Builder(object):
         data = StringIO.StringIO()
         doc = csv.writer(data, delimiter=',', quoting=csv.QUOTE_MINIMAL)
 
-        headers = ['Common Name']
+        headers = ['Family', 'Style']
         for subset in library.charmaps:
             headers.append(subset.common_name)
         doc.writerow(headers)
 
         for font in fonts:
-            row = [font.common_name]
+            row = [font.common_name] + [font.sub_family]
             for subset in library.charmaps:
                 charmap, support_level, coverage, missing = font.get_othography_info(subset)
                 row.append(str(coverage))
