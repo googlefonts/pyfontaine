@@ -40,7 +40,7 @@ class dict2xml(object):
             father.appendChild(tag)
 
     def display(self):
-        sys.stdout.write(self.doc.toprettyxml(indent="  ").encode('utf-8'))
+        sys.stdout.write(self.doc.toprettyxml(indent="  "))
 
 
 class dict2txt(object):
@@ -81,4 +81,4 @@ class dict2txt(object):
             self.output += u' %s' % unicode(structure) + '\n'
 
     def display(self):
-        sys.stdout.write(self.output.encode('utf-8'))
+        sys.stdout.write(self.output)

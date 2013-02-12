@@ -166,9 +166,9 @@ def pprint_dict(obj, indent, length):
             value = unicode(obj[key]).replace('\n', ', ').strip(', ')
             value = value.replace('"', '\"').replace('\\', '\\\\')
             value = value.replace('\r', '')
-            sys.stdout.write((u"%s  %r: \"%s\"%s" % (indent, key, value, comma)).encode('utf-8'))
+            sys.stdout.write((u"%s  %r: \"%s\"%s" % (indent, key, value, comma)))
         else:
-            sys.stdout.write((u"%s  %r:" % (indent, key)).encode('utf-8'))
+            sys.stdout.write((u"%s  %r:" % (indent, key)))
             pprint(obj[key], indent + '  ')
 
 
@@ -180,15 +180,15 @@ def pprint(obj, indent='', items_length=0):
             pprint(obj[obj.keys()[0]], indent, items_length=items_length)
             return
 
-        sys.stdout.write((u"%s{" % indent).encode('utf-8'))
+        sys.stdout.write((u"%s{" % indent))
         pprint_dict(obj, indent, length)
         if items_length > 0:
             comma = ', '
-        sys.stdout.write((u"%s}%s" % (indent, comma)).encode('utf-8'))
+        sys.stdout.write((u"%s}%s" % (indent, comma)))
     elif isinstance(obj, list):
-        sys.stdout.write((u"%s[" % indent).encode('utf-8'))
+        sys.stdout.write((u"%s[" % indent))
         length = len(obj)
         for i, o in enumerate(obj):
             length -= 1
             pprint(o, indent + '  ', items_length=length)
-        sys.stdout.write((u"%s]%s" % (indent, comma)).encode('utf-8'))
+        sys.stdout.write((u"%s]%s" % (indent, comma)))

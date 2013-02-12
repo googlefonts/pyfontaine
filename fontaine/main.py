@@ -11,11 +11,14 @@
 # See accompanying LICENSE.txt file for details.
 from __future__ import print_function
 import argparse
+import codecs
 import os
 import sys
 
 path = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(os.path.realpath(path))
+
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 from fontaine.font import Font
 from fontaine.builder import Builder, Director
@@ -52,7 +55,7 @@ def main(*argv):
         tree = director.construct_tree(fonts)
         Builder.xml_(tree).display()
     elif args.csv:
-        sys.stdout.write(Builder.csv_(fonts).encode('utf-8'))
+        sys.stdout.write(Builder.csv_(fonts))
     elif args.json:
         tree = director.construct_tree(fonts)
         Builder.json_(tree)
