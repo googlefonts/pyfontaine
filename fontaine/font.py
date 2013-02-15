@@ -24,8 +24,8 @@ class Font:
         self._unicodeValues = []
         charcode, agindex = self._fontFace.get_first_char()
         while agindex != 0:
-            charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
             self._unicodeValues.append(charcode)
+            charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
 
     def refresh_sfnt_properties(self):
         sfnt_count = self._fontFace.sfnt_name_count
