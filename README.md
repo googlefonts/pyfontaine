@@ -7,6 +7,7 @@ Dependencies
 
 * [freetype-py](http://code.google.com/p/freetype-py/)
 * [lxml](http://pypi.python.org/pypi/lxml/)
+* [libunicodenames](https://bitbucket.org/sortsmill/libunicodenames)
 
 Usage
 ---------
