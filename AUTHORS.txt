@@ -1,0 +1,6 @@
+Copyright © 2008 by Edward H. Trager <ed.trager@gmail.com>
+All Rights Reserved.
+Released under the GNU General Public License version 3 or later.
+See accompanying LICENSE.txt file for details.
+
+Copyright © 2012, 2013 by Vitaly Volkov <hash.3g@gmail.com>
