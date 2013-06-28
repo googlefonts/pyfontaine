@@ -19,20 +19,17 @@ from setuptools.command.test import test as TestCommand
 with open("README.rst", 'r') as readme_file:
     readme = readme_file.read()
 
-with open("LICENSE.txt", 'r') as license_file:
-    license = license_file.read()
-
 setup(name='fontaine',
-    version='1.0.3',
+    version='1.0.4',
     description='Fontaine font tool',
-    license=license,
+    license = "GNU GPL",
     long_description=readme,
     author='Dave Crossland, Виталий Волков',
     author_email='dave@lab6.com',
     url='https://github.com/davelab6/pyfontaine',
     # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
     packages=['fontaine', 'fontaine.charmaps', 'fontaine.structures',],
-    install_requires=[
+    requires=[
       'freetype',
       'lxml'
     ],
