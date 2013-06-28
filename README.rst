@@ -5,9 +5,9 @@ py-fontaine
 Dependencies
 ------------
 
-* [freetype-py](http://code.google.com/p/freetype-py/)
-* [lxml](http://pypi.python.org/pypi/lxml/)
-* [libunicodenames](https://bitbucket.org/sortsmill/libunicodenames)
+* freetype-py_
+* lxml_
+* libunicodenames_
 
 Usage
 ---------
@@ -27,3 +27,8 @@ To output JSON:
 To output percent coveraging in CSV:
 
     python fontaine/main.py --csv font.ttf
+
+
+.. _libunicodenames: https://bitbucket.org/sortsmill/libunicodenames
+.. _freetype-py: http://code.google.com/p/freetype-py/
+.. _lxml: http://pypi.python.org/pypi/lxml/
