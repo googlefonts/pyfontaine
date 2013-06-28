@@ -10,17 +10,13 @@
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
 
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from setuptools import Extension, setup
-from setuptools.command.test import test as TestCommand
+from setuptools import setup
 
 with open("README.rst", 'r') as readme_file:
     readme = readme_file.read()
 
 setup(name='fontaine',
-    version='1.0.5',
+    version='1.0.6',
     description='Fontaine font tool',
     license = "GNU GPL",
     long_description=readme,
