@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 from fontaine.cmap import library
 
-class Charmap:
-    common_name = u'Polish'
-    native_name = u'Polski'
+class CharmapFull:
+    common_name = u'Full Polish Alphabet'
+    native_name = u'Pełny Polski Alfabet'
     key = ord(u'Ł')
     polishAlphabet = u"AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻaąbcćdeęfghijklłmnńoóprsśtuwyzźż"
     glyphs = map(ord, polishAlphabet)    
 
-library.register(Charmap)
+class CharmapAccents:
+    common_name = u'Polish Accents'
+    native_name = u'Polskie Akcenty'
+    key = ord(u'ł')
+    polishAccents = u"ĄĆĘŁŃÓŚŹŻąćęłńóśźż"
+    glyphs = map(ord, polishAccents)
+
+library.register(CharmapFull)
+library.register(CharmapAccents)
