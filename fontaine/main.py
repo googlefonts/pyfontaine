@@ -28,7 +28,7 @@ def usage():
     parser = argparse.ArgumentParser(description='Output information about fonts in different formats')
     parser.add_argument('font', metavar='font', type=str, nargs='+')
     parser.add_argument('--disable-unames', action='store_true',
-                        help='If libunicodenames is installed this will prevent using it')
+                        help='This will prevent using Unicode names data')
     parser.add_argument('--text', action='store_true',
                         help='Output information in plain text')
     parser.add_argument('--xml', action='store_true',
@@ -62,10 +62,6 @@ def main(*argv):
     else:
         tree = director.construct_tree(fonts)
         Builder.text_(tree).display()
-
-    if not os.environ.get('UNAMES_INSTALLED'):
-        print('Warning: package `libunicodenames` is not installed',
-              file=sys.stderr)
 
 
 if __name__ == '__main__':
