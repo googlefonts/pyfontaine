@@ -14,14 +14,9 @@ import csv
 import os
 import StringIO
 import sys
+import unicodedata
 
 from collections import OrderedDict
-
-try:
-    from unicodenames import unicodenames
-    os.environ['UNAMES_INSTALLED'] = 'uname-installed'
-except ImportError:
-    pass
 
 
 from fontaine.const import SUPPORT_LEVEL_FULL, SUPPORT_LEVEL_UNSUPPORTED
@@ -40,13 +35,11 @@ db = os.environ.get('UNAMES_DB') or os.path.join(os.path.dirname(__file__),
 
 def format(x):
     return u'U+%04x\x20\x20%s\x20\x20%s' % \
-        (x, unichr(x), unicodenames(db).name(x) or '')
-
+        (x, unichr(x), unicodedata.name(unichr(x), ''))
 
 def unicodevalues_asstring(values):
-    """ Return string with unicodenames if db defined """
-    if os.environ.get('UNAMES_INSTALLED') \
-            and not os.environ.get('DISABLE_UNAMES'):
+    """ Return string with unicodenames (unless that is disabled) """
+    if not os.environ.get('DISABLE_UNAMES'):
         return map(lambda x: '%s' % format(x).strip(), values)
     return map(lambda x: u'U+%04x %s' % (x, unichr(x)), values)
 
