@@ -7,6 +7,9 @@ Dependencies
 
 * freetype-py_
 * lxml_
+
+Related:
+
 * libunicodenames_
 
 Usage
