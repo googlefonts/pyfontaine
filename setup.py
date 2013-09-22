@@ -26,7 +26,7 @@ setup(name='fontaine',
     # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
     packages=['fontaine', 'fontaine.charmaps', 'fontaine.structures',],
     requires=[
-      'freetype',
+      'freetype-py',
       'lxml'
     ],
     package_data = {

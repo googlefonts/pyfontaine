@@ -37,6 +37,7 @@ def format(x):
     return u'U+%04x\x20\x20%s\x20\x20%s' % \
         (x, unichr(x), unicodedata.name(unichr(x), ''))
 
+
 def unicodevalues_asstring(values):
     """ Return string with unicodenames (unless that is disabled) """
     if not os.environ.get('DISABLE_UNAMES'):
@@ -49,6 +50,40 @@ extract_firstline = lambda text: \
 
 
 class Director(object):
+
+    def __init__(self, generate_coverage=None):
+        self.generate_coverage = generate_coverage
+
+    def represent_coverage_png(self, font):
+        cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
+
+        if not os.path.exists('coverage_pngs'):
+            os.makedirs('coverage_pngs')
+
+        for cmap in cmaps:
+            if cmap.key not in font._unicodeValues:
+                continue
+
+            filename = u'coverage_pngs/%s - %s' % (font.common_name,
+                                                   cmap.common_name)
+
+            txtFilename = filename + '.txt'
+            fp = open(txtFilename, 'w+')
+            for i, char in enumerate(sorted(font._unicodeValues)):
+                glyphs = cmap.glyphs
+                if callable(glyphs):
+                    glyphs = glyphs()
+                flag = str(0)
+                if char in glyphs:
+                    flag = str(1)
+                fp.write(str(i + 1) + ' ' + flag + '\n')
+
+            fp.close()
+            hilbertScript = ('simpleHilbertCurve.py'
+                             ' --outFormat=png'
+                             ' --level=4'
+                             ' --out="%s" "%s"') % (filename, txtFilename)
+            os.system(hilbertScript)
 
     def construct_tree(self, fonts):
 
@@ -73,7 +108,8 @@ class Director(object):
             desc['designerUrl'] = font.designer_url
             desc['glyphCount'] = font.glyph_num
             desc['characterCount'] = font.character_count
-            for charmap, support_level, coverage, missing in font.get_orthographies():
+            for charmap, support_level, coverage, missing \
+                    in font.get_orthographies():
                 if support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
                 if 'orthographies' not in desc:
@@ -90,6 +126,9 @@ class Director(object):
                     orth['orthography']['missingValues'] = values
 
                 desc['orthographies'].append(orth)
+
+            if self.generate_coverage:
+                self.represent_coverage_png(font)
 
             F['font'] = desc
             tree['fonts'].append(F)

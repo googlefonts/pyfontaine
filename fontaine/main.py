@@ -37,6 +37,8 @@ def usage():
                         help='Output information in JSON')
     parser.add_argument('--csv', action='store_true',
                         help='Output font coverage information in CSV')
+    parser.add_argument('--coverage', action='store_true',
+                        help='Create PNG files represented coveragin of font charset in coverage_pngs directory')
     return parser.parse_args()
 
 
@@ -50,7 +52,7 @@ def main(*argv):
     if args.disable_unames:
         os.environ['DISABLE_UNAMES'] = 'disable'
 
-    director = Director()
+    director = Director(generate_coverage=args.coverage)
     if args.xml:
         tree = director.construct_tree(fonts)
         Builder.xml_(tree).display()
@@ -62,7 +64,6 @@ def main(*argv):
     else:
         tree = director.construct_tree(fonts)
         Builder.text_(tree).display()
-
 
 if __name__ == '__main__':
     main()
