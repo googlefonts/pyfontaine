@@ -7,6 +7,7 @@ Dependencies
 
 * freetype-py_
 * lxml_
+* simpleHilbertCurve_
 
 Related:
 
