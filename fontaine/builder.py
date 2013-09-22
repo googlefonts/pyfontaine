@@ -69,12 +69,13 @@ class Director(object):
 
             txtFilename = filename + '.txt'
             fp = open(txtFilename, 'w+')
-            for i, char in enumerate(sorted(font._unicodeValues)):
-                glyphs = cmap.glyphs
-                if callable(glyphs):
-                    glyphs = glyphs()
+
+            glyphs = cmap.glyphs
+            if callable(glyphs):
+                glyphs = glyphs()
+            for i, char in enumerate(sorted(glyphs)):
                 flag = str(0)
-                if char in glyphs:
+                if char in font._unicodeValues:
                     flag = str(1)
                 fp.write(str(i + 1) + ' ' + flag + '\n')
 
