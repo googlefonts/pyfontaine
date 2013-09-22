@@ -31,7 +31,7 @@ To output percent coveraging in CSV:
 
     python fontaine/main.py --csv font.ttf
 
-If you want to see PNG that represent coverage implementation of font charset:
+If you want to see PNG that represent coverage implementation of font charset, install simpleHilbertCurve and place script somewhere in system wide directory (e.g. /usr/local/bin/) or virtual environment bin directory:
 
     python fontaine/main.py --coverage font.ttf
 
