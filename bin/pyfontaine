@@ -1,0 +1,69 @@
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+#
+# cmap.py
+#
+# Copyright (c) 2013,
+# Виталий Волков <hash.3g@gmail.com>
+# Dave Crossland <dave@understandinglimited.com>
+#
+# Released under the GNU General Public License version 3 or later.
+# See accompanying LICENSE.txt file for details.
+from __future__ import print_function
+import argparse
+import codecs
+import os
+import sys
+
+path = os.path.join(os.path.dirname(__file__), '..')
+sys.path.append(os.path.realpath(path))
+
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
+
+from fontaine.font import Font
+from fontaine.builder import Builder, Director
+
+
+def usage():
+    parser = argparse.ArgumentParser(description='Output information about fonts in different formats')
+    parser.add_argument('font', metavar='font', type=str, nargs='+')
+    parser.add_argument('--disable-unames', action='store_true',
+                        help='This will prevent using Unicode names data')
+    parser.add_argument('--text', action='store_true',
+                        help='Output information in plain text')
+    parser.add_argument('--xml', action='store_true',
+                        help='Output information into XML')
+    parser.add_argument('--json', action='store_true',
+                        help='Output information in JSON')
+    parser.add_argument('--csv', action='store_true',
+                        help='Output font coverage information in CSV')
+    parser.add_argument('--coverage', action='store_true',
+                        help='Create PNG files represented coveragin of font charset in coverage_pngs directory')
+    return parser.parse_args()
+
+
+def main(*argv):
+    args = usage()
+
+    fonts = []
+    for filename in args.font:
+        fonts.append(Font(filename))
+
+    if args.disable_unames:
+        os.environ['DISABLE_UNAMES'] = 'disable'
+
+    director = Director(generate_coverage=args.coverage)
+    if args.xml:
+        tree = director.construct_tree(fonts)
+        Builder.xml_(tree).display()
+    elif args.csv:
+        sys.stdout.write(Builder.csv_(fonts))
+    elif args.json:
+        tree = director.construct_tree(fonts)
+        Builder.json_(tree)
+    else:
+        tree = director.construct_tree(fonts)
+        Builder.text_(tree).display()
+
+if __name__ == '__main__':
+    main()

@@ -16,22 +16,24 @@ with open("README.rst", 'r') as readme_file:
     readme = readme_file.read()
 
 setup(name='fontaine',
-    version='1.0.6',
-    description='Fontaine font tool',
-    license = "GNU GPL",
-    long_description=readme,
-    author='Dave Crossland, Виталий Волков',
-    author_email='dave@lab6.com',
-    url='https://github.com/davelab6/pyfontaine',
-    # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
-    packages=['fontaine', 'fontaine.charmaps', 'fontaine.structures',],
-    requires=[
-      'freetype-py',
-      'lxml'
-    ],
-    package_data = {
-        'fontaine': [
-            'charmaps/names.db/*.*',
-        ]
-    }
-)
+      version='1.0.7',
+      description='Fontaine font tool',
+      license="GNU GPL",
+      long_description=readme,
+      author='Dave Crossland, Виталий Волков',
+      author_email='dave@lab6.com',
+      url='https://github.com/davelab6/pyfontaine',
+      # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
+      packages=['fontaine', 'fontaine.charmaps', 'fontaine.structures'],
+      requires=[
+          'freetype-py',
+          'lxml',
+          'matplotlib'
+      ],
+      package_data={
+          'fontaine': [
+              'charmaps/names.db/*.*',
+          ]
+      },
+      scripts=['bin/simpleHilbertCurve',
+               'bin/pyfontaine'])

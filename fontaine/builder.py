@@ -80,9 +80,9 @@ class Director(object):
                 fp.write(str(i + 1) + ' ' + flag + '\n')
 
             fp.close()
-            hilbertScript = ('simpleHilbertCurve.py'
+            hilbertScript = ('simpleHilbertCurve'
                              ' --outFormat=png'
-                             ' --level=4'
+                             ' --level=3'
                              ' --out="%s" "%s"') % (filename, txtFilename)
             os.system(hilbertScript)
 
