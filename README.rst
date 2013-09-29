@@ -37,6 +37,10 @@ If you want to see PNG that represent coverage implementation of font charset:
 
     pyfontaine --coverage font.ttf
 
+To specify only set of charmaps:
+	
+	pyfontaine --set African,'Basic Latin','GWF vietnamese' font.ttf
+
 
 .. _libunicodenames: https://bitbucket.org/sortsmill/libunicodenames
 .. _freetype-py: http://code.google.com/p/freetype-py/
