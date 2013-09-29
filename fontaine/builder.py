@@ -21,6 +21,7 @@ from collections import OrderedDict
 
 from fontaine.const import SUPPORT_LEVEL_FULL, SUPPORT_LEVEL_UNSUPPORTED
 from fontaine.cmap import library
+from fontaine.font import Font
 from fontaine.structures.dict2xml import dict2xml, dict2txt
 
 
@@ -51,8 +52,9 @@ extract_firstline = lambda text: \
 
 class Director(object):
 
-    def __init__(self, generate_coverage=None):
+    def __init__(self, generate_coverage=None, charmaps=[]):
         self.generate_coverage = generate_coverage
+        self.charmaps = charmaps
 
     def represent_coverage_png(self, font):
         cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
@@ -61,6 +63,12 @@ class Director(object):
             os.makedirs('coverage_pngs')
 
         for cmap in cmaps:
+            if self.charmaps:
+                if cmap.common_name not in self.charmaps:
+                    continue
+                if cmap.native_name not in self.charmaps:
+                    continue
+
             if cmap.key not in font._unicodeValues:
                 continue
 
@@ -90,7 +98,9 @@ class Director(object):
 
         tree = OrderedDict({'fonts': []})
 
-        for font in fonts:
+        for font_filename in fonts:
+            font = Font(font_filename, charmaps=self.charmaps)
+
             F = OrderedDict()
             desc = OrderedDict()
             desc['commonName'] = font.common_name

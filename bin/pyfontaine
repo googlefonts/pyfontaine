@@ -20,7 +20,6 @@ sys.path.append(os.path.realpath(path))
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
-from fontaine.font import Font
 from fontaine.builder import Builder, Director
 
 
@@ -38,7 +37,11 @@ def usage():
     parser.add_argument('--csv', action='store_true',
                         help='Output font coverage information in CSV')
     parser.add_argument('--coverage', action='store_true',
-                        help='Create PNG files represented coveragin of font charset in coverage_pngs directory')
+                        help='Create PNG files represented coveragin of font'
+                             ' charset in coverage_pngs directory')
+    parser.add_argument('--set', type=str,
+                        help='Specify the sets based on either common'
+                             ' or native name')
     return parser.parse_args()
 
 
@@ -47,12 +50,12 @@ def main(*argv):
 
     fonts = []
     for filename in args.font:
-        fonts.append(Font(filename))
+        fonts.append(filename)
 
     if args.disable_unames:
         os.environ['DISABLE_UNAMES'] = 'disable'
 
-    director = Director(generate_coverage=args.coverage)
+    director = Director(generate_coverage=args.coverage, charmaps=args.set.split(','))
     if args.xml:
         tree = director.construct_tree(fonts)
         Builder.xml_(tree).display()

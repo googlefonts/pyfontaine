@@ -17,8 +17,9 @@ from fontaine.const import *
 
 class Font:
 
-    def __init__(self, fontfile):
+    def __init__(self, fontfile, charmaps=[]):
         self._fontFace = freetype.Face(fontfile)
+        self._charmaps = charmaps
         self.refresh_sfnt_properties()
 
         self._unicodeValues = []
@@ -76,6 +77,13 @@ class Font:
         ''' Return array of 4-tuples lists about supported orthographies
         for current font instance'''
         for charmap in library.charmaps:
+            if self._charmaps:
+                cn = getattr(charmap, 'common_name', False)
+                nn = getattr(charmap, 'native_name', False)
+                if cn and cn not in self._charmaps:
+                    continue
+                if nn and nn not in self._charmaps:
+                    continue
             yield self.get_othography_info(charmap)
 
     _supported_orthographies = []
