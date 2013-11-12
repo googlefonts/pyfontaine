@@ -16,7 +16,7 @@ with open("README.rst", 'r') as readme_file:
     readme = readme_file.read()
 
 setup(name='fontaine',
-      version='1.0.7',
+      version='1.0.8',
       description='Fontaine font tool',
       license="GNU GPL",
       long_description=readme,
@@ -25,8 +25,8 @@ setup(name='fontaine',
       url='https://github.com/davelab6/pyfontaine',
       # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
       packages=['fontaine', 'fontaine.charmaps', 'fontaine.structures'],
-      requires=[
-          'freetype',
+      install_requires=[
+          'freetype-py',
           'lxml',
           'matplotlib'
       ],

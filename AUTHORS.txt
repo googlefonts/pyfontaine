@@ -6,3 +6,5 @@ See accompanying LICENSE.txt file for details.
 Copyright © 2012, 2013 by Vitaly Volkov <hash.3g@gmail.com>
 
 Copyright © 2012, 2013 by Dave Crossland <dave@lab6.com>
+
+Some contributions under project license by Mikhail Kashkin <https://github.com/xen/>
