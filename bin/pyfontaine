@@ -39,7 +39,7 @@ def usage():
     parser.add_argument('--coverage', action='store_true',
                         help='Create PNG files represented coveragin of font'
                              ' charset in coverage_pngs directory')
-    parser.add_argument('--set', type=str,
+    parser.add_argument('--set', type=str, default='',
                         help='Specify the sets based on either common'
                              ' or native name')
     return parser.parse_args()
