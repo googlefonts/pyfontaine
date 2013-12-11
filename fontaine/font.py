@@ -16,12 +16,19 @@ from fontaine.const import *
 
 
 def lookup_languages(unichar):
+    try:
+        assert len(unichar) == 1
+    except AssertionError:
+        return []
+
+    charmaps = []
     for charmap in library.charmaps:
         glyphs = getattr(charmap, 'glyphs', [])
         if callable(glyphs):
             glyphs = glyphs()
         if ord(unicode(unichar)) in glyphs:
-            yield charmap
+            charmaps.append(charmap)
+    return charmaps
 
 
 class Font:
