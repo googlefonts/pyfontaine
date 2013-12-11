@@ -15,6 +15,15 @@ from fontaine.cmap import library
 from fontaine.const import *
 
 
+def lookup_languages(unichar):
+    for charmap in library.charmaps:
+        glyphs = getattr(charmap, 'glyphs', [])
+        if callable(glyphs):
+            glyphs = glyphs()
+        if ord(unicode(unichar)) in glyphs:
+            yield charmap
+
+
 class Font:
 
     def __init__(self, fontfile, charmaps=[]):
