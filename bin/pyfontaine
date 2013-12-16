@@ -52,7 +52,8 @@ def main(*argv):
 
     fonts = []
     for filename in args.font:
-        if re.match('0x\d+', filename):
+        if re.match('0x[\w\d]+', filename):
+            print(filename)
             print(Extensis(filename).findlanguages())
             continue
         fonts.append(filename)

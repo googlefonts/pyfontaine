@@ -12,7 +12,7 @@ EXTENSIS_LANG_XML = 'http://blog-cache4.webink.com/assets/Languages.txt'
 class Extensis:
 
     def __init__(self, unichar):
-        self.unichar = unichar.lower()
+        self.unicodechar = int(unichar, 16)
 
     def findlanguages(self):
         response = requests.get(EXTENSIS_LANG_XML)
@@ -35,8 +35,10 @@ class Extensis:
                 rng = range(int(start, 16), int(end, 16) + 1)
                 result = result.replace(r, ','.join(map(lambda x: '0x' + str.lower('%04x' % x), rng)))
 
-            # print(result)
-            if self.unichar in result.split(','):
+            unicodes = map(lambda x: int(x, 16),
+                           filter(lambda x: x != '', result.split(',')))
+
+            if self.unicodechar in unicodes:
                 try:
                     languages.append(codepoint.getparent().attrib['name'])
                 except (KeyError, ValueError):
