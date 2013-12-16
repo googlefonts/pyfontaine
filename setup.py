@@ -16,7 +16,7 @@ with open("README.rst", 'r') as readme_file:
     readme = readme_file.read()
 
 setup(name='fontaine',
-      version='1.0.8',
+      version='1.0.9',
       description='Fontaine font tool',
       license="GNU GPL",
       long_description=readme,
