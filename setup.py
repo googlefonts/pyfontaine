@@ -28,7 +28,8 @@ setup(name='fontaine',
       install_requires=[
           'freetype-py',
           'lxml',
-          'matplotlib'
+          'matplotlib',
+          'requests'
       ],
       package_data={
           'fontaine': [

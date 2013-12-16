@@ -13,6 +13,7 @@ from __future__ import print_function
 import argparse
 import codecs
 import os
+import re
 import sys
 
 path = os.path.join(os.path.dirname(__file__), '..')
@@ -21,6 +22,7 @@ sys.path.append(os.path.realpath(path))
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 from fontaine.builder import Builder, Director
+from fontaine.ext.extensis import Extensis
 
 
 def usage():
@@ -47,6 +49,10 @@ def usage():
 
 def main(*argv):
     args = usage()
+
+    if len(args.font) == 1 and re.match('0x\d+', args.font[0]):
+        print(Extensis(args.font[0]).findlanguages())
+        sys.exit(0)
 
     fonts = []
     for filename in args.font:
