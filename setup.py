@@ -24,7 +24,7 @@ setup(name='fontaine',
       author_email='dave@lab6.com',
       url='https://github.com/davelab6/pyfontaine',
       # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
-      packages=['fontaine', 'fontaine.charmaps', 'fontaine.structures'],
+      packages=['fontaine', 'fontaine.charmaps', 'fontaine.structures', 'fontaine.ext'],
       install_requires=[
           'freetype-py',
           'lxml',
