@@ -50,12 +50,11 @@ def usage():
 def main(*argv):
     args = usage()
 
-    if len(args.font) == 1 and re.match('0x\d+', args.font[0]):
-        print(Extensis(args.font[0]).findlanguages())
-        sys.exit(0)
-
     fonts = []
     for filename in args.font:
+        if re.match('0x\d+', args.font[0]):
+            print(Extensis(args.font[0]).findlanguages())
+            continue
         fonts.append(filename)
 
     if args.disable_unames:
