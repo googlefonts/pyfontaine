@@ -66,9 +66,9 @@ class Director(object):
             if self.charmaps:
                 cn = getattr(cmap, 'common_name', False)
                 nn = getattr(cmap, 'native_name', False)
-                if cn and cn not in self._charmaps:
+                if cn and cn not in self.charmaps:
                     continue
-                if nn and nn not in self._charmaps:
+                if nn and nn not in self.charmaps:
                     continue
 
             if cmap.key not in font._unicodeValues:
