@@ -54,7 +54,7 @@ class Director(object):
 
     def __init__(self, generate_coverage=None, charmaps=[]):
         self.generate_coverage = generate_coverage
-        self.charmaps = charmaps
+        self.charmaps = filter(lambda x: x != '', charmaps)
 
     def represent_coverage_png(self, font):
         cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
