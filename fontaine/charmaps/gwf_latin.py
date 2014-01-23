@@ -23,7 +23,6 @@ class Charmap:
         glyphs += [0x20ac] # Euro
         glyphs += [0x0152] # OE
         glyphs += [0x0153] # oe
-        glyphs += [0x003b] # semicolon
         glyphs += [0x00b7] # periodcentered
         glyphs += [0x0131] # dotlessi
         glyphs += [0x02c6] # circumflex
