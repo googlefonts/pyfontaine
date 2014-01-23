@@ -23,7 +23,6 @@ class Charmap:
         glyphs += [0x20ac] # Euro
         glyphs += [0x0152] # OE
         glyphs += [0x0153] # oe
-        glyphs += [0x00b7] # periodcentered
         glyphs += [0x0131] # dotlessi
         glyphs += [0x02c6] # circumflex
         glyphs += [0x02da] # ring
@@ -31,6 +30,10 @@ class Charmap:
         glyphs += [0x2074] # foursuperior
         glyphs += [0x2215] # divison slash
         glyphs += [0x2044] # fraction slash
+        glyphs += [0x2215] # slash division
+        # glyphs += [0xE0FF] # PUA: Font logo
+        # glyphs += [0xEFFD] # PUA: Font version number
+        # glyphs += [0xF000] # PUA: font ppem size indicator: run `ftview -f 1255 10 Ubuntu-Regular.ttf` to see it in action!
         return glyphs
 
 library.register(Charmap)
