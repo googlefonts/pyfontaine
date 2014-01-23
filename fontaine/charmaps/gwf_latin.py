@@ -31,7 +31,7 @@ class Charmap:
         glyphs += [0x2074] # foursuperior
         glyphs += [0x2215] # divison slash
         glyphs += [0x2044] # fraction slash
-        glyphs += [0x2215] # slash division
+        # glyphs += [0x2215] # slash division (commented since almost no fonts have this)
         # glyphs += [0xE0FF] # PUA: Font logo
         # glyphs += [0xEFFD] # PUA: Font version number
         # glyphs += [0xF000] # PUA: font ppem size indicator: run `ftview -f 1255 10 Ubuntu-Regular.ttf` to see it in action!
