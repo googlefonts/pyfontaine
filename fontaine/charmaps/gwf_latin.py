@@ -7,7 +7,8 @@ class Charmap:
 
     def glyphs(self):
         # latin subset from http://code.google.com/p/googlefontdirectory/source/browse/tools/subset/subset.py
-        glyphs  = [0x2013] # endash
+        glyphs  = [0x00D0] # Carriage Return control char, should be present in font
+        glyphs += [0x2013] # endash
         glyphs += [0x2014] # emdash
         glyphs += [0x2018] # quoteleft
         glyphs += [0x2019] # quoteright
