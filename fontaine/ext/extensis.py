@@ -6,7 +6,7 @@ import re
 import requests
 
 
-EXTENSIS_LANG_XML = 'http://blog-cache4.webink.com/assets/Languages.txt'
+EXTENSIS_LANG_XML = 'http://blog-cache4.webink.com/assets/languages19.txt'
 
 
 class Extensis:
@@ -22,7 +22,7 @@ class Extensis:
         def cmp(val):
             return bool(re.match('0x[0-9A-Fa-f]+\-0x[0-9A-Fa-f]+', val))
 
-        doc = etree.fromstring(response.content)
+        doc = etree.fromstring(response.content.lstrip('`'))
         codepoints = doc.findall('.//scanning-codepoints')
         languages = []
         for codepoint in codepoints:
