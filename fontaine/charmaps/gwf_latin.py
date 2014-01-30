@@ -7,7 +7,9 @@ class Charmap:
 
     def glyphs(self):
         # latin subset from http://code.google.com/p/googlefontdirectory/source/browse/tools/subset/subset.py
-        glyphs  = [0x2013] # endash
+        glyphs  = [0x00AD] # Non Breaking Space, should be present in font
+        glyphs += [0x00D0] # Carriage Return control char, should be present in font
+        glyphs += [0x2013] # endash
         glyphs += [0x2014] # emdash
         glyphs += [0x2018] # quoteleft
         glyphs += [0x2019] # quoteright
@@ -23,8 +25,6 @@ class Charmap:
         glyphs += [0x20ac] # Euro
         glyphs += [0x0152] # OE
         glyphs += [0x0153] # oe
-        glyphs += [0x003b] # semicolon
-        glyphs += [0x00b7] # periodcentered
         glyphs += [0x0131] # dotlessi
         glyphs += [0x02c6] # circumflex
         glyphs += [0x02da] # ring
@@ -32,6 +32,10 @@ class Charmap:
         glyphs += [0x2074] # foursuperior
         glyphs += [0x2215] # divison slash
         glyphs += [0x2044] # fraction slash
+        # glyphs += [0x2215] # slash division (commented since almost no fonts have this)
+        # glyphs += [0xE0FF] # PUA: Font logo
+        # glyphs += [0xEFFD] # PUA: Font version number
+        # glyphs += [0xF000] # PUA: font ppem size indicator: run `ftview -f 1255 10 Ubuntu-Regular.ttf` to see it in action!
         return glyphs
 
 library.register(Charmap)
