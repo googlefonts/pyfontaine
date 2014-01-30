@@ -18,7 +18,7 @@ with open("README.rst", 'r') as readme_file:
 setup(name='fontaine',
       version='1.0.10',
       description='Fontaine font tool',
-      license="GNU GPL",
+      license="GNU GPLv3",
       long_description=readme,
       author='Dave Crossland, Виталий Волков',
       author_email='dave@lab6.com',
