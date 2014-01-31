@@ -30,6 +30,8 @@ def usage():
     parser.add_argument('font', metavar='font', type=str, nargs='+')
     parser.add_argument('--disable-unames', action='store_true',
                         help='This will prevent using Unicode names data')
+    parser.add_argument('--missing', action='store_true',
+                        help='Print information only with missing values')
     parser.add_argument('--text', action='store_true',
                         help='Output information in plain text')
     parser.add_argument('--xml', action='store_true',
@@ -67,7 +69,9 @@ def main(*argv):
     if args.disable_unames:
         os.environ['DISABLE_UNAMES'] = 'disable'
 
-    director = Director(generate_coverage=args.coverage, charmaps=args.set.split(','))
+    director = Director(generate_coverage=args.coverage,
+                        charmaps=args.set.split(','),
+                        missing=bool(args.missing))
     if args.xml:
         tree = director.construct_tree(fonts)
         Builder.xml_(tree).display()

@@ -25,3 +25,14 @@ class Library(object):
 library = Library()
 
 from fontaine.charmaps import *
+from fontaine.ext.extensis import Extensis
+
+
+for ext in Extensis.get_codepoints():
+
+    class Charmap:
+        common_name = u'Extensis %s' % ext.getparent().attrib['name']
+        native_name = u''
+        glyphs = Extensis.get_unicodes(ext)
+
+    library.register(Charmap)

@@ -52,9 +52,10 @@ extract_firstline = lambda text: \
 
 class Director(object):
 
-    def __init__(self, generate_coverage=None, charmaps=[]):
+    def __init__(self, generate_coverage=None, charmaps=[], missing=False):
         self.generate_coverage = generate_coverage
         self.charmaps = filter(lambda x: x != '', charmaps)
+        self.missingValues = missing
 
     def represent_coverage_png(self, font):
         cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
@@ -124,6 +125,10 @@ class Director(object):
             for charmap, support_level, coverage, missing \
                     in font.get_orthographies():
                 if support_level == SUPPORT_LEVEL_UNSUPPORTED:
+                    continue
+                # If command line argument --missing passed then ignore
+                # each fonts that do not have missing values
+                if self.missingValues and not missing:
                     continue
                 if 'orthographies' not in desc:
                     desc['orthographies'] = []
