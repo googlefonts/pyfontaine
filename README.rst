@@ -2,9 +2,9 @@
 pyfontaine
 ===========
 
-pyfontaine is a python reimplementation of [Fontaine](http://fontaine.sf.net) (by Ed Trager) which analyses fonts for language support. It has a simple character set definition format ([Polish example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py) and autodetects new definition files that appear in the [charmaps](https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps) directory. 
+pyfontaine is a python reimplementation of [Fontaine](http://fontaine.sf.net) (by Ed Trager) which analyses fonts for language support. It has a simple character set definition format ([Polish example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py) and autodetects new definition files that appear in the [charmaps](https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps) directory.
 
-It has a command line tool. Given a font, it returns the font's metadata found directly in the font (family name, style name, copyrights, etc) and then infers some useful metadata about its language support (coverage as 4-stars, as percentage, and a list of missing characters needed to get to 100%). 
+It has a command line tool. Given a font, it returns the font's metadata found directly in the font (family name, style name, copyrights, etc) and then infers some useful metadata about its language support (coverage as 4-stars, as percentage, and a list of missing characters needed to get to 100%).
 
 It has a python module. [Example script](https://github.com/xen/fontbakery/blob/master/scripts/famchar.py) from the Font Bakery project.
 
@@ -23,7 +23,7 @@ Related:
 * libunicodenames_
 
 Usage
----------
+-----
 
 To output plain text:
 
@@ -46,8 +46,12 @@ If you want to see PNG that represent coverage implementation of font charset:
     pyfontaine --coverage font.ttf
 
 To specify only set of charmaps:
-	
+
 	pyfontaine --set African,'Basic Latin','GWF vietnamese' font.ttf
+
+To print character set having missed unicode values:
+
+    pyfontaine --missing font.ttf
 
 
 .. _libunicodenames: https://bitbucket.org/sortsmill/libunicodenames
