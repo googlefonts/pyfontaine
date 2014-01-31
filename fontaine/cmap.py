@@ -27,13 +27,22 @@ library = Library()
 from fontaine.charmaps import *
 from fontaine.ext.extensis import Extensis
 
+glyphs = {}
+
 for ext in Extensis.get_codepoints():
 
+    parent_name = ext.getparent().attrib.get('parent')
+
     common_name = u'Extensis %s' % ext.getparent().attrib['name']
+    unicodes = []
+    if parent_name:
+        common_name += u' + ' + parent_name
+        unicodes = glyphs.get(parent_name, [])
+    unicodes += Extensis.get_unicodes(ext)
+    glyphs[ext.getparent().attrib['name']] = unicodes
 
     Charmap = type('Charmap', (object,),
-                   dict(glyphs=Extensis.get_unicodes(ext),
-                        common_name=common_name,
+                   dict(glyphs=unicodes, common_name=common_name,
                         native_name=''))
 
     library.register(Charmap)
