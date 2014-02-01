@@ -28,8 +28,16 @@ This part takes even more time to download and compile all `numpy` dependencies.
 
 Now you can install `matplotlib` dependency (prefereable way is inside of `virtualenv`, but it is out of the scope of this tutorial). 
 
+On Mac OS X you will need to do this first:
+
+$ ln -s /usr/local/opt/freetype/include/freetype2 /usr/local/include/freetype
+
 $ pip install matplotlib
 
 Now your system is ready to install pyfontaine:
+
+$ pip install fontaine
+
+or download the github source and run
 
 $ python setup.py install
