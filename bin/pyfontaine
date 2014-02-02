@@ -21,17 +21,20 @@ sys.path.append(os.path.realpath(path))
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
-from fontaine.builder import Builder, Director
+from fontaine.builder import Builder, Director, unicodevalues_asstring
 from fontaine.ext.extensis import Extensis
+from fontaine.font import Font
 
 
 def usage():
-    parser = argparse.ArgumentParser(description='Output information about fonts in different formats')
+    parser = argparse.ArgumentParser(description='Output information about'
+                                                 ' fonts in different formats')
     parser.add_argument('font', metavar='font', type=str, nargs='+')
     parser.add_argument('--disable-unames', action='store_true',
                         help='This will prevent using Unicode names data')
     parser.add_argument('--missing', action='store_true',
-                        help='Print information only with missing values')
+                        help='Print additionally a list of each unicode value'
+                             ' that is missing from a character set')
     parser.add_argument('--text', action='store_true',
                         help='Output information in plain text')
     parser.add_argument('--xml', action='store_true',
@@ -69,9 +72,17 @@ def main(*argv):
     if args.disable_unames:
         os.environ['DISABLE_UNAMES'] = 'disable'
 
+    if args.missing:
+        missing = []
+        for font in fonts:
+            for charmap, support_level, coverage, missing_values \
+                    in Font(font).get_orthographies():
+                missing += missing_values
+        print('\n'.join(unicodevalues_asstring(set(missing))))
+        exit(0)
+
     director = Director(generate_coverage=args.coverage,
-                        charmaps=args.set.split(','),
-                        missing=bool(args.missing))
+                        charmaps=args.set.split(','))
     if args.xml:
         tree = director.construct_tree(fonts)
         Builder.xml_(tree).display()
