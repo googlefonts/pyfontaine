@@ -21,9 +21,8 @@ sys.path.append(os.path.realpath(path))
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
-from fontaine.builder import Builder, Director, unicodevalues_asstring
+from fontaine.builder import Builder, Director
 from fontaine.ext.extensis import Extensis
-from fontaine.font import Font
 
 
 def usage():
@@ -72,17 +71,9 @@ def main(*argv):
     if args.disable_unames:
         os.environ['DISABLE_UNAMES'] = 'disable'
 
-    if args.missing:
-        missing = []
-        for font in fonts:
-            for charmap, support_level, coverage, missing_values \
-                    in Font(font).get_orthographies():
-                missing += missing_values
-        print('\n'.join(unicodevalues_asstring(set(missing))))
-        exit(0)
-
     director = Director(generate_coverage=args.coverage,
-                        charmaps=args.set.split(','))
+                        charmaps=args.set.split(','),
+                        missing=args.missing)
     if args.xml:
         tree = director.construct_tree(fonts)
         Builder.xml_(tree).display()

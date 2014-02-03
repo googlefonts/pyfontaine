@@ -126,10 +126,6 @@ class Director(object):
                     in font.get_orthographies():
                 if support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
-                # If command line argument --missing passed then ignore
-                # each fonts that do not have missing values
-                if self.missingValues and not missing:
-                    continue
                 if 'orthographies' not in desc:
                     desc['orthographies'] = []
 
@@ -141,7 +137,8 @@ class Director(object):
                 if support_level != SUPPORT_LEVEL_FULL:
                     values = u'\n%s' % u'\n'.join(unicodevalues_asstring(missing))
                     orth['orthography']['percentCoverage'] = coverage
-                    orth['orthography']['missingValues'] = values
+                    if self.missingValues:
+                        orth['orthography']['missingValues'] = values
 
                 desc['orthographies'].append(orth)
 
