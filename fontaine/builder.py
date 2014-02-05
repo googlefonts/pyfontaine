@@ -191,7 +191,8 @@ class Builder(object):
         for font_filename in fonts:
             font = Font(font_filename)
             print('=== %s ===' % font.common_name.encode('ascii', 'ignore'))
-
+            print('{|')
+            print('| colspan=3 |')
             for subset in library.charmaps:
                 charmap, supported, coverage, missing = font.get_othography_info(subset)
                 if supported == SUPPORT_LEVEL_UNSUPPORTED:
@@ -204,6 +205,7 @@ class Builder(object):
                 print('|-')
                 print("| [[ %s ]] (%s/%s)  || style='text-align:right'" % (charmap.common_name, len(glyphs) - len(missing), len(glyphs)),
                       " | {{bartable|%s|%%|2||background:green}}" % coverage)
+            print('|}')
 
 
 NAMES = {

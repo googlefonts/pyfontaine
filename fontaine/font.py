@@ -78,6 +78,7 @@ class FontFace:
 
     @property
     def style_flags(self):
+        print(self.ttf['OS/2'].__dict__)
         return self.ttf['head'].flags
 
     @property
