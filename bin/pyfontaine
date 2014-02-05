@@ -40,6 +40,8 @@ def usage():
                         help='Output information into XML')
     parser.add_argument('--json', action='store_true',
                         help='Output information in JSON')
+    parser.add_argument('--wiki', action='store_true',
+                        help='Print information in wikipedia format')
     parser.add_argument('--csv', action='store_true',
                         help='Output font coverage information in CSV')
     parser.add_argument('--coverage', action='store_true',
@@ -82,6 +84,8 @@ def main(*argv):
     elif args.json:
         tree = director.construct_tree(fonts)
         Builder.json_(tree)
+    elif args.wiki:
+        Builder.wiki(fonts)
     else:
         tree = director.construct_tree(fonts)
         Builder.text_(tree).display()
