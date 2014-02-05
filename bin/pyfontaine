@@ -57,7 +57,7 @@ def main(*argv):
     fonts = []
     for filename in args.font:
         if re.match('0x[\w\d]+', filename):
-            print("Languages/Character Sets used by %s" % filename)
+            print("Languages/Character Sets used by", filename,)
             print(Extensis(filename).findlanguages())
             continue
         if not os.path.exists(filename):
