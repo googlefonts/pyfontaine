@@ -22,13 +22,18 @@ class Extensis:
         if response.status_code != 200:
             return []
 
-        doc = etree.fromstring(response.content.lstrip('`'))
+        content = re.sub('<!--.[^>]*-->', '', response.content)
+
+        doc = etree.fromstring(content.lstrip('`'))
         return doc.findall('.//scanning-codepoints')
 
     @staticmethod
     def get_unicodes(codepoint):
         """ Return list of unicodes for <scanning-codepoints> """
-        result = ''.join(map(str.strip, codepoint.text.lower().split('\n')))
+
+        result = re.sub('\s', '', codepoint.text)
+
+        # print(codepoint.getparent().attrib['name'], result)
         codes = result.split(',')
 
         replace = filter(cmp, codes)
