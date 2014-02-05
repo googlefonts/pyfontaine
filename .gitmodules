@@ -1,0 +1,3 @@
+[submodule "fontaine/charmaps/fontconfig"]
+	path = fontaine/charmaps/fontconfig
+	url = git://anongit.freedesktop.org/fontconfig/

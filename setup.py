@@ -16,7 +16,7 @@ with open("README.rst", 'r') as readme_file:
     readme = readme_file.read()
 
 setup(name='fontaine',
-      version='1.1.0',
+      version='1.1.1',
       description='Fontaine font tool',
       license="GNU GPLv3",
       long_description=readme,
@@ -34,6 +34,7 @@ setup(name='fontaine',
       package_data={
           'fontaine': [
               'charmaps/names.db/*.*',
+              'charmaps/fontconfig/fc-lang/*.orth'
           ]
       },
       scripts=['bin/simpleHilbertCurve',
