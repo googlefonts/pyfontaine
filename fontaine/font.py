@@ -9,7 +9,7 @@
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
 
-import freetype
+# import freetype
 
 from fontaine.cmap import library
 from fontaine.const import *
@@ -33,31 +33,78 @@ def lookup_languages(unichar):
     return charmaps
 
 
+class FontFace:
+
+    def __init__(self, fontfile):
+        import fontTools.ttLib as ttLib
+        self.ttf = ttLib.TTFont(open(fontfile))
+
+    def getReverseGlyphMap(self):
+        return self.ttf.getReverseGlyphMap().values()
+
+    def getNames(self):
+        return self.ttf['name'].names
+
+    def findName(self, nameid):
+        names = filter(lambda s: str(s.nameID) == str(nameid), self.getNames())
+        if not len(names):
+            return
+        return names[0]
+
+    @property
+    def family_name(self):
+        value = self.findName(1)
+        if not value:
+            return ''
+        return value.string.replace('\x00', '').decode('utf8', 'ignore')
+
+    @property
+    def num_glyphs(self):
+        return int(self.ttf['maxp'].numGlyphs)
+
+    @property
+    def style_name(self):
+        value = self.findName(17)
+        if not value:
+            return ''
+        return value.string.replace('\x00', '').decode('utf8', 'ignore')
+
+    @property
+    def style_flags(self):
+        return self.ttf['head'].flags
+
+    @property
+    def is_fixed_width(self):
+        return bool(self.ttf['head'].flags & FT_FACE_FLAG_FIXED_WIDTH)
+
+    @property
+    def has_fixed_sizes(self):
+        return bool(self.ttf['head'].flags & FT_FACE_FLAG_FIXED_SIZES)
+
+
 class Font:
 
     def __init__(self, fontfile, charmaps=[]):
-        self._fontFace = freetype.Face(fontfile)
+
+        # self._fontFace = freetype.Face(fontfile)
+        self._fontFace = FontFace(fontfile)
+
         self._charmaps = charmaps
         self.refresh_sfnt_properties()
 
-        self._unicodeValues = []
-        charcode, agindex = self._fontFace.get_first_char()
-        while agindex != 0:
-            self._unicodeValues.append(charcode)
-            charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
+        self._unicodeValues = self._fontFace.getReverseGlyphMap()
+
+        # self._unicodeValues = []
+        # charcode, agindex = self._fontFace.get_first_char()
+        # while agindex != 0:
+        #     self._unicodeValues.append(charcode)
+        #     charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
 
     def refresh_sfnt_properties(self):
-        sfnt_count = self._fontFace.sfnt_name_count
-        if not isinstance(sfnt_count, int):
-            return
-        for i in xrange(sfnt_count):
-            try:
-                sfnt_record = self._fontFace.get_sfnt_name(i)
-            except freetype.FT_Exception:
-                continue
-            propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
+        for name_record in self._fontFace.getNames():
+            propname = NAME_ID_FONTPROPMAP.get(name_record.nameID)
             setattr(self, '_%s' % propname,
-                    sfnt_record.string.replace('\x00', '').decode('utf8',
+                    name_record.string.replace('\x00', '').decode('utf8',
                                                                   'ignore'))
 
     def get_othography_info(self, charmap, hits=0):
