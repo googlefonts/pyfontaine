@@ -42,6 +42,7 @@ class FontFace:
     def __init__(self, fontfile):
         import fontTools.ttLib as ttLib
         self.ttf = ttLib.TTFont(open(fontfile))
+        self._flags = 0
 
     def getCharmap(self):
         tempcmap = self.ttf['cmap'].getcmap(3, 1)
@@ -78,8 +79,11 @@ class FontFace:
 
     @property
     def style_flags(self):
-        print(self.ttf['OS/2'].__dict__)
-        return self.ttf['head'].flags
+        if int(self.ttf['OS/2'].usWeightClass) > 400:
+            self._flags = self._flags | FT_STYLE_FLAG_BOLD
+        if self.ttf['post'].italicAngle != 0.0:
+            self._flags = self._flags | FT_STYLE_FLAG_ITALIC
+        return self._flags
 
     @property
     def is_fixed_width(self):
