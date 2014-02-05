@@ -9,10 +9,14 @@
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
 
-# import freetype
-
 from fontaine.cmap import library
 from fontaine.const import *
+
+
+def unifyunicode(string):
+    if '\000' in string:
+        string = unicode(string, 'utf-16-be').encode('utf-8')
+    return string.decode('utf8', 'ignore')
 
 
 def lookup_languages(unichar):
@@ -39,8 +43,11 @@ class FontFace:
         import fontTools.ttLib as ttLib
         self.ttf = ttLib.TTFont(open(fontfile))
 
-    def getReverseGlyphMap(self):
-        return self.ttf.getReverseGlyphMap().values()
+    def getCharmap(self):
+        tempcmap = self.ttf['cmap'].getcmap(3, 1)
+        if tempcmap is not None:
+            return map(lambda s: s[0], tempcmap.cmap.items())
+        return []
 
     def getNames(self):
         return self.ttf['name'].names
@@ -56,7 +63,7 @@ class FontFace:
         value = self.findName(1)
         if not value:
             return ''
-        return value.string.replace('\x00', '').decode('utf8', 'ignore')
+        return unifyunicode(value.string)
 
     @property
     def num_glyphs(self):
@@ -67,7 +74,7 @@ class FontFace:
         value = self.findName(17)
         if not value:
             return ''
-        return value.string.replace('\x00', '').decode('utf8', 'ignore')
+        return unifyunicode(value.string)
 
     @property
     def style_flags(self):
@@ -86,26 +93,42 @@ class Font:
 
     def __init__(self, fontfile, charmaps=[]):
 
-        # self._fontFace = freetype.Face(fontfile)
-        self._fontFace = FontFace(fontfile)
+        try:
+            import freetype
+            self._fontFace = freetype.Face(fontfile)
+
+            self._unicodeValues = []
+            charcode, agindex = self._fontFace.get_first_char()
+            while agindex != 0:
+                self._unicodeValues.append(charcode)
+                charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
+
+        except ImportError:
+            self._fontFace = FontFace(fontfile)
+            self._unicodeValues = self._fontFace.getCharmap()
 
         self._charmaps = charmaps
         self.refresh_sfnt_properties()
 
-        self._unicodeValues = self._fontFace.getReverseGlyphMap()
-
-        # self._unicodeValues = []
-        # charcode, agindex = self._fontFace.get_first_char()
-        # while agindex != 0:
-        #     self._unicodeValues.append(charcode)
-        #     charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
-
     def refresh_sfnt_properties(self):
-        for name_record in self._fontFace.getNames():
-            propname = NAME_ID_FONTPROPMAP.get(name_record.nameID)
-            setattr(self, '_%s' % propname,
-                    name_record.string.replace('\x00', '').decode('utf8',
-                                                                  'ignore'))
+        try:
+            import freetype
+            sfnt_count = self._fontFace.sfnt_name_count
+            if not isinstance(sfnt_count, int):
+                return
+            for i in xrange(sfnt_count):
+                try:
+                    sfnt_record = self._fontFace.get_sfnt_name(i)
+                except freetype.FT_Exception:
+                    continue
+                propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
+                value = unifyunicode(sfnt_record.string)
+                setattr(self, '_%s' % propname, value)
+        except ImportError:
+            for record in self._fontFace.getNames():
+                propname = NAME_ID_FONTPROPMAP.get(record.nameID)
+                value = unifyunicode(record.string)
+                setattr(self, '_%s' % propname, value)
 
     def get_othography_info(self, charmap, hits=0):
         ''' Return 4-tuple list with short orthographies information
