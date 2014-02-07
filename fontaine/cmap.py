@@ -52,6 +52,9 @@ for ext in Extensis.get_codepoints():
 for ext in Fontconfig.iterate_orth():
     unicodes, common_name = Fontconfig.get_orth_charmap(ext)
 
+    if not common_name:
+        continue
+
     Charmap = type('Charmap', (object,),
                    dict(glyphs=unicodes, common_name=common_name,
                         native_name=''))
