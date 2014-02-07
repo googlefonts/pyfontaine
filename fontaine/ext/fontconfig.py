@@ -44,7 +44,7 @@ class Fontconfig:
         glyphs = []
 
         fn, ext = os.path.splitext(os.path.basename(filename))
-        common_name_regex = re.compile(u'#\s+(\w+)\s*\(%s\)$' % fn, re.I | re.U)
+        common_name_regex = re.compile(u'#\s+(\w+)\s*\((%s)\)$' % fn, re.I | re.U)
 
         common_name = ''
         include = ''
@@ -52,7 +52,9 @@ class Fontconfig:
         for line in content.split('\n'):
             common_name_match = common_name_regex.match(line)
             if common_name_match:
-                common_name = u'Fontconfig %s' % common_name_match.group(1).decode('utf-8', 'ignore')
+                common_name = u'fontconfig %s (%s) from %s.orth'
+                common_name = common_name % (common_name_match.group(1).decode('utf-8', 'ignore'),
+                                             common_name_match.group(2), fn)
 
             unicode_match = UNICODE_VALUE_REGEX.match(line.strip())
             if unicode_match:
