@@ -14,6 +14,24 @@ EXTENSIS_LANG_XML = 'http://blog-cache4.webink.com/assets/languages19.txt'
 class Extensis(BaseExt):
 
     @staticmethod
+    def __getcharmaps__():
+        glyphs = {}
+        for ext in Extensis.get_codepoints():
+            parent_name = ext.getparent().attrib.get('parent')
+
+            common_name = u'Extensis %s' % ext.getparent().attrib['name']
+            unicodes = []
+            if parent_name:
+                common_name += u' + ' + parent_name
+                unicodes = glyphs.get(parent_name, [])
+            unicodes += Extensis.get_unicodes(ext)
+            glyphs[ext.getparent().attrib['name']] = unicodes
+
+            yield type('Charmap', (object,),
+                       dict(glyphs=unicodes, common_name=common_name,
+                            native_name=''))
+
+    @staticmethod
     def get_codepoints():
         """ Return all XML <scanning-codepoints> in received XML """
         response = requests.get(EXTENSIS_LANG_XML)

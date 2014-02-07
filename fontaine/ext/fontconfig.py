@@ -17,6 +17,18 @@ ORTH_SOURCE_DIR = os.path.join(dirname, 'charmaps', 'fontconfig', 'fc-lang')
 class Fontconfig(BaseExt):
 
     @staticmethod
+    def __getcharmaps__():
+        for ext in Fontconfig.iterate_orth():
+            unicodes, common_name = Fontconfig.get_orth_charmap(ext)
+
+            if not common_name:
+                continue
+
+            yield type('Charmap', (object,),
+                       dict(glyphs=unicodes, common_name=common_name,
+                            native_name=''))
+
+    @staticmethod
     def iterate_orth():
         if not os.path.exists(ORTH_SOURCE_DIR):
             return []

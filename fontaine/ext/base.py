@@ -20,3 +20,7 @@ class BaseExt(object):
 
         return map(lambda x: int(x, 16),
                    filter(lambda x: x != '', string.split(',')))
+
+    @classmethod
+    def get_charmaps(cls):
+        return cls.__getcharmaps__()
