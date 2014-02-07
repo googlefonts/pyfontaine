@@ -5,15 +5,13 @@ from lxml import etree
 import re
 import requests
 
+from fontaine.ext.base import BaseExt
+
 
 EXTENSIS_LANG_XML = 'http://blog-cache4.webink.com/assets/languages19.txt'
 
 
-def cmp(val):
-    return bool(re.match('0x[0-9A-Fa-f]+\-0x[0-9A-Fa-f]+', val))
-
-
-class Extensis:
+class Extensis(BaseExt):
 
     @staticmethod
     def get_codepoints():
@@ -30,21 +28,8 @@ class Extensis:
     @staticmethod
     def get_unicodes(codepoint):
         """ Return list of unicodes for <scanning-codepoints> """
-
         result = re.sub('\s', '', codepoint.text)
-
-        # print(codepoint.getparent().attrib['name'], result)
-        codes = result.split(',')
-
-        replace = filter(cmp, codes)
-        for r in replace:
-            start, end = r.split('-')
-            rng = range(int(start, 16), int(end, 16) + 1)
-            exp = ','.join(map(lambda x: '0x' + str.lower('%04x' % x), rng))
-            result = result.replace(r, exp)
-
-        return map(lambda x: int(x, 16),
-                   filter(lambda x: x != '', result.split(',')))
+        return Extensis.convert_to_list_of_unicodes(result)
 
     def __init__(self, unichar):
         self.unicodechar = int(unichar, 16)
