@@ -27,9 +27,14 @@ class Fontconfig:
     def iterate_orth():
         dirname = os.path.dirname(fontaine.__file__)
         dirorth = os.path.join(dirname, 'charmaps', 'fontconfig', 'fc-lang')
+        if not os.path.exists(dirorth):
+            return []
+
+        result = []
         for fileorth in os.listdir(dirorth):
             if os.path.splitext(fileorth)[1] == '.orth':
-                yield os.path.join(dirorth, fileorth)
+                result.append(os.path.join(dirorth, fileorth))
+        return result
 
     @classmethod
     def get_string_glyphlist(cls, filename, content):
