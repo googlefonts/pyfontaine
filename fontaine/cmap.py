@@ -27,6 +27,7 @@ library = Library()
 from fontaine.charmaps import *
 from fontaine.ext.extensis import Extensis
 from fontaine.ext.fontconfig import Fontconfig
+from fontaine.ext.uniblocks import UniBlock
 
 
 for charmap_klass in Extensis.get_charmaps():
@@ -34,4 +35,8 @@ for charmap_klass in Extensis.get_charmaps():
 
 
 for charmap_klass in Fontconfig.get_charmaps():
+    library.register(charmap_klass)
+
+
+for charmap_klass in UniBlock.get_charmaps():
     library.register(charmap_klass)
