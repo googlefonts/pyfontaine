@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
-
 class Charmap:
     common_name = u'Surat Batak'
     native_name = u''
@@ -11,4 +8,4 @@ class Charmap:
         list(xrange(0x1BFC, 0x1BFF))
 
 
-library.register(Charmap)
+

@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
-
 class Charmap:
 
     common_name = "Pan African Latin"  # Common name
@@ -324,4 +321,4 @@ class Charmap:
     ]
 
 
-library.register(Charmap)
+

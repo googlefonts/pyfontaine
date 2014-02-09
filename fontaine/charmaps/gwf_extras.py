@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
 class Charmap:
     common_name = u'GWF extras'
     native_name = u''
@@ -11,4 +9,4 @@ class Charmap:
         glyphs += [0xf000] # PUA: font ppem size indicator: run `ftview -f 1255 10 Ubuntu-Regular.ttf` to see it in action!
         return glyphs
 
-library.register(Charmap)
+

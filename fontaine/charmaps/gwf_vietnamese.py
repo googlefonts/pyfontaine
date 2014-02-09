@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
 class Charmap:
     common_name = u'GWF vietnamese'
     native_name = u''
@@ -17,4 +15,4 @@ class Charmap:
                    0x01AF, 0x01B0, 0x20AB] + range(0x1EA0, 0x1EFA)
         return glyphs
 
-library.register(Charmap)
+

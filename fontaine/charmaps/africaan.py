@@ -53,4 +53,4 @@ class Charmap:
     ]
 
 
-library.register(Charmap)
+

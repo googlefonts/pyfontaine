@@ -8,35 +8,45 @@
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
+from importlib import import_module
+
+import fontaine.ext
+import fontaine.charmaps
 
 
 class Library(object):
 
     _charmaps = []
 
+    collections = ['all']
+
     def register(self, charmap):
         self._charmaps.append(charmap())
 
     @property
     def charmaps(self):
+        if self._charmaps:
+            return self._charmaps
+
+        for ext in fontaine.ext.__all__:
+            try:
+                module = import_module('fontaine.ext.%s' % ext)
+                extension_name = module.Extension.extension_name
+            except (ImportError, AttributeError):
+                continue
+
+            if 'all' in self.collections or extension_name in self.collections:
+                for charmap_klass in module.Extension.get_charmaps():
+                    self.register(charmap_klass)
+
+        if 'all' in self.collections or 'pyfontaine' in self.collections:
+            for ext in fontaine.charmaps.__all__:
+                try:
+                    module = import_module('fontaine.charmaps.%s' % ext)
+                    self.register(module.Charmap)
+                except (ImportError, AttributeError):
+                    continue
         return self._charmaps
 
 
 library = Library()
-
-from fontaine.charmaps import *
-from fontaine.ext.extensis import Extensis
-from fontaine.ext.fontconfig import Fontconfig
-from fontaine.ext.uniblocks import UniBlock
-
-
-for charmap_klass in Extensis.get_charmaps():
-    library.register(charmap_klass)
-
-
-for charmap_klass in Fontconfig.get_charmaps():
-    library.register(charmap_klass)
-
-
-for charmap_klass in UniBlock.get_charmaps():
-    library.register(charmap_klass)

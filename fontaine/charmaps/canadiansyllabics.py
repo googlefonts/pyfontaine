@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
-
 class Charmap:
     common_name = u'Unified Canadian Aboriginal Syllabics'
     native_name = u'Unified Canadian Aboriginal Syllabics'
@@ -9,4 +6,4 @@ class Charmap:
     glyphs = xrange(0x1401, 0x1676)
 
 
-library.register(Charmap)
+

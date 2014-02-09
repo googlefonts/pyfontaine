@@ -11,12 +11,14 @@ from fontaine.ext.base import BaseExt
 EXTENSIS_LANG_XML = 'http://blog-cache4.webink.com/assets/languages19.txt'
 
 
-class Extensis(BaseExt):
+class Extension(BaseExt):
+
+    extension_name = 'extensis'
 
     @staticmethod
     def __getcharmaps__():
         glyphs = {}
-        for ext in Extensis.get_codepoints():
+        for ext in Extension.get_codepoints():
             parent_name = ext.getparent().attrib.get('parent')
 
             common_name = u'Extensis %s' % ext.getparent().attrib['name']
@@ -24,7 +26,7 @@ class Extensis(BaseExt):
             if parent_name:
                 common_name += u' + ' + parent_name
                 unicodes = glyphs.get(parent_name, [])
-            unicodes += Extensis.get_unicodes(ext)
+            unicodes += Extension.get_unicodes(ext)
             glyphs[ext.getparent().attrib['name']] = unicodes
 
             yield type('Charmap', (object,),
@@ -47,7 +49,7 @@ class Extensis(BaseExt):
     def get_unicodes(codepoint):
         """ Return list of unicodes for <scanning-codepoints> """
         result = re.sub('\s', '', codepoint.text)
-        return Extensis.convert_to_list_of_unicodes(result)
+        return Extension.convert_to_list_of_unicodes(result)
 
     def __init__(self, unichar):
         self.unicodechar = int(unichar, 16)
@@ -55,9 +57,9 @@ class Extensis(BaseExt):
     def findlanguages(self):
         """ Return string with languages containing passed unicodechar """
         languages = []
-        for codepoint in Extensis.get_codepoints():
+        for codepoint in Extension.get_codepoints():
 
-            if self.unicodechar in Extensis.get_unicodes(codepoint):
+            if self.unicodechar in Extension.get_unicodes(codepoint):
                 try:
                     languages.append(codepoint.getparent().attrib['name'])
                 except (KeyError, ValueError):
@@ -67,4 +69,4 @@ class Extensis(BaseExt):
 
 
 if __name__ == '__main__':
-    assert Extensis('0x0531').findlanguages() == 'Armenian'
+    assert Extension('0x0531').findlanguages() == 'Armenian'

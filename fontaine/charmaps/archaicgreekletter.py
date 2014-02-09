@@ -1,7 +1,4 @@
 # -*- coding: utf8 -*-
-from fontaine.cmap import library
-
-
 class Charmap:
 
     common_name = "Archaic Greek Letters"
@@ -25,4 +22,4 @@ class Charmap:
     ]
 
 
-library.register(Charmap)
+

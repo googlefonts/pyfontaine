@@ -14,12 +14,14 @@ dirname = os.path.dirname(fontaine.__file__)
 ORTH_SOURCE_DIR = os.path.join(dirname, 'charmaps', 'fontconfig', 'fc-lang')
 
 
-class Fontconfig(BaseExt):
+class Extension(BaseExt):
+
+    extension_name = 'fontconfig'
 
     @staticmethod
     def __getcharmaps__():
-        for ext in Fontconfig.iterate_orth():
-            unicodes, common_name = Fontconfig.get_orth_charmap(ext)
+        for ext in Extension.iterate_orth():
+            unicodes, common_name = Extension.get_orth_charmap(ext)
 
             if not common_name:
                 continue
@@ -70,7 +72,7 @@ class Fontconfig(BaseExt):
 
             with open(include) as fp:
                 content = fp.read()
-            name, ng = Fontconfig.get_string_glyphlist(include, content)
+            name, ng = Extension.get_string_glyphlist(include, content)
             if name and ng:
                 glyphs += ng.split(',')
                 common_name += u' + %s' % name
@@ -82,9 +84,9 @@ class Fontconfig(BaseExt):
         with open(orthfile) as fp:
             content = fp.read()
 
-        name, glyphlist = Fontconfig.get_string_glyphlist(orthfile, content)
+        name, glyphlist = Extension.get_string_glyphlist(orthfile, content)
 
         if not name:
             return [], ''
 
-        return Fontconfig.convert_to_list_of_unicodes(glyphlist), name
+        return Extension.convert_to_list_of_unicodes(glyphlist), name

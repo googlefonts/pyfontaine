@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
 class Charmap:
     common_name = u'GWF \'cyrillic-ext+latin\' subset actually implemented by Arimo'
     native_name = u''
@@ -319,4 +317,4 @@ class Charmap:
         glyphs += [0x00B7] # periodcentered
         return glyphs
 
-library.register(Charmap)
+

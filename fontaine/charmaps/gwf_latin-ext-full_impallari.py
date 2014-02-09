@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
 class Charmap:
     common_name = u'Pablo Impallari\'s latin-ext subset'
     native_name = u''
@@ -449,4 +447,4 @@ class Charmap:
         glyphs += [0xFB04] # f_f_l
         return glyphs
 
-library.register(Charmap)
+

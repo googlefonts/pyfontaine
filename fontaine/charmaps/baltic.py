@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
-
 class Charmap:
     common_name = u'Baltic'
     native_name = u'Baltic'
@@ -50,4 +47,4 @@ class Charmap:
     ]
 
 
-library.register(Charmap)
+

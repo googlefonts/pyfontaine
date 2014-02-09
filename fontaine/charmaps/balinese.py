@@ -1,6 +1,3 @@
-from fontaine.cmap import library
-
-
 class Charmap:
 
     common_name = u'Balinese'
@@ -12,4 +9,4 @@ class Charmap:
         list(xrange(0x1B50, 0x1B7C))
 
 
-library.register(Charmap)
+

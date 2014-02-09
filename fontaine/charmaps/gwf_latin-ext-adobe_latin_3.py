@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
 class Charmap:
     common_name = u'Adobe Latin 3'
     native_name = u''
@@ -338,4 +336,4 @@ class Charmap:
         glyphs += [0xFB02] # LATIN SMALL LIGATURE FL
         return glyphs
 
-library.register(Charmap)
+

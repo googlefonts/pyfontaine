@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
-
 class Charmap:
     common_name = u'Basic Greek'
     native_name = u"Ελληνικό αλφάβητο"
@@ -22,4 +19,4 @@ class Charmap:
         list(xrange(0x03ca, 0x03ce))
 
 
-library.register(Charmap)
+

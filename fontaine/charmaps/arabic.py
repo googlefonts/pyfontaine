@@ -1,7 +1,4 @@
 # -*- coding: utf8 -*-
-from fontaine.cmap import library
-
-
 class Charmap:
 
     common_name = "Arabic"
@@ -14,4 +11,4 @@ class Charmap:
         list(xrange(0x0660, 0x0669))
 
 
-library.register(Charmap)
+

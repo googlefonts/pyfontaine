@@ -1,7 +1,4 @@
 # -*- coding: utf8 -*-
-from fontaine.cmap import library
-
-
 class Charmap:
 
     common_name = 'Basic Latin'
@@ -13,4 +10,4 @@ class Charmap:
     key = 0x0041
 
 
-library.register(Charmap)
+

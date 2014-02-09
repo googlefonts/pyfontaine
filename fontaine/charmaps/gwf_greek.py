@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
 class Charmap:
     common_name = u'GWF greek'
     native_name = u''
@@ -10,4 +8,4 @@ class Charmap:
         glyphs = range(0x370, 0x400)
         return glyphs
 
-library.register(Charmap)
+

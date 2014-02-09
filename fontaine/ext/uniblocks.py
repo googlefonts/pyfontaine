@@ -7,7 +7,9 @@ from fontaine.ext.base import BaseExt
 SOURCE_URL = 'http://www.unicode.org/Public/UNIDATA/Blocks.txt'
 
 
-class UniBlock(BaseExt):
+class Extension(BaseExt):
+
+    extension_name = 'uniblocks'
 
     @staticmethod
     def __getcharmaps__():
@@ -21,7 +23,7 @@ class UniBlock(BaseExt):
                 continue
 
             glyphlist = '0x%s-0x%s' % (m.group(1), m.group(2))
-            unicodes = UniBlock.convert_to_list_of_unicodes(glyphlist)
+            unicodes = Extension.convert_to_list_of_unicodes(glyphlist)
             yield type('Charmap', (object,),
                        dict(glyphs=unicodes,
                             common_name=u'Unicode Block: %s' % m.group(3),

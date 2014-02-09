@@ -21,8 +21,9 @@ sys.path.append(os.path.realpath(path))
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
+from fontaine.cmap import library
 from fontaine.builder import Builder, Director
-from fontaine.ext.extensis import Extensis
+from fontaine.ext.extensis import Extension as Extensis
 
 
 def usage():
@@ -50,6 +51,8 @@ def usage():
     parser.add_argument('--set', type=str, default='',
                         help='Specify the sets based on either common'
                              ' or native name')
+    parser.add_argument('--collections', type=str, default='',
+                        help='Specify collections of charmaps to print')
     return parser.parse_args()
 
 
@@ -72,6 +75,9 @@ def main(*argv):
 
     if args.disable_unames:
         os.environ['DISABLE_UNAMES'] = 'disable'
+
+    if args.collections:
+        library.collections = args.collections.split(',')
 
     director = Director(generate_coverage=args.coverage,
                         charmaps=args.set.split(','),

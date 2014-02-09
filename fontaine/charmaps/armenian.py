@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from fontaine.cmap import library
-
-
 class Charmap:
 
     common_name = "Armenian"
@@ -15,4 +12,4 @@ class Charmap:
         [0x589, 0x58a]
 
 
-library.register(Charmap)
+
