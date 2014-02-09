@@ -53,6 +53,10 @@ To print character set having missed unicode values:
 
     pyfontaine --missing font.ttf
 
+To print charmaps from different collections:
+
+    pyfontaine --collections all,pyfontaine,uniblocks,extensis,fontconfig font.ttf
+
 
 .. _libunicodenames: https://bitbucket.org/sortsmill/libunicodenames
 .. _freetype-py: http://code.google.com/p/freetype-py/
