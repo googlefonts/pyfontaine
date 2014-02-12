@@ -3,14 +3,33 @@ pyfontaine
 
 pyfontaine analyses fonts for their language and character set support. 
 
-It has a simple character set definition format ([Polish example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py) and autodetects new definition files that appear in the [charmaps](https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps) directory.
+It has a simple pythonic character set definition format ([Polish example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py))
 
-It also downloads definitions from Extensis 
+To add new definitions, just add files to the [charmaps](https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps) directory - they are autodetected!
+
+It also downloads additional definitions from the Extensis, font-config and Unicode websites.
+
+
+Installation
+---------------
+
+Install the latest release easily with the [pip installer](http://www.pip-installer.org):
+
+```sh
+pip install fontaine;
+```
+
+To install the latest development version:
+
+```sh
+git clone https://github.com/davelab6/pyfontaine.git;
+cd pyfontaine;
+pip install -r requirements.txt;
+sudo python setup.py install;
+```
 
 Usage
 -----
-
-It has a command line tool. 
 
 Given a font, it returns a report with some general metadata and th language support analysis. 
 
@@ -64,10 +83,10 @@ ls -l coverage_pngs/;
 
 (The PNG files are stored in a new directory, `coverage_pngs` in the current directory.)
 
-Python Module
---------------
+### Python Module
 
-It has a python module. Here is an [example script](https://github.com/xen/fontbakery/blob/master/scripts/famchar.py) from the Font Bakery project by @xen.
+It has a python module. Here is an [example script](https://github.com/xen/fontbakery/blob/master/scripts/famchar.py) from the Font Bakery project.
+
 
 Contributing
 ----------------
@@ -88,23 +107,14 @@ We would like to thank some upstream projects that make pyfontaine even more use
 Dependencies
 ------------
 
-* fontTools_ _or_ * freetype-py_
-* lxml_
-* simpleHilbertCurve_
-* matplotlib_
+* [fonttools](https://github.com/behdad/fonttools) (common) _or_ [freetype-py](http://code.google.com/p/freetype-py) (fast)
+* [lxml](http://pypi.python.org/pypi/lxml)
+* [simpleHilbertCurve](https://github.com/dentearl/simpleHilbertCurve)
+* [matplotlib](https://pypi.python.org/pypi/matplotlib)
 
 Related Projects
 ------------
 
-* fontaine_
-* fontbakery_
-* libunicodenames_
-
-.. _fontTools: https://github.com/behdad/fonttools
-.. _fontaine: http://fontaine.sf.net
-.. _fontbakery: https://github.com/xen/fontbakery
-.. _libunicodenames: https://bitbucket.org/sortsmill/libunicodenames
-.. _freetype-py: http://code.google.com/p/freetype-py
-.. _lxml: http://pypi.python.org/pypi/lxml
-.. _simpleHilbertCurve: https://github.com/dentearl/simpleHilbertCurve
-.. _matplotlib: https://pypi.python.org/pypi/matplotlib
+* [fontaine](http://fontaine.sf.net)
+* [fontbakery](https://github.com/xen/fontbakery)
+* [libunicodenames](https://bitbucket.org/sortsmill/libunicodenames)
