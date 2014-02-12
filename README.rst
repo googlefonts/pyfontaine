@@ -2,64 +2,101 @@
 pyfontaine
 ===========
 
-pyfontaine is a python reimplementation of [Fontaine](http://fontaine.sf.net) (by Ed Trager) which analyses fonts for language support. It has a simple character set definition format ([Polish example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py) and autodetects new definition files that appear in the [charmaps](https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps) directory.
+pyfontaine analyses fonts for their language and character set support. 
 
-It has a command line tool. Given a font, it returns the font's metadata found directly in the font (family name, style name, copyrights, etc) and then infers some useful metadata about its language support (coverage as 4-stars, as percentage, and a list of missing characters needed to get to 100%).
 
-It has a python module. [Example script](https://github.com/xen/fontbakery/blob/master/scripts/famchar.py) from the Font Bakery project.
 
-pyfontaine has been made so far by @hash3g and @davelab6 and @xen, and your contributions are welcome!
 
-Dependencies
-------------
 
-* freetype-py_
-* lxml_
-* simpleHilbertCurve_
-* matplotlib_
-
-Related:
-
-* libunicodenames_
+It has a simple character set definition format ([Polish example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py) and autodetects new definition files that appear in the [charmaps](https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps) directory.
 
 Usage
 -----
 
-To output plain text:
+It has a command line tool. 
 
-    pyfontaine font.ttf
+Given a font, it returns a report with some general metadata and th language support analysis. 
 
-To output XML:
+```sh
+pyfontaine font.ttf;
+```
 
-    pyfontaine --xml font.ttf
+Given a unicode character value, it returns a list of character sets that include that character.
 
-To output JSON:
+```sh
+pyfontaine 0x0061;
+```
 
-    pyfontaine --json font.ttf
+To output font reports in various formats:
 
-To output percent coveraging in CSV:
+```sh
+pyfontaine --xml font.ttf;
+pyfontaine --json font.ttf;
+pyfontaine --csv font.ttf;
+pyfontaine --wiki font.ttf; # MediaWiki Table:
+```
 
-    pyfontaine --csv font.ttf
+To only show character sets from different collections:
 
-If you want to see PNG that represent coverage implementation of font charset:
+```sh
+pyfontaine --collections all font.ttf; # default
+pyfontaine --collections pyfontaine font.ttf;
+pyfontaine --collections uniblocks font.ttf;
+pyfontaine --collections extensis font.ttf;
+pyfontaine --collections fontconfig font.ttf;
+```
 
-    pyfontaine --coverage font.ttf
+To only show specific character sets:
 
-To specify only set of charmaps:
+```sh
+pyfontaine --set African,'Basic Latin','GWF vietnamese' font.ttf;
+```
 
-	pyfontaine --set African,'Basic Latin','GWF vietnamese' font.ttf
+To print a list of all the missing unicode values from each set:
 
-To print character set having missed unicode values:
+```sh
+pyfontaine --missing font.ttf;
+```
 
-    pyfontaine --missing font.ttf
+To output visualisations of the coverage using [Hilbert curves](http://en.wikipedia.org/wiki/Hilbert_curve) (thanks for the idea, @hodefoting!):
 
-To print charmaps from different collections:
+```sh
+pyfontaine --coverage font.ttf;
+ls -l coverage_pngs/;
+```
 
-    pyfontaine --collections all,pyfontaine,uniblocks,extensis,fontconfig font.ttf
+(The PNG files are stored in a new directory, `coverage_pngs` in the current directory.)
 
+Python Module
+--------------
 
+It has a python module. Here is an [example script](https://github.com/xen/fontbakery/blob/master/scripts/famchar.py) from the Font Bakery project by @xen.
+
+Contributing
+----------------
+
+pyfontaine is a python reimplementation of [Fontaine](http://fontaine.sf.net) by Ed Trager, and has been made by by @hash3g, @davelab6 and @xen. Your contributions under the GPLv3 or compatible licenses such as Apache v2 are welcome!
+
+Dependencies
+------------
+
+* fontTools_ _or_ * freetype-py_
+* lxml_
+* simpleHilbertCurve_
+* matplotlib_
+
+Related Projects
+------------
+
+* fontaine_
+* fontbakery_
+* libunicodenames_
+
+.. _fontTools: https://github.com/behdad/fonttools
+.. _fontaine: http://fontaine.sf.net
+.. _fontbakery: https://github.com/xen/fontbakery
 .. _libunicodenames: https://bitbucket.org/sortsmill/libunicodenames
-.. _freetype-py: http://code.google.com/p/freetype-py/
-.. _lxml: http://pypi.python.org/pypi/lxml/
+.. _freetype-py: http://code.google.com/p/freetype-py
+.. _lxml: http://pypi.python.org/pypi/lxml
 .. _simpleHilbertCurve: https://github.com/dentearl/simpleHilbertCurve
 .. _matplotlib: https://pypi.python.org/pypi/matplotlib
