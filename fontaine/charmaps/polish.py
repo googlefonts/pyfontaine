@@ -7,7 +7,6 @@ class CharmapFull:
     key = ord(u'Ł')
     polishAlphabet = u"AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻaąbcćdeęfghijklłmnńoóprsśtuwyzźż"
     glyphs = map(ord, polishAlphabet)    
-
 library.register(CharmapFull)
 
 class CharmapAccents:
@@ -16,5 +15,4 @@ class CharmapAccents:
     key = ord(u'ł')
     polishAccents = u"ĄĆĘŁŃÓŚŹŻąćęłńóśźż"
     glyphs = map(ord, polishAccents)
-
 library.register(CharmapAccents)
