@@ -1,14 +1,11 @@
-===========
 pyfontaine
 ===========
 
 pyfontaine analyses fonts for their language and character set support. 
 
-
-
-
-
 It has a simple character set definition format ([Polish example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py) and autodetects new definition files that appear in the [charmaps](https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps) directory.
+
+It also downloads definitions from Extensis 
 
 Usage
 -----
@@ -76,6 +73,17 @@ Contributing
 ----------------
 
 pyfontaine is a python reimplementation of [Fontaine](http://fontaine.sf.net) by Ed Trager, and has been made by by @hash3g, @davelab6 and @xen. Your contributions under the GPLv3 or compatible licenses such as Apache v2 are welcome!
+
+Thanks
+--------
+
+We would like to thank some upstream projects that make pyfontaine even more useful:
+
+* [Thomas Phinney](http://www.thomasphinney.com/) for the [WebINK Character Sets](http://blog.webink.com/custom-font-subsetting-for-faster-websites/)
+
+* [Behdad Esfabod](http://behdad.org) for the [font-config languages definitions](http://cgit.freedesktop.org/fontconfig/tree/fc-lang)
+
+* Unicode Consortium for the [Unicode Blocks](http://www.unicode.org/Public/UNIDATA/Blocks.txt)
 
 Dependencies
 ------------
