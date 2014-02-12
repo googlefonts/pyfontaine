@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Charmap:
-    common_name = u'GWF \'cyrillic-ext+latin\' subset actually implemented by Arimo'
+    common_name = u'Google Arimo cyrillic-ext+latin subset'
     native_name = u''
 
     def glyphs(self):
