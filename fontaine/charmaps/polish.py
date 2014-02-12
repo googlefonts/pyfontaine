@@ -8,6 +8,8 @@ class CharmapFull:
     polishAlphabet = u"AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻaąbcćdeęfghijklłmnńoóprsśtuwyzźż"
     glyphs = map(ord, polishAlphabet)    
 
+library.register(CharmapFull)
+
 class CharmapAccents:
     common_name = u'Polish Accents'
     native_name = u'Polskie Akcenty'
@@ -15,5 +17,4 @@ class CharmapAccents:
     polishAccents = u"ĄĆĘŁŃÓŚŹŻąćęłńóśźż"
     glyphs = map(ord, polishAccents)
 
-library.register(CharmapFull)
 library.register(CharmapAccents)
