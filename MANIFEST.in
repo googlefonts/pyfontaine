@@ -1,2 +1,2 @@
-include README.rst LICENSE.txt AUTHORS.txt
+include README.md LICENSE.txt AUTHORS.txt
 recursive-include fontaine *
