@@ -1,4 +1,4 @@
-[pyfontaine](http://documentup.com/xen/fontbakery)
+[pyfontaine](http://documentup.com/davelab6/pyfontaine)
 ===========
 
 pyfontaine analyses fonts for their language and character set support. 
