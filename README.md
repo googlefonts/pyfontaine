@@ -1,4 +1,4 @@
-pyfontaine
+[pyfontaine](http://documentup.com/xen/fontbakery)
 ===========
 
 pyfontaine analyses fonts for their language and character set support. 
