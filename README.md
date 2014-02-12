@@ -76,7 +76,7 @@ To print a list of all the missing unicode values from each set:
 pyfontaine --missing font.ttf;
 ```
 
-To output visualisations of the coverage using [Hilbert curves](http://en.wikipedia.org/wiki/Hilbert_curve) (thanks for the idea, @hodefoting!):
+To output visualisations of the coverage using [Hilbert curves](http://en.wikipedia.org/wiki/Hilbert_curve) (thanks for the idea, [Øyvind 'pippin' Kolås](http://github.com/hodefoting)!):
 
 ```sh
 pyfontaine --coverage font.ttf;
@@ -93,7 +93,9 @@ It has a python module. Here is an [example script](https://github.com/xen/fontb
 Contributing
 ----------------
 
-pyfontaine is a python reimplementation of [Fontaine](http://fontaine.sf.net) by Ed Trager, and has been made by by @hash3g, @davelab6 and @xen. Your contributions under the GPLv3 or compatible licenses such as Apache v2 are welcome!
+Your contributions under [the GPLv3](LICENSE.txt) are welcome!
+
+pyfontaine is a python reimplementation of [Fontaine](http://fontaine.sf.net) by Ed Trager, and has been made by by [Vitaly Volkhov](http://github.com/hash3g), [Dave Crossland](http://github.com/davelab6) and [Mikhail Kashkin](http://github.com/xen). 
 
 Thanks
 --------
