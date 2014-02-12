@@ -49,8 +49,10 @@ To output font reports in various formats:
 pyfontaine --xml font.ttf;
 pyfontaine --json font.ttf;
 pyfontaine --csv font.ttf;
-pyfontaine --wiki font.ttf; # MediaWiki Table:
+pyfontaine --wiki font.ttf;
 ```
+
+The `--wiki` format produces a MediaWiki table ([example](https://en.wikipedia.org/wiki/DejaVu_fonts#Unicode_coverage))
 
 To only show character sets from different collections:
 
