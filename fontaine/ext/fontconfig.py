@@ -21,14 +21,14 @@ class Extension(BaseExt):
     @staticmethod
     def __getcharmaps__():
         for ext in Extension.iterate_orth():
-            unicodes, common_name = Extension.get_orth_charmap(ext)
+            unicodes, common_name, abbr = Extension.get_orth_charmap(ext)
 
             if not common_name:
                 continue
 
             yield type('Charmap', (object,),
                        dict(glyphs=unicodes, common_name=common_name,
-                            native_name=''))
+                            native_name='', abbreviation=abbr))
 
     @staticmethod
     def iterate_orth():
@@ -54,7 +54,7 @@ class Extension(BaseExt):
             common_name = common_name % (common_name_match.group(1).decode('utf-8', 'ignore'),
                                          common_name_match.group(2), fn)
         else:
-            return [], ''
+            return [], '', ''
 
         for line in content.split('\n'):
             unicode_match = UNICODE_VALUE_REGEX.match(line.strip())
@@ -72,21 +72,21 @@ class Extension(BaseExt):
 
             with open(include) as fp:
                 content = fp.read()
-            name, ng = Extension.get_string_glyphlist(include, content)
+            name, abbr, ng = Extension.get_string_glyphlist(include, content)
             if name and ng:
                 glyphs += ng.split(',')
                 common_name += u' + %s' % name
 
-        return common_name, ','.join(glyphs)
+        return common_name, common_name_match.group(2), ','.join(glyphs)
 
     @staticmethod
     def get_orth_charmap(orthfile):
         with open(orthfile) as fp:
             content = fp.read()
 
-        name, glyphlist = Extension.get_string_glyphlist(orthfile, content)
+        name, abbr, glyphlist = Extension.get_string_glyphlist(orthfile, content)
 
         if not name:
-            return [], ''
+            return [], '', ''
 
-        return Extension.convert_to_list_of_unicodes(glyphlist), name
+        return Extension.convert_to_list_of_unicodes(glyphlist), name, abbr
