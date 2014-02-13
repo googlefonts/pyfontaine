@@ -3,7 +3,7 @@
 
 pyfontaine analyses fonts for their language and character set support. 
 
-It has a straightforward pythonic character set definition format ([simple example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/africaan.py), [complex example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py))
+It has a straightforward pythonic character set definition format ([simple example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/africaan.py), [medium example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/armenian.py), [complex example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py))
 
 To add new definitions, just add files to the [charmaps](https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps) directory - they are autodetected!
 
