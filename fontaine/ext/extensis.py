@@ -8,7 +8,7 @@ import requests
 from fontaine.ext.base import BaseExt
 
 
-EXTENSIS_LANG_XML = 'http://blog-cache4.webink.com/assets/languages19.txt'
+EXTENSIS_LANG_XML = 'https://raw.github.com/davelab6/extensis-languages/master/languages.xml'
 
 
 class Extension(BaseExt):
