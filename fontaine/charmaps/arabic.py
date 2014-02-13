@@ -4,6 +4,7 @@ class Charmap:
     common_name = "Arabic"
     native_name = u"العربية"
     key = 0x0639  # ARABIC LETTER AIN
+    abbreviation = 'ARAB'
 
     glyphs = \
         list(xrange(0x0621, 0x063a)) + \

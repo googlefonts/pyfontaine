@@ -3,6 +3,7 @@ class Charmap:
     common_name = u'Catalan'
     native_name = u'Català'
     key = 0x013F
+    abbreviation = 'CAT'
     glyphs = [
         0x00C0,
         0x00E0,

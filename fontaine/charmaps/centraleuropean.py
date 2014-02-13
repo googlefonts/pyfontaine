@@ -3,6 +3,7 @@ class Charmap:
     common_name = u'Central European'
     native_name = u'Central European'
     key = 0x010C
+    abbreviation = 'CE'
     glyphs = [
         0x00C1,  # LATIN CAPITAL LETTER A WITH ACUTE
         0x00C2,  # LATIN CAPITAL LETTER A WITH CIRCUMFLEX

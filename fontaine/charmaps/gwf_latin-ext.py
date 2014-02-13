@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Google latin-ext'
     native_name = u''
+    abbreviation = 'LAT'
 
     def glyphs(self):
         # latin-ext subset from http://code.google.com/p/googlefontdirectory/source/browse/tools/subset/subset.py

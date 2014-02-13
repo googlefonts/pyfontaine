@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Basic Greek'
     native_name = u"Ελληνικό αλφάβητο"
+    abbreviation = 'GREKb'
     key = 0x03a9
     glyphs = [
         0x0386,

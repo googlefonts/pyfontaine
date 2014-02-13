@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Arimo cyrillic-ext+latin'
     native_name = u''
+    abbreviation = 'CYRL'
 
     def glyphs(self):
         glyphs  = [0x0020] # space

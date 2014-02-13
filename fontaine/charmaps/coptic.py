@@ -3,6 +3,7 @@ class Charmap:
     common_name = u'Coptic'
     native_name = u"Ⲙⲉⲧⲣⲉⲙ̀ⲛⲭⲏⲙⲓ"
     key = 0x03E2
+    abbreviation = 'COPT'
     glyphs = \
         list(xrange(0x03e2, 0x03ef)) + \
         list(xrange(0x2c80, 0x2cb1)) + \
@@ -11,10 +12,7 @@ class Charmap:
         list(xrange(0x2ce4, 0x2cea)) + \
         list(xrange(0x2cf9, 0x2cfc)) + \
         [
-        0x2cfd,
-        0x2cfe,
-        0x2cff
+            0x2cfd,
+            0x2cfe,
+            0x2cff
         ]
-
-
-

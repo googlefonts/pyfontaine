@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Bengali'
     native_name = u'বাংলা'
+    abbreviation = 'BENG'
     key = 0x0985
     glyphs = \
         list(xrange(0x0981, 0x0983)) + \

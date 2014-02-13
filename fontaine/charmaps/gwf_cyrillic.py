@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Google cyrillic'
     native_name = u''
+    abbreviation = 'CYRL'
 
     def glyphs(self):
         # cyrillic subset from http://code.google.com/p/googlefontdirectory/source/browse/tools/subset/subset.py

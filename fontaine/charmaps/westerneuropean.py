@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Western European'
     native_name = u'Western European'
+    abbreviation = 'WE'
 
     def glyphs(self):
         glyphs  = range(0x00C0, 0x00CF)

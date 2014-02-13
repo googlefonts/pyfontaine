@@ -6,6 +6,7 @@
 class Charmap:
     common_name = 'African'
     native_name = 'Afrikaans'
+    abbreviation = 'AFK'
     key = 0x0149
     glyphs = [
         0x00C0,  # À LATIN CAPITAL LETTER A WITH GRAVE

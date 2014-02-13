@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Lato European' # Phase 2
     native_name = u''
+    abbreviation = 'LAT'
 
     def glyphs(self):
         # from http://blogs.adobe.com/typblography/2008/08/extended_latin.html

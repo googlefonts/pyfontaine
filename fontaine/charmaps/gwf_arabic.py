@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Google arabic'
     native_name = u''
+    abbreviation = 'ARAB'
 
     def glyphs(self):
         # arabic subset from http://code.google.com/p/googlefontdirectory/source/browse/tools/subset/subset.py

@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Google vietnamese'
     native_name = u''
+    abbreviation = 'VIT'
 
     def glyphs(self):
         # vietnamese subset from http://code.google.com/p/googlefontdirectory/source/browse/tools/subset/subset.py

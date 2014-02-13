@@ -29,9 +29,11 @@ class Extension(BaseExt):
             unicodes += Extension.get_unicodes(ext)
             glyphs[ext.getparent().attrib['name']] = unicodes
 
+            abbr = ext.getparent().attrib['abbreviated-name']
+
             yield type('Charmap', (object,),
                        dict(glyphs=unicodes, common_name=common_name,
-                            native_name=''))
+                            native_name='', abbreviation=abbr))
 
     @staticmethod
     def get_codepoints():

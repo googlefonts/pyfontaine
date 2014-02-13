@@ -4,6 +4,7 @@ class Charmap:
     common_name = "Archaic Greek Letters"
     native_name = "Archaic Greek Letters"
     key = 0x03e0  # Greek letter SAMPI
+    abbreviation = 'GREKa'
 
     glyphs = [
         0x0370,

@@ -112,7 +112,7 @@ class Font:
             self._fontFace = FontFace(fontfile)
             self._unicodeValues = self._fontFace.getCharmap()
 
-        self._charmaps = charmaps
+        self._charmaps = map(str.lower, charmaps)
         self.refresh_sfnt_properties()
 
     def refresh_sfnt_properties(self):
@@ -169,15 +169,26 @@ class Font:
     def get_orthographies(self):
         ''' Return array of 4-tuples lists about supported orthographies
         for current font instance'''
+        result = []
         for charmap in library.charmaps:
             if self._charmaps:
                 cn = getattr(charmap, 'common_name', False)
+                abbr = getattr(charmap, 'abbreviation', False)
                 nn = getattr(charmap, 'native_name', False)
-                if cn and cn not in self._charmaps:
-                    continue
-                if nn and nn not in self._charmaps:
-                    continue
-            yield self.get_othography_info(charmap)
+
+                if cn and cn.lower() in map(str.lower, self._charmaps):
+                    result.append(charmap)
+
+                elif nn and nn.lower() in map(str.lower, self._charmaps):
+                    result.append(charmap)
+
+                elif abbr and abbr.lower() in map(str.lower, self._charmaps):
+                    result.append(charmap)
+            else:
+                result.append(charmap)
+
+        for r in result:
+            yield self.get_othography_info(r)
 
     _supported_orthographies = []
 

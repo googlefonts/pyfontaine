@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Baltic'
     native_name = u'Baltic'
+    abbreviation = 'BAL'
     key = 0x0136
     glyphs = [
         0x0100,

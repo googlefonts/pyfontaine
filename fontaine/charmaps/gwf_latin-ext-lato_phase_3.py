@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Lato Vietnamese' # Phase 3
     native_name = u''
+    abbreviation = 'LAT'
 
     def glyphs(self):
         glyphs  = [0x0020] #

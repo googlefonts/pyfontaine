@@ -2,6 +2,7 @@
 class Charmap:
     common_name = u'Impallari latin-ext'
     native_name = u''
+    abbreviation = 'LAT'
 
     def glyphs(self):
         # latin subset from Pablo Impallari's Libre Baskerville Regular
