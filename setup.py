@@ -15,8 +15,11 @@ from setuptools import setup
 with open("README.rst", 'r') as readme_file:
     readme = readme_file.read()
 
+from fontaine import VERSION
+
+
 setup(name='fontaine',
-      version='1.1.1',
+      version=VERSION,
       description='Fontaine font tool',
       license="GNU GPLv3",
       long_description=readme,

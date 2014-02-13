@@ -21,6 +21,7 @@ sys.path.append(os.path.realpath(path))
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
+from fontaine import VERSION
 from fontaine.cmap import library
 from fontaine.builder import Builder, Director
 from fontaine.ext.extensis import Extension as Extensis
@@ -30,6 +31,10 @@ def usage():
     parser = argparse.ArgumentParser(description='Output information about'
                                                  ' fonts in different formats')
     parser.add_argument('font', metavar='font', type=str, nargs='+')
+    if len(sys.argv) == 1:
+        print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
+        parser.print_help()
+        sys.exit(1)
     parser.add_argument('--disable-unames', action='store_true',
                         help='This will prevent using Unicode names data')
     parser.add_argument('--missing', action='store_true',
@@ -53,6 +58,8 @@ def usage():
                              ' or native name')
     parser.add_argument('--collections', type=str, default='',
                         help='Specify collections of charmaps to print')
+    parser.add_argument('-V', '--version', action='version',
+                        version="%(prog)s " + VERSION + " (https://github.com/davelab6/pyfontaine)")
     return parser.parse_args()
 
 

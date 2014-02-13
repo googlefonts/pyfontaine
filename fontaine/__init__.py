@@ -8,3 +8,4 @@
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
+VERSION = '.'.join(map(str, (1, 1, 2)))
