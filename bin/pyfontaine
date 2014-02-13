@@ -69,7 +69,7 @@ def main(*argv):
     fonts = []
     for filename in args.font:
         if re.match('0x[\w\d]+', filename):
-            print("Languages/Character Sets used by", filename,)
+            # print("Languages/Character Sets used by", filename,)
             for charmap in library.charmaps:
                 glyphs = charmap.glyphs
                 if callable(glyphs):
