@@ -169,7 +169,7 @@ class Font:
     def get_orthographies(self):
         ''' Return array of 4-tuples lists about supported orthographies
         for current font instance'''
-        result = []
+        results = []
         for charmap in library.charmaps:
             if self._charmaps:
                 cn = getattr(charmap, 'common_name', False)
@@ -177,18 +177,18 @@ class Font:
                 nn = getattr(charmap, 'native_name', False)
 
                 if cn and cn.lower() in map(str.lower, self._charmaps):
-                    result.append(charmap)
+                    results.append(charmap)
 
                 elif nn and nn.lower() in map(str.lower, self._charmaps):
-                    result.append(charmap)
+                    results.append(charmap)
 
                 elif abbr and abbr.lower() in map(str.lower, self._charmaps):
-                    result.append(charmap)
+                    results.append(charmap)
             else:
-                result.append(charmap)
+                results.append(charmap)
 
-        for r in result:
-            yield self.get_othography_info(r)
+        for result in results:
+            yield self.get_othography_info(result)
 
     _supported_orthographies = []
 
