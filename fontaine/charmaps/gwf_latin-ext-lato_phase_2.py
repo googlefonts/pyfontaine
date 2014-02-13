@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Charmap:
-    common_name = u'Lato Phase 2 (Euro Latin)'
+    common_name = u'Lato European' # Phase 2
     native_name = u''
 
     def glyphs(self):

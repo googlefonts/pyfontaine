@@ -26,5 +26,5 @@ class Extension(BaseExt):
             unicodes = Extension.convert_to_list_of_unicodes(glyphlist)
             yield type('Charmap', (object,),
                        dict(glyphs=unicodes,
-                            common_name=u'Unicode Block: %s' % m.group(3),
+                            common_name=u'Unicode Block %s' % m.group(3),
                             native_name=''))

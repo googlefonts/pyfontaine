@@ -1,17 +1,12 @@
 # -*- coding: utf8 -*-
-from fontaine.cmap import library
 
 # 2009.08.31.ET :: Revised and expanded based on patch from Dwayne Bailey
 # 2013.02.12 DC :: Ported from ET's fontaine Afrikaans.h
 
-
 class Charmap:
-
     common_name = 'African'
     native_name = 'Afrikaans'
-
     key = 0x0149
-
     glyphs = [
         0x00C0,  # À LATIN CAPITAL LETTER A WITH GRAVE
         0x00E0,  # à LATIN SMALL LETTER A WITH GRAVE
@@ -51,6 +46,3 @@ class Charmap:
         0x00FD,  # ý LATIN SMALL LETTER Y WITH ACUTE
         0x0149,  # ŉ LATIN SMALL LETTER N PRECEDED BY APOSTROPHE
     ]
-
-
-

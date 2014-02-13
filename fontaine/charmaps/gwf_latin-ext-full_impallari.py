@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Charmap:
-    common_name = u'Pablo Impallari\'s latin-ext subset'
+    common_name = u'Impallari latin-ext'
     native_name = u''
 
     def glyphs(self):

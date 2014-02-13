@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Charmap:
-    common_name = u'Lato Phase 3 (Vietnamese)'
+    common_name = u'Lato Vietnamese' # Phase 3
     native_name = u''
 
     def glyphs(self):
