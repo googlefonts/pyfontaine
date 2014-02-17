@@ -3,12 +3,11 @@ from __future__ import print_function
 from lxml import etree
 
 import re
-import requests
 
 from fontaine.ext.base import BaseExt
+import os
 
-
-EXTENSIS_LANG_XML = 'https://raw.github.com/davelab6/extensis-languages/master/languages.xml'
+# EXTENSIS_LANG_XML = 'https://raw.github.com/davelab6/extensis-languages/master/languages.xml'
 
 
 class Extension(BaseExt):
@@ -38,11 +37,13 @@ class Extension(BaseExt):
     @staticmethod
     def get_codepoints():
         """ Return all XML <scanning-codepoints> in received XML """
-        response = requests.get(EXTENSIS_LANG_XML)
-        if response.status_code != 200:
-            return []
+        # response = requests.get(EXTENSIS_LANG_XML)
+        # if response.status_code != 200:
+        #     return []
 
-        content = re.sub('<!--.[^>]*-->', '', response.content)
+        xml_content = open(os.path.join(os.path.dirname(__file__), 'languages.xml'), 'r').read()
+
+        content = re.sub('<!--.[^>]*-->', '', xml_content)
 
         doc = etree.fromstring(content.lstrip('`'))
         return doc.findall('.//scanning-codepoints')
