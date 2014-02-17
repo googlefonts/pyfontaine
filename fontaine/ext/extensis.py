@@ -7,8 +7,6 @@ import re
 from fontaine.ext.base import BaseExt
 import os
 
-# EXTENSIS_LANG_XML = 'https://raw.github.com/davelab6/extensis-languages/master/languages.xml'
-
 
 class Extension(BaseExt):
 
