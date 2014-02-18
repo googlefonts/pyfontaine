@@ -1,10 +1,6 @@
 import re
-import requests
-
 from fontaine.ext.base import BaseExt
-
-
-SOURCE_URL = 'http://www.unicode.org/Public/UNIDATA/Blocks.txt'
+import os
 
 
 class Extension(BaseExt):
@@ -13,10 +9,10 @@ class Extension(BaseExt):
 
     @staticmethod
     def __getcharmaps__():
-        req = requests.get(SOURCE_URL)
+        content = open(os.path.join(os.path.dirname(__file__), 'Blocks.txt'), 'r').read()
 
         regex = re.compile('^([\da-f]+)..([\da-f]+);\s*(.*)$', re.I | re.U)
-        for line in req.content.split('\n'):
+        for line in content.split('\n'):
             m = regex.match(line.strip())
             # 100000..10FFFF; Supplementary Private Use Area-B
             if not m:
