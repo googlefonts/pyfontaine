@@ -31,7 +31,6 @@ setup(name='fontaine',
       install_requires=[
           'fonttools',
           'lxml',
-          'matplotlib',
           'requests'
       ],
       package_data={

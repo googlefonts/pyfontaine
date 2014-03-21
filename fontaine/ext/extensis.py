@@ -1,11 +1,15 @@
 from __future__ import print_function
+import logging
 
 from lxml import etree
 
 import re
 
 from fontaine.ext.base import BaseExt
-import os
+from fontaine.ext.update import get_from_cache
+
+
+EXTENSIS_LANG_XML = 'https://raw.github.com/davelab6/extensis-languages/master/languages.xml'
 
 
 class Extension(BaseExt):
@@ -39,11 +43,17 @@ class Extension(BaseExt):
         # if response.status_code != 200:
         #     return []
 
-        xml_content = open(os.path.join(os.path.dirname(__file__), 'languages.xml'), 'r').read()
+        path = get_from_cache('languages.xml', EXTENSIS_LANG_XML)
+
+        try:
+            xml_content = open(path, 'r').read()
+        except IOError:
+            logging.error('Could not read languages.xml from cache')
+            xml_content = ''
 
         content = re.sub('<!--.[^>]*-->', '', xml_content)
-
         doc = etree.fromstring(content.lstrip('`'))
+
         return doc.findall('.//scanning-codepoints')
 
     @staticmethod

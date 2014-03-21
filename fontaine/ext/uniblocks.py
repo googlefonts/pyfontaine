@@ -1,6 +1,9 @@
 import re
+
 from fontaine.ext.base import BaseExt
-import os
+from fontaine.ext.update import get_from_cache
+
+UNIDATA_URL = 'http://www.unicode.org/Public/UNIDATA/Blocks.txt'
 
 
 class Extension(BaseExt):
@@ -9,7 +12,7 @@ class Extension(BaseExt):
 
     @staticmethod
     def __getcharmaps__():
-        content = open(os.path.join(os.path.dirname(__file__), 'Blocks.txt'), 'r').read()
+        content = open(get_from_cache('Blocks.txt', UNIDATA_URL), 'r').read()
 
         regex = re.compile('^([\da-f]+)..([\da-f]+);\s*(.*)$', re.I | re.U)
         for line in content.split('\n'):

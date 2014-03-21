@@ -58,6 +58,11 @@ class Director(object):
         self.missingValues = missing
 
     def represent_coverage_png(self, font):
+        try:
+            import matplotlib
+        except ImportError:
+            raise Exception('Install matplotlib to use --coverage feature')
+
         cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
 
         if not os.path.exists('coverage_pngs'):
