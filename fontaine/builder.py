@@ -58,11 +58,6 @@ class Director(object):
         self.missingValues = missing
 
     def represent_coverage_png(self, font):
-        try:
-            import matplotlib
-        except ImportError:
-            raise Exception('Install matplotlib to use --coverage feature')
-
         cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
 
         if not os.path.exists('coverage_pngs'):
@@ -103,7 +98,11 @@ class Director(object):
             os.system(hilbertScript)
 
     def construct_tree(self, fonts):
-
+        if self.generate_coverage:
+            try:
+                import matplotlib
+            except ImportError:
+                raise Exception('Install matplotlib to use --coverage feature')
         tree = OrderedDict({'fonts': []})
 
         for font_filename in fonts:
