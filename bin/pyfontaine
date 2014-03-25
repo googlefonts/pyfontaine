@@ -51,7 +51,7 @@ def usage():
                         help='Print information in wikipedia format')
     parser.add_argument('--csv', action='store_true',
                         help='Output font coverage information in CSV')
-    parser.add_argument('--coverage', action='store_true',
+    parser.add_argument('--show-hilbert', action='store_true',
                         help='Create PNG files represented coveragin of font'
                              ' charset in coverage_pngs directory')
     parser.add_argument('--set', type=str, default='',
@@ -92,7 +92,7 @@ def main(*argv):
     if args.collections:
         library.collections = args.collections.split(',')
 
-    director = Director(generate_coverage=args.coverage,
+    director = Director(generate_coverage=args.show_hilbert,
                         charmaps=args.set.split(','),
                         missing=args.missing)
     if args.xml:

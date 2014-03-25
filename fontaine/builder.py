@@ -17,7 +17,7 @@ import sys
 import unicodedata
 
 from collections import OrderedDict
-
+from datetime import datetime
 
 from fontaine.const import SUPPORT_LEVEL_FULL, SUPPORT_LEVEL_UNSUPPORTED
 from fontaine.cmap import library
@@ -60,8 +60,9 @@ class Director(object):
     def represent_coverage_png(self, font):
         cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
 
-        if not os.path.exists('coverage_pngs'):
-            os.makedirs('coverage_pngs')
+        directory = 'pyfontaine-%s' % datetime.now().strftime('%Y-%m-%d-%H%M%S')
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
         for cmap in cmaps:
             if self.charmaps:
@@ -75,8 +76,8 @@ class Director(object):
             if cmap.key not in font._unicodeValues:
                 continue
 
-            filename = u'coverage_pngs/%s - %s' % (font.common_name,
-                                                   cmap.common_name)
+            filename = u'%s/%s-%s-hilbert' % (directory, font.common_name,
+                                              cmap.common_name)
 
             txtFilename = filename + '.txt'
             fp = open(txtFilename, 'w+')
@@ -102,7 +103,7 @@ class Director(object):
             try:
                 import matplotlib
             except ImportError:
-                raise Exception('Install matplotlib to use --coverage feature')
+                raise Exception('Install matplotlib to use --show-hilbert feature')
         tree = OrderedDict({'fonts': []})
 
         for font_filename in fonts:
