@@ -52,17 +52,17 @@ extract_firstline = lambda text: \
 
 class Director(object):
 
-    def __init__(self, generate_coverage=None, charmaps=[], missing=False):
-        self.generate_coverage = generate_coverage
+    def __init__(self, show_hilbert=None, charmaps=[], missing=False):
+        self.show_hilbert = show_hilbert
         self.charmaps = filter(lambda x: x != '', charmaps)
         self.missingValues = missing
+        self.output_directory = 'pyfontaine-%s' % datetime.now().strftime('%Y-%m-%d-%H%M%S')
 
     def represent_coverage_png(self, font):
-        cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
+        if not os.path.exists(self.output_directory):
+            os.makedirs(self.output_directory)
 
-        directory = 'pyfontaine-%s' % datetime.now().strftime('%Y-%m-%d-%H%M%S')
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
 
         for cmap in cmaps:
             if self.charmaps:
@@ -76,7 +76,8 @@ class Director(object):
             if cmap.key not in font._unicodeValues:
                 continue
 
-            filename = u'%s/%s-%s-hilbert' % (directory, font.common_name,
+            filename = u'%s/%s-%s-hilbert' % (self.output_directory,
+                                              font.common_name,
                                               cmap.common_name)
 
             txtFilename = filename + '.txt'
@@ -99,7 +100,7 @@ class Director(object):
             os.system(hilbertScript)
 
     def construct_tree(self, fonts):
-        if self.generate_coverage:
+        if self.show_hilbert:
             try:
                 import matplotlib
             except ImportError:
@@ -147,7 +148,7 @@ class Director(object):
 
                 desc['orthographies'].append(orth)
 
-            if self.generate_coverage:
+            if self.show_hilbert:
                 self.represent_coverage_png(font)
 
             F['font'] = desc

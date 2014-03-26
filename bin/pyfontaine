@@ -92,7 +92,7 @@ def main(*argv):
     if args.collections:
         library.collections = args.collections.split(',')
 
-    director = Director(generate_coverage=args.show_hilbert,
+    director = Director(show_hilbert=args.show_hilbert,
                         charmaps=args.set.split(','),
                         missing=args.missing)
     if args.xml:
