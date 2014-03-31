@@ -67,6 +67,11 @@ def usage():
 def main(*argv):
     args = usage()
 
+    if args.flush_cache:
+        import shutil
+        from fontaine.ext.update import get_data_directory
+        shutil.rmtree(get_data_directory())
+
     fonts = []
     for filename in args.font:
         if re.match('0x[\w\d]+', filename):
