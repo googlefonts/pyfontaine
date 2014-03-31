@@ -54,6 +54,7 @@ pyfontaine --collections pyfontaine font.ttf;
 pyfontaine --collections uniblocks font.ttf;
 pyfontaine --collections extensis font.ttf;
 pyfontaine --collections fontconfig font.ttf;
+pyfontaine --collections cldr font.ttf;
 ```
 
 To only show specific character sets:
