@@ -1,4 +1,10 @@
 # -*- coding utf-8 -*-
+try:
+    from icu import Locale
+except ImportError:
+    package = "[PyICU](https://pypi.python.org/pypi/PyICU)"
+    raise Exception('Please install %s' % package)
+
 import os
 import os.path as op
 import re
@@ -71,5 +77,5 @@ class Extension(BaseExt):
 
             yield type('Charmap', (object,),
                        dict(glyphs=Extension.to_charmap(jsondata, locale),
-                            common_name=locale,
+                            common_name='CLDR ' + Locale(locale).getDisplayName(),
                             native_name='', abbreviation=locale))
