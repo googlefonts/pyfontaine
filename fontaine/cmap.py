@@ -10,6 +10,8 @@
 # See accompanying LICENSE.txt file for details.
 from importlib import import_module
 
+from fontaine.ext.base import PackageRequiredException
+
 import fontaine.ext
 import fontaine.charmaps
 
@@ -33,6 +35,8 @@ class Library(object):
                 module = import_module('fontaine.ext.%s' % ext)
                 extension_name = module.Extension.extension_name
             except (ImportError, AttributeError):
+                continue
+            except PackageRequiredException:
                 continue
 
             if 'all' in self.collections or extension_name in self.collections:

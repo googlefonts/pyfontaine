@@ -5,6 +5,10 @@ def cmp(val):
     return bool(re.match('0x[0-9A-Fa-f]+\-0x[0-9A-Fa-f]+', val))
 
 
+class PackageRequiredException(Exception):
+    pass
+
+
 class BaseExt(object):
 
     @staticmethod
