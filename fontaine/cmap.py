@@ -36,7 +36,9 @@ class Library(object):
                 extension_name = module.Extension.extension_name
             except (ImportError, AttributeError):
                 continue
-            except PackageRequiredException:
+            except PackageRequiredException, ex:
+                import sys
+                sys.stderr.write(u'WARNING: %s\n' % ex.message)
                 continue
 
             if 'all' in self.collections or extension_name in self.collections:
