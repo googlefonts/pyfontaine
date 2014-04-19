@@ -1,11 +1,11 @@
 # -*- coding utf-8 -*-
+from fontaine.ext.base import BaseExt, PackageRequiredException
+
 try:
     import icu
 except ImportError:
     package = "[PyICU](https://pypi.python.org/pypi/PyICU)"
-    raise Exception('Please install %s' % package)
-
-from fontaine.ext.base import BaseExt
+    raise PackageRequiredException('Please install %s' % package)
 
 
 class Extension(BaseExt):
