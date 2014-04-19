@@ -92,8 +92,10 @@ Dependencies
 -  `fonttools <https://github.com/behdad/fonttools>`__ (common) *or*
    `freetype-py <http://code.google.com/p/freetype-py>`__ (fast)
 -  `lxml <http://pypi.python.org/pypi/lxml>`__
+-  `PyICU <http://pyicu.osafoundation.org/>`--
 -  `simpleHilbertCurve <https://github.com/dentearl/simpleHilbertCurve>`__
 -  `matplotlib <https://pypi.python.org/pypi/matplotlib>`__
+
 
 Related Projects
 ----------------
