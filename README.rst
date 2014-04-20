@@ -89,6 +89,7 @@ Blocks <http://www.unicode.org/Public/UNIDATA/Blocks.txt>`__
 Dependencies
 ------------
 
+-  Mac OS X requires the XCode Command Line Tools to be installed
 -  `fonttools <https://github.com/behdad/fonttools>`__ (common) *or*
    `freetype-py <http://code.google.com/p/freetype-py>`__ (fast)
 -  `lxml <http://pypi.python.org/pypi/lxml>`__
