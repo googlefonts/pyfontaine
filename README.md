@@ -1,7 +1,7 @@
 [pyfontaine](http://documentup.com/davelab6/pyfontaine)
 ===========
 
-pyfontaine analyses fonts for their language and character set support. 
+pyfontaine analyses fonts for their language and character set support.
 
 It has a straightforward pythonic character set definition format ([simple example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/africaan.py), [medium example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/armenian.py), [complex example](https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py))
 
@@ -21,14 +21,13 @@ To install the latest development version:
 ```sh
 git clone https://github.com/davelab6/pyfontaine.git;
 cd pyfontaine;
-pip install -r requirements.txt;
 sudo python setup.py install;
 ```
 
 Usage
 -----
 
-Given a font, it returns a report with some general metadata and th language support analysis. 
+Given a font, it returns a report with some general metadata and th language support analysis.
 ```sh
 pyfontaine font.ttf;
 ```
@@ -83,7 +82,7 @@ Contributing
 
 Your contributions under [the GPLv3](LICENSE.txt) are welcome!
 
-pyfontaine is a python reimplementation of [Fontaine](http://fontaine.sf.net) by Ed Trager, and has been made by by [Vitaly Volkov](http://github.com/hash3g), [Dave Crossland](http://github.com/davelab6) and [Mikhail Kashkin](http://github.com/xen). 
+pyfontaine is a python reimplementation of [Fontaine](http://fontaine.sf.net) by Ed Trager, and has been made by by [Vitaly Volkov](http://github.com/hash3g), [Dave Crossland](http://github.com/davelab6) and [Mikhail Kashkin](http://github.com/xen).
 
 Thanks
 --------
