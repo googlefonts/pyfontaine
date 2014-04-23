@@ -1,3 +1,4 @@
+import os.path as op
 import re
 
 
@@ -15,6 +16,8 @@ class PackageRequiredException(Exception):
 
 
 class BaseExt(object):
+
+    CHARACTER_SET_PATH = op.realpath(op.join(op.dirname(__file__), '..', 'charmaps'))
 
     @staticmethod
     def convert_to_list_of_unicodes(string):

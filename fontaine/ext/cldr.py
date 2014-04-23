@@ -16,7 +16,10 @@ class Extension(BaseExt):
     def to_charmap(locale):
         glyphs = []
 
-        unicodeset = icu.LocaleData(locale.getName()).getExemplarSet()
+        try:
+            unicodeset = icu.LocaleData(locale.getName()).getExemplarSet()
+        except AttributeError:
+            return []
         iter = icu.UnicodeSetIterator(unicodeset)
         for char in iter:
             try:

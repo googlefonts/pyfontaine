@@ -13,7 +13,7 @@ from importlib import import_module
 from fontaine.ext.base import PackageRequiredException
 
 import fontaine.ext
-import fontaine.charmaps
+import fontaine.charmaps.internals
 
 
 class Library(object):
@@ -46,9 +46,9 @@ class Library(object):
                     self.register(charmap_klass)
 
         if 'all' in self.collections or 'pyfontaine' in self.collections:
-            for ext in fontaine.charmaps.__all__:
+            for ext in fontaine.charmaps.internals.__all__:
                 try:
-                    module = import_module('fontaine.charmaps.%s' % ext)
+                    module = import_module('fontaine.charmaps.internals.%s' % ext)
                     self.register(module.Charmap)
                 except (ImportError, AttributeError):
                     continue
