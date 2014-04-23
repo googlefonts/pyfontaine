@@ -27,7 +27,7 @@ setup(name='fontaine',
       author_email='dave@lab6.com',
       url='https://github.com/davelab6/pyfontaine',
       # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
-      packages=['fontaine', 'fontaine.charmaps', 'fontaine.structures', 'fontaine.ext'],
+      packages=['fontaine', 'fontaine.charmaps', 'fontaine.charmaps.internals', 'fontaine.structures', 'fontaine.ext'],
       install_requires=[
           'fonttools',
           'lxml',
@@ -36,7 +36,8 @@ setup(name='fontaine',
       package_data={
           'fontaine': [
               'charmaps/names.db/*.*',
-              'charmaps/fontconfig/fc-lang/*.orth'
+              'charmaps/fontconfig/fc-lang/*.orth',
+              'charmaps/unicode/*.txt'
           ]
       },
       scripts=['bin/simpleHilbertCurve',
