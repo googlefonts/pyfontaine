@@ -299,6 +299,7 @@ class FreeTypeFont(TTFont):
 
     def __init__(self, fontfile, charmaps=[]):
         import freetype
+        self._unicodeValues = []
         self._fontFace = freetype.Face(fontfile)
         charcode, agindex = self._fontFace.get_first_char()
         while agindex != 0:
