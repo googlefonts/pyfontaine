@@ -37,7 +37,8 @@ setup(name='fontaine',
           'fontaine': [
               'charmaps/names.db/*.*',
               'charmaps/fontconfig/fc-lang/*.orth',
-              'charmaps/unicode/*.txt'
+              'charmaps/unicode/*.txt',
+              'ext/data/*.*'
           ]
       },
       scripts=['bin/simpleHilbertCurve',

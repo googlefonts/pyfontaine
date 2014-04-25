@@ -12,7 +12,7 @@ example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/ar
 example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py>`__)
 
 To add new definitions, just add files to the
-`charmaps <https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps>`__
+`internals <https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps/internals>`__
 directory - they are autodetected!
 
 It also downloads additional definitions from the Extensis, font-config
@@ -41,7 +41,7 @@ The ``--wiki`` format produces a MediaWiki table
 (`example <https://en.wikipedia.org/wiki/DejaVu_fonts#Unicode_coverage>`__)
 
 To only show character sets from different collections:
-``sh pyfontaine --collections all font.ttf; # default pyfontaine --collections pyfontaine font.ttf; pyfontaine --collections uniblocks font.ttf; pyfontaine --collections extensis font.ttf; pyfontaine --collections fontconfig font.ttf; pyfontaine --collections cldr font.ttf;``
+``sh pyfontaine --collections all font.ttf; # default pyfontaine --collections pyfontaine font.ttf; pyfontaine --collections uniblocks font.ttf; pyfontaine --collections extensis font.ttf; pyfontaine --collections fontconfig font.ttf; pyfontaine --collections cldr font.ttf; pyfontaine --collections subsets font.ttf;``
 
 To only show specific character sets:
 ``sh pyfontaine --set African,'Basic Latin','GWF vietnamese' font.ttf;``
