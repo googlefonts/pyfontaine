@@ -37,7 +37,7 @@ setup(name='fontaine',
           'fontaine': [
               'charmaps/names.db/*.*',
               'charmaps/fontconfig/fc-lang/*.orth',
-              'charmaps/unicode/*.txt',
+              'charmaps/subsets/*.txt',
               'ext/data/*.*'
           ]
       },
