@@ -37,7 +37,7 @@ def lookup_languages(unichar):
     return charmaps
 
 
-class FontFace:
+class FontFace(object):
 
     def __init__(self, fontfile):
         import fontTools.ttLib as ttLib
@@ -94,46 +94,45 @@ class FontFace:
         return bool(self.ttf['head'].flags & FT_FACE_FLAG_FIXED_SIZES)
 
 
-class Font:
+class TTXFontFace(FontFace):
 
-    def __init__(self, fontfile, charmaps=[]):
+    def __init__(self, fontfile):
+        import fontTools.ttLib as ttLib
+        self.ttf = ttLib.TTFont(None)
+        self.ttf.importXML(fontfile, quiet=True)
+        self._flags = 0
 
+
+class FontFactory:
+
+    @staticmethod
+    def openfont(fontfile, charmaps=[]):
+        if fontfile.lower().endswith('.ttx'):
+            return TTXFont(fontfile, charmaps)
+        if fontfile.lower().endswith('.ufo') and os.path.isdir(fontfile):
+            raise NotImplementedError
         try:
             import freetype
-            self._fontFace = freetype.Face(fontfile)
-
-            self._unicodeValues = []
-            charcode, agindex = self._fontFace.get_first_char()
-            while agindex != 0:
-                self._unicodeValues.append(charcode)
-                charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
-
+            return FreeTypeFont(fontfile, charmaps)
         except ImportError:
-            self._fontFace = FontFace(fontfile)
-            self._unicodeValues = self._fontFace.getCharmap()
+            pass
+        return TTFont(fontfile, charmaps)
+
+
+class TTFont(object):
+
+    def __init__(self, fontfile, charmaps=[]):
+        self._fontFace = FontFace(fontfile)
+        self._unicodeValues = self._fontFace.getCharmap()
 
         self._charmaps = map(str.lower, charmaps)
         self.refresh_sfnt_properties()
 
     def refresh_sfnt_properties(self):
-        try:
-            import freetype
-            sfnt_count = self._fontFace.sfnt_name_count
-            if not isinstance(sfnt_count, int):
-                return
-            for i in xrange(sfnt_count):
-                try:
-                    sfnt_record = self._fontFace.get_sfnt_name(i)
-                except freetype.FT_Exception:
-                    continue
-                propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
-                value = unifyunicode(sfnt_record.string)
-                setattr(self, '_%s' % propname, value)
-        except ImportError:
-            for record in self._fontFace.getNames():
-                propname = NAME_ID_FONTPROPMAP.get(record.nameID)
-                value = unifyunicode(record.string)
-                setattr(self, '_%s' % propname, value)
+        for record in self._fontFace.getNames():
+            propname = NAME_ID_FONTPROPMAP.get(record.nameID)
+            value = unifyunicode(record.string)
+            setattr(self, '_%s' % propname, value)
 
     def get_othography_info(self, charmap, hits=0):
         ''' Return 4-tuple list with short orthographies information
@@ -279,3 +278,40 @@ class Font:
     @property
     def has_fixed_sizes(self):
         return self._fontFace.has_fixed_sizes
+
+
+class TTXFont(TTFont):
+
+    def __init__(self, fontfile, charmaps=[]):
+        self._fontFace = TTXFontFace(fontfile)
+        self._unicodeValues = self._fontFace.getCharmap()
+
+        self._charmaps = map(str.lower, charmaps)
+        self.refresh_sfnt_properties()
+
+
+class FreeTypeFont(TTFont):
+
+    def __init__(self, fontfile, charmaps=[]):
+        import freetype
+        self._fontFace = freetype.Face(fontfile)
+        charcode, agindex = self._fontFace.get_first_char()
+        while agindex != 0:
+            self._unicodeValues.append(charcode)
+            charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
+        self._charmaps = map(str.lower, charmaps)
+        self.refresh_sfnt_properties()
+
+    def refresh_sfnt_properties(self):
+        import freetype
+        sfnt_count = self._fontFace.sfnt_name_count
+        if not isinstance(sfnt_count, int):
+            return
+        for i in xrange(sfnt_count):
+            try:
+                sfnt_record = self._fontFace.get_sfnt_name(i)
+            except freetype.FT_Exception:
+                continue
+            propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
+            value = unifyunicode(sfnt_record.string)
+            setattr(self, '_%s' % propname, value)

@@ -21,7 +21,7 @@ from datetime import datetime
 
 from fontaine.const import SUPPORT_LEVEL_FULL, SUPPORT_LEVEL_UNSUPPORTED
 from fontaine.cmap import library
-from fontaine.font import Font
+from fontaine.font import FontFactory
 from fontaine.structures.dict2xml import dict2xml, dict2txt
 
 
@@ -108,7 +108,7 @@ class Director(object):
         tree = OrderedDict({'fonts': []})
 
         for font_filename in fonts:
-            font = Font(font_filename, charmaps=self.charmaps)
+            font = FontFactory.openfont(font_filename, charmaps=self.charmaps)
 
             F = OrderedDict()
             desc = OrderedDict()
@@ -195,7 +195,7 @@ class Builder(object):
     @staticmethod
     def wiki(fonts):
         for font_filename in fonts:
-            font = Font(font_filename)
+            font = FontFactory.openfont(font_filename)
             print('=== %s ===' % font.common_name.encode('ascii', 'ignore'))
             print('{|')
             print('| colspan=3 |')
