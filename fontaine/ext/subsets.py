@@ -1,3 +1,4 @@
+import errno
 import os
 import re
 
@@ -13,6 +14,13 @@ class Extension(BaseExt):
     def get_subsets():
         for filepath in os.listdir(Extension.path):
             yield os.path.splitext(os.path.basename(filepath))[0]
+
+    @staticmethod
+    def get_subset_path(subsetname):
+        path = os.path.join(Extension.path, subsetname) + '.txt'
+        if not os.path.exists(path):
+            raise OSError(errno.ENOENT, 'File [%s] does not exist' % path)
+        return path
 
     @staticmethod
     def __getcharmaps__():
