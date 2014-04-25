@@ -8,6 +8,7 @@
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
+import os
 
 from fontaine.cmap import library
 from fontaine.const import *
@@ -110,7 +111,11 @@ class FontFactory:
         if fontfile.lower().endswith('.ttx'):
             return TTXFont(fontfile, charmaps)
         if fontfile.lower().endswith('.ufo') and os.path.isdir(fontfile):
-            raise NotImplementedError
+            try:
+                import robofab
+                return RoboFabFont(fontfile, charmaps)
+            except ImportError:
+                raise Exception('Install [RoboFab](https://pypi.python.org/pypi/robofab/) before using UFO with Pyfontaine')
         try:
             import freetype
             return FreeTypeFont(fontfile, charmaps)
@@ -315,3 +320,78 @@ class FreeTypeFont(TTFont):
             propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
             value = unifyunicode(sfnt_record.string)
             setattr(self, '_%s' % propname, value)
+
+
+class RoboFabFont(TTFont):
+
+    def __init__(self, fontfile, charmaps=[]):
+        import robofab.world
+        self._fontFace = robofab.world.OpenFont(fontfile)
+        self.info = self._fontFace.info.__dict__
+        self._unicodeValues = map(lambda x: x.unicode, self._fontFace)
+        self._charmaps = map(str.lower, charmaps)
+
+    @property
+    def common_name(self):
+        return self.info.get('familyName', '')
+
+    @property
+    def copyright(self):
+        return self.info.get('copyright', '')
+
+    @property
+    def designer(self):
+        return self.info.get('openTypeNameDesigner', '')
+
+    @property
+    def designer_url(self):
+        return self.info.get('openTypeNameManufacturerURL', '')
+
+    @property
+    def license(self):
+        return self.info.get('openTypeNameLicense', '')
+
+    @property
+    def license_url(self):
+        return self.info.get('openTypeNameLicenseURL', '')
+
+    @property
+    def glyph_num(self):
+        return len(self._unicodeValues)
+
+    @property
+    def style_flags(self):
+        return FT_STYLE_ITALIC \
+            if self.info.get('italicAngle') else ''
+
+    @property
+    def sub_family(self):
+        return self.info.get('styleName', '')
+
+    @property
+    def vendor(self):
+        return self._vendor
+    _vendor = ''
+
+    @property
+    def vendor_url(self):
+        return self._vendor_url
+    _vendor_url = ''
+
+    @property
+    def version(self):
+        return self.info.get('openTypeNameVersion', '')
+
+    @property
+    def weight(self):
+        return FT_STYLE_BOLD \
+            if self.info.get('openTypeOS2WeightClass', 0) >= 600 \
+            else FT_STYLE_NORMAL
+
+    @property
+    def is_fixed_width(self):
+        return bool(self.info.get('openTypeHeadFlags', 0) & FT_FACE_FLAG_FIXED_WIDTH)
+
+    @property
+    def has_fixed_sizes(self):
+        return bool(self.info.get('openTypeHeadFlags', 0) & FT_FACE_FLAG_FIXED_SIZES)
