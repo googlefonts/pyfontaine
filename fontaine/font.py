@@ -391,8 +391,9 @@ class RoboFabFont(TTFont):
 
     @property
     def is_fixed_width(self):
-        return bool(self.info.get('openTypeHeadFlags', 0) & FT_FACE_FLAG_FIXED_WIDTH)
+        return bool(self.info.get('postscriptIsFixedPitch'))
 
     @property
     def has_fixed_sizes(self):
-        return bool(self.info.get('openTypeHeadFlags', 0) & FT_FACE_FLAG_FIXED_SIZES)
+        # always False
+        return False
