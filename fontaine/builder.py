@@ -179,10 +179,11 @@ class Builder(object):
 
         headers = ['Family', 'Style']
         for subset in library.charmaps:
-            headers.append(subset.common_name)
+            headers.append(subset.common_name.encode('ascii', 'ignore'))
         doc.writerow(headers)
 
-        for font in fonts:
+        for filename in fonts:
+            font = FontFactory.openfont(filename)
             row = [font.common_name.encode('ascii', 'ignore')] + [font.sub_family.encode('ascii', 'ignore')]
             for subset in library.charmaps:
                 charmap, support_level, coverage, missing = font.get_othography_info(subset)
