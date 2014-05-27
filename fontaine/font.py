@@ -20,7 +20,7 @@ def unifyunicode(string):
     return string.decode('utf8', 'ignore')
 
 
-def lookup_languages(unichar):
+def lookup_languages(unichar, _library=library):
     try:
         assert len(unichar) == 1
     except AssertionError:
@@ -28,7 +28,7 @@ def lookup_languages(unichar):
 
     charmaps = []
 
-    for charmap in library.charmaps:
+    for charmap in _library.charmaps:
 
         glyphs = getattr(charmap, 'glyphs', [])
         if callable(glyphs):

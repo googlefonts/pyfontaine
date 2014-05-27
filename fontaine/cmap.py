@@ -18,9 +18,9 @@ import fontaine.charmaps.internals
 
 class Library(object):
 
-    def __init__(self):
+    def __init__(self, collections=['all']):
         self._charmaps = []
-        self.collections = ['all']
+        self.collections = collections
 
     def register(self, charmap):
         self._charmaps.append(charmap())
