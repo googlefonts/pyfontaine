@@ -170,11 +170,11 @@ class TTFont(object):
             support_level = SUPPORT_LEVEL_PARTIAL
         return (charmap, support_level, coverage, missing)
 
-    def get_orthographies(self):
+    def get_orthographies(self, _library=library):
         ''' Return array of 4-tuples lists about supported orthographies
         for current font instance'''
         results = []
-        for charmap in library.charmaps:
+        for charmap in _library.charmaps:
             if self._charmaps:
                 cn = getattr(charmap, 'common_name', False)
                 abbr = getattr(charmap, 'abbreviation', False)
