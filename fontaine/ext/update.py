@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
-# Only pyfontain developers should use this file to update files
+# Only pyfontaine developers should use this file to update files
+import logging
 import os
 import os.path as op
 import requests
@@ -23,7 +24,12 @@ def get_data_directory():
 
 
 def get_file(name, url):
-    r = requests.get(url)
+    try:
+        r = requests.get(url)
+    except requests.exceptions.RequestException:
+        logging.warn(('Please run pyfontaine with an active internet '
+                      'connection to download all character maps'))
+        return False
     if r.status_code == 200:
         with open(name, 'w') as f:
             f.write(r.content)
