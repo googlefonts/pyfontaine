@@ -34,7 +34,7 @@ class Library(object):
             try:
                 module = import_module('fontaine.ext.%s' % ext)
                 extension_name = module.Extension.extension_name
-            except (ImportError, AttributeError):
+            except (ImportError, AttributeError), ex:
                 continue
             except PackageRequiredException, ex:
                 import sys
