@@ -133,43 +133,43 @@ def main(*argv):
             Builder.text_(tree).display()
 
     if glyphs:
+        rows = [['Character Set'] + map(lambda x: '%s (%s)' % (unichr(x), hex(x)), glyphs)]
+        max_length = 0
+        for charmap in library.charmaps:
+            charset_glyphs = charmap.glyphs
+            if callable(charset_glyphs):
+                charset_glyphs = charset_glyphs()
+
+            max_length = max(max_length, len(charmap.common_name))
+            row = [charmap.common_name]
+            has_true = False
+            for glyph in glyphs:
+                value = glyph in charset_glyphs
+                if value:
+                    has_true = True
+                row.append(str(value or ''))
+
+            if has_true:
+                rows.append(row)
 
         if args.csv:
             import cStringIO
             data = cStringIO.StringIO()
             doc = UnicodeWriter(data, delimiter=';')
-            doc.writerow(['Character Set'] + map(lambda x: '%s (%s)' % (unichr(x), hex(x)), glyphs))
-            rows = []
-            for charmap in library.charmaps:
-                charset_glyphs = charmap.glyphs
-                if callable(charset_glyphs):
-                    charset_glyphs = charset_glyphs()
-
-                row = [charmap.common_name]
-                has_true = False
-                for glyph in glyphs:
-                    value = glyph in charset_glyphs
-                    if value:
-                        has_true = True
-                    row.append(str(value or ''))
-
-                if has_true:
-                    rows.append(row)
-
             doc.writerows(rows)
             data.seek(0)
             print(data.read().decode('utf-8'))
         else:
-            for glyph in glyphs:
-                uchar = unichr(glyph)
-                print('\n\n%s (%s)' % (uchar, hex(glyph)))
-
-                for charmap in library.charmaps:
-                    glyphs = charmap.glyphs
-                    if callable(glyphs):
-                        glyphs = glyphs()
-                    if glyph in glyphs:
-                        print(charmap.common_name)
+            for row in rows:
+                string = ''
+                first = True
+                for g in row:
+                    if first:
+                        string += (u'{:<%s}' % (max_length + 4)).format(g)
+                        first = False
+                    else:
+                        string += u'{:<15}'.format(g)
+                print(string)
 
 
 import csv
