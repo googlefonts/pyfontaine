@@ -64,6 +64,24 @@ def usage():
     return parser.parse_args()
 
 
+def check_for_unicodechar(char):
+
+    # char = char.encode('ascii').decode('utf8')
+    char = char.decode('utf8')
+
+    if len(char) == 1:
+        return ord(char)
+
+    if re.match('0x[0-9A-Fa-f]+', char):
+        return eval(char)
+
+    unimatch = re.match(r'U\+([0-9A-Fa-f]+)', char)
+    if unimatch:
+        return eval('0x%s' % unimatch.group(1))
+
+    return None
+
+
 def main(*argv):
     args = usage()
 
@@ -74,14 +92,16 @@ def main(*argv):
 
     fonts = []
     for filename in args.font:
-        if re.match('0x[0-9A-Fa-f]+', filename):
-            uchar = unichr(eval(filename))
-            print('\n\n%s (%s)' % (uchar, filename))
+        unicodecode = check_for_unicodechar(filename)
+
+        if unicodecode:
+            uchar = unichr(unicodecode)
+            print('\n\n%s (%s)' % (uchar, hex(unicodecode)))
             for charmap in library.charmaps:
                 glyphs = charmap.glyphs
                 if callable(glyphs):
                     glyphs = glyphs()
-                if int(filename, 16) in glyphs:
+                if unicodecode in glyphs:
                     print(charmap.common_name)
             continue
         if not os.path.exists(filename):
