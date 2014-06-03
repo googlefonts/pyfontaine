@@ -27,8 +27,11 @@ from fontaine.builder import Builder, Director
 
 
 def usage():
-    parser = argparse.ArgumentParser(description='Output information about'
-                                                 ' fonts in different formats')
+    description = """
+    PyFontaine is a tool to analize your fonts or help to see glyphs analytics.
+    """
+
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument('font', metavar='font', type=str, nargs='+')
     if len(sys.argv) == 1:
         print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
@@ -50,7 +53,10 @@ def usage():
     parser.add_argument('--wiki', action='store_true',
                         help='Print information in wikipedia format')
     parser.add_argument('--csv', action='store_true',
-                        help='Output font coverage information in CSV')
+                        help=('Output font coverage information in CSV.'
+                              ' If glyphs have been passed to script then'
+                              ' it shows rows with character set and values'
+                              ' True if glyph exists in collections'))
     parser.add_argument('--show-hilbert', action='store_true',
                         help='Create PNG files represented coveragin of font'
                              ' charset in coverage_pngs directory')
@@ -90,7 +96,6 @@ def main(*argv):
         from fontaine.ext.update import get_data_directory
         shutil.rmtree(get_data_directory())
 
-
     glyphs = []
     fonts = []
 
@@ -109,12 +114,12 @@ def main(*argv):
     if not fonts and not glyphs:
         sys.exit(0)
 
+    if args.collections:
+        library.collections = args.collections.split(',')
+
     if fonts:
         if args.disable_unames:
             os.environ['DISABLE_UNAMES'] = 'disable'
-
-        if args.collections:
-            library.collections = args.collections.split(',')
 
         director = Director(charmaps=args.set.split(','),
                             missing=args.missing)
