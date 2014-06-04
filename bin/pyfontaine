@@ -27,8 +27,11 @@ from fontaine.builder import Builder, Director
 
 
 def usage():
-    parser = argparse.ArgumentParser(description='Output information about'
-                                                 ' fonts in different formats')
+    description = """
+    PyFontaine is a tool to analize your fonts or help to see glyphs analytics.
+    """
+
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument('font', metavar='font', type=str, nargs='+')
     if len(sys.argv) == 1:
         print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
@@ -50,7 +53,10 @@ def usage():
     parser.add_argument('--wiki', action='store_true',
                         help='Print information in wikipedia format')
     parser.add_argument('--csv', action='store_true',
-                        help='Output font coverage information in CSV')
+                        help=('Output font coverage information in CSV.'
+                              ' If glyphs have been passed to script then'
+                              ' it shows rows with character set and values'
+                              ' True if glyph exists in collections'))
     parser.add_argument('--show-hilbert', action='store_true',
                         help='Create PNG files represented coveragin of font'
                              ' charset in coverage_pngs directory')
@@ -64,6 +70,24 @@ def usage():
     return parser.parse_args()
 
 
+def check_for_unicodechar(char):
+
+    # char = char.encode('ascii').decode('utf8')
+    char = char.decode('utf8')
+
+    if len(char) == 1:
+        return ord(char)
+
+    if re.match('0x[0-9A-Fa-f]+', char):
+        return eval(char)
+
+    unimatch = re.match(r'U\+([0-9A-Fa-f]+)', char)
+    if unimatch:
+        return eval('0x%s' % unimatch.group(1))
+
+    return None
+
+
 def main(*argv):
     args = usage()
 
@@ -72,46 +96,115 @@ def main(*argv):
         from fontaine.ext.update import get_data_directory
         shutil.rmtree(get_data_directory())
 
+    glyphs = []
     fonts = []
+
     for filename in args.font:
-        if re.match('0x[\w\d]+', filename):
-            # print("Languages/Character Sets used by", filename,)
-            for charmap in library.charmaps:
-                glyphs = charmap.glyphs
-                if callable(glyphs):
-                    glyphs = glyphs()
-                if int(filename, 16) in glyphs:
-                    print(charmap.common_name)
+        unicodecode = check_for_unicodechar(filename)
+
+        if unicodecode:
+            glyphs.append(unicodecode)
             continue
+
         if not os.path.exists(filename):
             print("'%s' is not found" % (filename))
             sys.exit(1)
         fonts.append(filename)
 
-    if not fonts:
+    if not fonts and not glyphs:
         sys.exit(0)
-
-    if args.disable_unames:
-        os.environ['DISABLE_UNAMES'] = 'disable'
 
     if args.collections:
         library.collections = args.collections.split(',')
 
-    director = Director(charmaps=args.set.split(','),
-                        missing=args.missing)
-    if args.xml:
-        tree = director.construct_tree(fonts)
-        Builder.xml_(tree).display()
-    elif args.csv:
-        sys.stdout.write(Builder.csv_(fonts))
-    elif args.json:
-        tree = director.construct_tree(fonts)
-        Builder.json_(tree)
-    elif args.wiki:
-        Builder.wiki(fonts)
-    else:
-        tree = director.construct_tree(fonts)
-        Builder.text_(tree).display()
+    if fonts:
+        if args.disable_unames:
+            os.environ['DISABLE_UNAMES'] = 'disable'
+
+        director = Director(charmaps=args.set.split(','),
+                            missing=args.missing)
+        if args.xml:
+            tree = director.construct_tree(fonts)
+            Builder.xml_(tree).display()
+        elif args.csv:
+            sys.stdout.write(Builder.csv_(fonts))
+        elif args.json:
+            tree = director.construct_tree(fonts)
+            Builder.json_(tree)
+        elif args.wiki:
+            Builder.wiki(fonts)
+        else:
+            tree = director.construct_tree(fonts)
+            Builder.text_(tree).display()
+
+    if glyphs:
+        rows = [['Character Set'] + map(lambda x: '%s (%s)' % (unichr(x), hex(x)), glyphs)]
+        max_length = 0
+        for charmap in library.charmaps:
+            charset_glyphs = charmap.glyphs
+            if callable(charset_glyphs):
+                charset_glyphs = charset_glyphs()
+
+            max_length = max(max_length, len(charmap.common_name))
+            row = [charmap.common_name]
+            has_true = False
+            for glyph in glyphs:
+                value = glyph in charset_glyphs
+                if value:
+                    has_true = True
+                row.append(str(value or ''))
+
+            if has_true:
+                rows.append(row)
+
+        if args.csv:
+            import cStringIO
+            data = cStringIO.StringIO()
+            doc = UnicodeWriter(data, delimiter=';')
+            doc.writerows(rows)
+            data.seek(0)
+            print(data.read().decode('utf-8'))
+        else:
+            for row in rows:
+                string = ''
+                first = True
+                for g in row:
+                    if first:
+                        string += (u'{:<%s}' % (max_length + 4)).format(g)
+                        first = False
+                    else:
+                        string += u'{:<15}'.format(g)
+                print(string)
+
+
+import csv
+
+
+class UnicodeWriter:
+
+    def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
+        # Redirect output to a queue
+        import cStringIO
+        self.queue = cStringIO.StringIO()
+        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
+        self.stream = f
+        self.encoder = codecs.getincrementalencoder(encoding)()
+
+    def writerow(self, row):
+        self.writer.writerow([s.encode("utf-8") for s in row])
+        # Fetch UTF-8 output from the queue ...
+        data = self.queue.getvalue()
+        data = data.decode("utf-8")
+        # ... and reencode it into the target encoding
+        data = self.encoder.encode(data)
+        # write to the target stream
+        self.stream.write(data)
+        # empty queue
+        self.queue.truncate(0)
+
+    def writerows(self, rows):
+        for row in rows:
+            self.writerow(row)
 
 if __name__ == '__main__':
     main()

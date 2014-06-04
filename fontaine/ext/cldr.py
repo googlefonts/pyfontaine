@@ -4,7 +4,8 @@ from fontaine.ext.base import BaseExt, PackageRequiredException
 try:
     import icu
 except ImportError:
-    package = "[PyICU](https://pypi.python.org/pypi/PyICU)"
+    package = ("[PyICU](https://pypi.python.org/pypi/PyICU) to"
+               "enable [feature], perhaps with: pip install pyicu")
     raise PackageRequiredException('Please install %s' % package)
 
 

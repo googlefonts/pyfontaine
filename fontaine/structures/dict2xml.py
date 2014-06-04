@@ -18,9 +18,10 @@ from xml.dom.minidom import Document
 
 
 class dict2xml(object):
-    doc = Document()
 
     def __init__(self, structure):
+        self.doc = Document()
+
         if len(structure) == 1:
             rootName = unicode(structure.keys()[0])
             self.root = self.doc.createElement(rootName)

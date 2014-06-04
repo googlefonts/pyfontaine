@@ -29,10 +29,11 @@ setup(name='fontaine',
       # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
       packages=['fontaine', 'fontaine.charmaps', 'fontaine.charmaps.internals', 'fontaine.structures', 'fontaine.ext'],
       install_requires=[
-          'fonttools',
           'lxml',
-          'requests'
+          'requests',
+          'fonttools'
       ],
+      dependency_links=['https://github.com/behdad/fontTools/tarball/master#egg=fontTools-2.4'],
       package_data={
           'fontaine': [
               'charmaps/names.db/*.*',

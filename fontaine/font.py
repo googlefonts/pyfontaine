@@ -20,7 +20,7 @@ def unifyunicode(string):
     return string.decode('utf8', 'ignore')
 
 
-def lookup_languages(unichar):
+def lookup_languages(unichar, _library=library):
     try:
         assert len(unichar) == 1
     except AssertionError:
@@ -28,7 +28,7 @@ def lookup_languages(unichar):
 
     charmaps = []
 
-    for charmap in library.charmaps:
+    for charmap in _library.charmaps:
 
         glyphs = getattr(charmap, 'glyphs', [])
         if callable(glyphs):
@@ -170,11 +170,11 @@ class TTFont(object):
             support_level = SUPPORT_LEVEL_PARTIAL
         return (charmap, support_level, coverage, missing)
 
-    def get_orthographies(self):
+    def get_orthographies(self, _library=library):
         ''' Return array of 4-tuples lists about supported orthographies
         for current font instance'''
         results = []
-        for charmap in library.charmaps:
+        for charmap in _library.charmaps:
             if self._charmaps:
                 cn = getattr(charmap, 'common_name', False)
                 abbr = getattr(charmap, 'abbreviation', False)
@@ -391,8 +391,9 @@ class RoboFabFont(TTFont):
 
     @property
     def is_fixed_width(self):
-        return bool(self.info.get('openTypeHeadFlags', 0) & FT_FACE_FLAG_FIXED_WIDTH)
+        return bool(self.info.get('postscriptIsFixedPitch'))
 
     @property
     def has_fixed_sizes(self):
-        return bool(self.info.get('openTypeHeadFlags', 0) & FT_FACE_FLAG_FIXED_SIZES)
+        # always False
+        return False

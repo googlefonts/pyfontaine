@@ -52,17 +52,20 @@ extract_firstline = lambda text: \
 
 class Director(object):
 
-    def __init__(self, show_hilbert=None, charmaps=[], missing=False):
+    def __init__(self, show_hilbert=None, charmaps=[], missing=False,
+                 _library=None):
         self.show_hilbert = show_hilbert
         self.charmaps = filter(lambda x: x != '', charmaps)
         self.missingValues = missing
-        self.output_directory = 'pyfontaine-%s' % datetime.now().strftime('%Y-%m-%d-%H%M%S')
+        strdate = datetime.now().strftime('%Y-%m-%d-%H%M%S')
+        self.output_directory = 'pyfontaine-%s' % strdate
+        self.library = _library or library
 
     def represent_coverage_png(self, font):
         if not os.path.exists(self.output_directory):
             os.makedirs(self.output_directory)
 
-        cmaps = filter(lambda x: hasattr(x, 'key'), library.charmaps)
+        cmaps = filter(lambda x: hasattr(x, 'key'), self.library.charmaps)
 
         for cmap in cmaps:
             if self.charmaps:
@@ -173,18 +176,20 @@ class Builder(object):
         pprint(tree, indent='', items_length=items_length)
 
     @staticmethod
-    def csv_(fonts):
+    def csv_(fonts, _library=library):
         data = StringIO.StringIO()
         doc = csv.writer(data, delimiter=',', quoting=csv.QUOTE_MINIMAL)
 
         headers = ['Family', 'Style']
-        for subset in library.charmaps:
-            headers.append(subset.common_name)
+        for subset in _library.charmaps:
+            headers.append(subset.common_name.encode('ascii', 'ignore'))
         doc.writerow(headers)
 
-        for font in fonts:
-            row = [font.common_name.encode('ascii', 'ignore')] + [font.sub_family.encode('ascii', 'ignore')]
-            for subset in library.charmaps:
+        for filename in fonts:
+            font = FontFactory.openfont(filename)
+            row = [font.common_name.encode('ascii', 'ignore')]
+            row += [font.sub_family.encode('ascii', 'ignore')]
+            for subset in _library.charmaps:
                 charmap, support_level, coverage, missing = font.get_othography_info(subset)
                 row.append(str(coverage))
             doc.writerow(row)
@@ -193,13 +198,13 @@ class Builder(object):
         return data.read()
 
     @staticmethod
-    def wiki(fonts):
+    def wiki(fonts, _library=library):
         for font_filename in fonts:
             font = FontFactory.openfont(font_filename)
             print('=== %s ===' % font.common_name.encode('ascii', 'ignore'))
             print('{|')
             print('| colspan=3 |')
-            for subset in library.charmaps:
+            for subset in _library.charmaps:
                 charmap, supported, coverage, missing = font.get_othography_info(subset)
                 if supported == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
