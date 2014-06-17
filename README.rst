@@ -24,7 +24,7 @@ Installation
 Install the latest release easily with the `pip
 installer <http://www.pip-installer.org>`__::
 
-    pip install fontaine
+    sudo pip install fontaine
 
 To install the latest development version::
 
@@ -52,17 +52,26 @@ To output font reports in various formats::
     pyfontaine --csv font.ttf;
     pyfontaine --wiki font.ttf;
 
-The ``--wiki`` format produces a MediaWiki table
-(`example <https://en.wikipedia.org/wiki/DejaVu_fonts#Unicode_coverage>`__)
+The `--wiki` format produces a MediaWiki table
+(example <https://en.wikipedia.org/wiki/DejaVu_fonts#Unicode_coverage>__)
 
-To only show character sets from different collections:
-``sh pyfontaine --collections all font.ttf; # default pyfontaine --collections pyfontaine font.ttf; pyfontaine --collections uniblocks font.ttf; pyfontaine --collections extensis font.ttf; pyfontaine --collections fontconfig font.ttf; pyfontaine --collections cldr font.ttf; pyfontaine --collections subsets font.ttf;``
+To only show character sets from different collections::
 
-To only show specific character sets:
-``sh pyfontaine --set African,'Basic Latin','GWF vietnamese' font.ttf;``
+    pyfontaine --collections all font.ttf; # default
+    pyfontaine --collections pyfontaine font.ttf;
+    pyfontaine --collections uniblocks font.ttf;
+    pyfontaine --collections extensis font.ttf;
+    pyfontaine --collections fontconfig font.ttf;
+    pyfontaine --collections cldr font.ttf;
+    pyfontaine --collections subsets font.ttf;
 
-To print a list of all the missing unicode values from each set:
-``sh pyfontaine --missing font.ttf;``
+To only show specific character sets::
+
+    pyfontaine --set African,'Basic Latin','GWF vietnamese' font.ttf;
+
+To print a list of all the missing unicode values from each set::
+
+    pyfontaine --missing font.ttf;
 
 To output visualisations of the coverage using `Hilbert
 curves <http://en.wikipedia.org/wiki/Hilbert_curve>`__ (thanks for the
