@@ -27,7 +27,7 @@ class Extension(BaseExt):
         path = os.path.join(Extension.path, subsetname) + '.txt'
         if not os.path.exists(path):
             return []
-        return open(path).read().split()
+        return open(path).read()
 
     @staticmethod
     def __getcharmaps__():
