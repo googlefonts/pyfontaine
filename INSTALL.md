@@ -1,6 +1,6 @@
 # Install instructions
 
-## OSX
+## OS X
 
 Recomended way is using brew and pip.
 
@@ -40,4 +40,17 @@ $ pip install fontaine
 At this stage you can also download the github source and run
 ```
 $ python setup.py install
+```
+
+## From Source
+
+```sh
+mkdir ~/src;
+cd ~/src;
+git clone git://github.com/davelab6/pyfontaine'
+cd pyfontaine'
+git submodule init;
+git submodule update;
+# then setup
+sudo python setup.py install;
 ```

@@ -22,32 +22,56 @@ Installation
 ------------
 
 Install the latest release easily with the `pip
-installer <http://www.pip-installer.org>`__:
-``sh pip install fontaine;`` To install the latest development version:
-``sh git clone https://github.com/davelab6/pyfontaine.git; cd pyfontaine; sudo python setup.py install;``
+installer <http://www.pip-installer.org>`__::
+
+    sudo pip install fontaine
+
+To install the latest development version::
+
+    git clone https://github.com/davelab6/pyfontaine.git;
+    cd pyfontaine; 
+    sudo python setup.py install;
 
 Usage
 -----
 
 Given a font, it returns a report with some general metadata and th
-language support analysis. ``sh pyfontaine font.ttf;``
+language support analysis::
+
+    sh pyfontaine font.ttf;
 
 Given a unicode character value, it returns a list of character sets
-that include that character. ``sh pyfontaine 0x0061;``
+that include that character.::
 
-To output font reports in various formats:
-``sh pyfontaine --xml font.ttf; pyfontaine --json font.ttf; pyfontaine --csv font.ttf; pyfontaine --wiki font.ttf;``
-The ``--wiki`` format produces a MediaWiki table
-(`example <https://en.wikipedia.org/wiki/DejaVu_fonts#Unicode_coverage>`__)
+    pyfontaine 0x0061;
 
-To only show character sets from different collections:
-``sh pyfontaine --collections all font.ttf; # default pyfontaine --collections pyfontaine font.ttf; pyfontaine --collections uniblocks font.ttf; pyfontaine --collections extensis font.ttf; pyfontaine --collections fontconfig font.ttf; pyfontaine --collections cldr font.ttf; pyfontaine --collections subsets font.ttf;``
+To output font reports in various formats::
 
-To only show specific character sets:
-``sh pyfontaine --set African,'Basic Latin','GWF vietnamese' font.ttf;``
+    pyfontaine --xml font.ttf;
+    pyfontaine --json font.ttf;
+    pyfontaine --csv font.ttf;
+    pyfontaine --wiki font.ttf;
 
-To print a list of all the missing unicode values from each set:
-``sh pyfontaine --missing font.ttf;``
+The `--wiki` format produces a MediaWiki table
+(example <https://en.wikipedia.org/wiki/DejaVu_fonts#Unicode_coverage>__)
+
+To only show character sets from different collections::
+
+    pyfontaine --collections all font.ttf; # default
+    pyfontaine --collections pyfontaine font.ttf;
+    pyfontaine --collections uniblocks font.ttf;
+    pyfontaine --collections extensis font.ttf;
+    pyfontaine --collections fontconfig font.ttf;
+    pyfontaine --collections cldr font.ttf;
+    pyfontaine --collections subsets font.ttf;
+
+To only show specific character sets::
+
+    pyfontaine --set African,'Basic Latin','GWF vietnamese' font.ttf;
+
+To print a list of all the missing unicode values from each set::
+
+    pyfontaine --missing font.ttf;
 
 To output visualisations of the coverage using `Hilbert
 curves <http://en.wikipedia.org/wiki/Hilbert_curve>`__ (thanks for the
