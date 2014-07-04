@@ -21,9 +21,62 @@ sys.path.append(os.path.realpath(path))
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
+import fontaine
 from fontaine import VERSION
 from fontaine.cmap import library
 from fontaine.builder import Builder, Director
+from importlib import import_module
+from operator import itemgetter
+
+
+class FontaineArgParser(argparse.ArgumentParser):
+
+    def error(self, message):
+        if '--collections' not in message:
+            sys.stderr.write('error: %s\n' % message)
+        else:
+            result = get_collections()
+            max_length = 0
+            for t in result:
+                max_length = max(len(t[0]), max_length)
+            err = '{0:<%s}{1}' % (max_length + 2)
+            sys.stderr.write('%s\n' % message)
+            string = '\n'.join(map(lambda x: err.format(x[0], x[1]), result))
+            print(string)
+        sys.exit(2)
+
+
+def get_collections():
+    result = []
+    for ext in fontaine.charmaps.internals.__all__:
+        try:
+            module = import_module('fontaine.charmaps.internals.%s' % ext)
+            try:
+                shortname = module.Charmap.short_name
+            except AttributeError:
+                shortname = ext
+            longname = module.Charmap.common_name or ext
+
+            result.append((shortname, longname))
+        except (ImportError, AttributeError):
+            continue
+    return sorted(result, key=itemgetter(0))
+
+
+def collections(s):
+    if not s:
+        return
+    result = get_collections()
+
+    shorts = map(lambda x: x[0], result)
+    invalid = []
+    for r in s.split(','):
+        if r in shorts:
+            return s
+        invalid.append(r)
+
+    error = 'invalid collections "%s"' % ' '.join(invalid)
+    raise argparse.ArgumentTypeError(error)
 
 
 def usage():
@@ -31,7 +84,7 @@ def usage():
     PyFontaine is a tool to analize your fonts or help to see glyphs analytics.
     """
 
-    parser = argparse.ArgumentParser(description=description)
+    parser = FontaineArgParser(description=description)
     parser.add_argument('font', metavar='font', type=str, nargs='+')
     if len(sys.argv) == 1:
         print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
@@ -63,10 +116,13 @@ def usage():
     parser.add_argument('--set', type=str, default='',
                         help='Specify the sets based on either common'
                              ' or native name')
-    parser.add_argument('--collections', type=str, default='',
+    parser.add_argument('--collections', type=collections, default='',
                         help='Specify collections of charmaps to print')
+
+    url = 'https://github.com/davelab6/pyfontaine'
+    param = '%(version)s (%(url)s)' % {'url': url, 'version': VERSION}
     parser.add_argument('-V', '--version', action='version',
-                        version="%(prog)s " + VERSION + " (https://github.com/davelab6/pyfontaine)")
+                        version="%(prog)s " + param)
     return parser.parse_args()
 
 
