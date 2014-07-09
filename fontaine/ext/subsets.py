@@ -23,6 +23,13 @@ class Extension(BaseExt):
         return path
 
     @staticmethod
+    def get_glyphs(subsetname):
+        path = os.path.join(Extension.path, subsetname) + '.txt'
+        if not os.path.exists(path):
+            return []
+        return open(path).read()
+
+    @staticmethod
     def __getcharmaps__():
         for filepath in os.listdir(Extension.path):
             common_name = os.path.splitext(os.path.basename(filepath))[0]
