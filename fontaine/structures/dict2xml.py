@@ -27,6 +27,15 @@ class dict2xml(object):
             self.root = self.doc.createElement(rootName)
 
             self.doc.appendChild(self.root)
+            identical = structure[rootName].pop('identical', None)
+            if identical is not None:
+                itag = self.doc.createElement('identical')
+                if identical:
+                    textnode = self.doc.createTextNode(u'All fonts have the same character sets.')
+                else:
+                    textnode = self.doc.createTextNode(u'All fonts do NOT have the same character sets.')
+                itag.appendChild(textnode)
+                self.root.appendChild(itag)
             self.build(self.root, structure[rootName])
 
     def build(self, father, structure):
@@ -60,9 +69,16 @@ class dict2txt(object):
         self.output = u''
         self.indent = indent
         self.names = names
+
+        identical = structure.pop('identical', None)
         if len(structure) == 1:
             rootName = unicode(structure.keys()[0])
             self.output += self.name(rootName) + '\n'
+            if rootName.lower() == 'fonts' and identical is not None:
+                if identical:
+                    self.output += u'%sAll fonts have the same character sets.\n' % indent
+                else:
+                    self.output += u'%sAll fonts do NOT have the same character sets.\n' % indent
             self.build(structure[rootName])
 
     def name(self, key):

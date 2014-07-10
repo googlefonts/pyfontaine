@@ -108,8 +108,12 @@ class Director(object):
                 import matplotlib
             except ImportError:
                 raise Exception('Install matplotlib to use --show-hilbert feature')
-        tree = OrderedDict({'fonts': []})
+        tree = OrderedDict({'fonts': [], 'identical': True})
 
+        # in process of generating fonts information tree collect for each
+        # font character set. then compare them and if they are not identical
+        # set to tree flag `identical` to `False`
+        fonts_charactersets_names = []
         for font_filename in fonts:
             font = FontFactory.openfont(font_filename, charmaps=self.charmaps)
 
@@ -131,6 +135,8 @@ class Director(object):
             desc['designerUrl'] = font.designer_url
             desc['glyphCount'] = font.glyph_num
             desc['characterCount'] = font.character_count
+
+            font_charactersets_names = []
             for charmap, support_level, coverage, missing \
                     in font.get_orthographies():
                 if support_level == SUPPORT_LEVEL_UNSUPPORTED:
@@ -150,12 +156,25 @@ class Director(object):
                         orth['orthography']['missingValues'] = values
 
                 desc['orthographies'].append(orth)
+                font_charactersets_names.append(charmap.common_name)
+
+            if fonts_charactersets_names:
+                if (tree['identical'] and
+                        fonts_charactersets_names != font_charactersets_names):
+                    tree['identical'] = False
+
+            if not fonts_charactersets_names:
+                fonts_charactersets_names = font_charactersets_names
 
             if self.show_hilbert:
                 self.represent_coverage_png(font)
 
             F['font'] = desc
+
             tree['fonts'].append(F)
+
+        if len(tree['fonts']) == 1:
+            tree.pop('identical')
 
         return tree
 
