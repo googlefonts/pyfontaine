@@ -138,7 +138,7 @@ class Director(object):
 
             font_charactersets_names = []
             for charmap, support_level, coverage, missing \
-                    in font.get_orthographies(self._library):
+                    in font.get_orthographies(self.library):
                 if support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
                 if 'orthographies' not in desc:
