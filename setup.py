@@ -32,7 +32,7 @@ setup(name='fontaine',
           'lxml',
           'requests'
       ],
-      dependency_links=['https://github.com/behdad/fontTools/tarball/master'],
+      dependency_links=['https://github.com/behdad/fontTools/tarball/master#egg=fontTools-2.4'],
       package_data={
           'fontaine': [
               'charmaps/names.db/*.*',
