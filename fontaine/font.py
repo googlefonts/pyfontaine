@@ -211,6 +211,7 @@ class TTFont(object):
     def common_name(self):
         default = self._fontFace.family_name
         return self._common_name or default
+    _common_name = ''
 
     @property
     def copyright(self):
@@ -254,6 +255,7 @@ class TTFont(object):
     def sub_family(self):
         default = self._fontFace.style_name
         return self._sub_family or default
+    _sub_family = ''
 
     @property
     def vendor(self):
