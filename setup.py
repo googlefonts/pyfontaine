@@ -30,8 +30,7 @@ setup(name='fontaine',
       packages=['fontaine', 'fontaine.charmaps', 'fontaine.charmaps.internals', 'fontaine.structures', 'fontaine.ext'],
       install_requires=[
           'lxml',
-          'requests',
-          'fonttools'
+          'requests'
       ],
       dependency_links=['https://github.com/behdad/fontTools/tarball/master#egg=fontTools-2.4'],
       package_data={
