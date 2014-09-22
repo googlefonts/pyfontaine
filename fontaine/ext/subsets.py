@@ -1,6 +1,5 @@
 import errno
 import os
-import re
 
 from fontaine.ext.base import BaseExt
 
@@ -26,7 +25,7 @@ class Extension(BaseExt):
     def get_glyphs(subsetname):
         path = os.path.join(Extension.path, subsetname) + '.txt'
         if not os.path.exists(path):
-            return []
+            return ''
         return open(path).read()
 
     @staticmethod
