@@ -10,9 +10,9 @@
 # See accompanying LICENSE.txt file for details.
 FT_STYLE_FLAG_ITALIC = (1 << 0)
 FT_STYLE_FLAG_BOLD = (1 << 1)
-FT_FACE_FLAG_SFNT = (1L << 3)
-FT_FACE_FLAG_FIXED_SIZES = (1L << 1)
-FT_FACE_FLAG_FIXED_WIDTH = (1L << 2)
+FT_FACE_FLAG_SFNT = (1 << 3)
+FT_FACE_FLAG_FIXED_SIZES = (1 << 1)
+FT_FACE_FLAG_FIXED_WIDTH = (1 << 2)
 
 FT_STYLE_ITALIC = 'italic'
 FT_STYLE_BOLD = 'bold'
