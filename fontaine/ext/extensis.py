@@ -15,6 +15,7 @@ EXTENSIS_LANG_XML = 'https://raw.github.com/davelab6/extensis-languages/master/l
 class Extension(BaseExt):
 
     extension_name = 'extensis'
+    description = 'Extensis collection'
 
     @staticmethod
     def __getcharmaps__():

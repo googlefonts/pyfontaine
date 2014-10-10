@@ -17,6 +17,7 @@ ORTH_SOURCE_DIR = os.path.join(dirname, 'charmaps', 'fontconfig', 'fc-lang')
 class Extension(BaseExt):
 
     extension_name = 'fontconfig'
+    description = 'FontConfig collection'
 
     @staticmethod
     def __getcharmaps__():

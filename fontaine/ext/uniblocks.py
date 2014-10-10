@@ -9,6 +9,7 @@ UNIDATA_URL = 'http://www.unicode.org/Public/UNIDATA/Blocks.txt'
 class Extension(BaseExt):
 
     extension_name = 'uniblocks'
+    description = 'Uniblocks collections'
 
     @staticmethod
     def __getcharmaps__():

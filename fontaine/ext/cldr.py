@@ -12,6 +12,7 @@ except ImportError:
 class Extension(BaseExt):
 
     extension_name = 'cldr'
+    description = 'CLDR collection'
 
     @staticmethod
     def to_charmap(locale):

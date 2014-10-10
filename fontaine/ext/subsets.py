@@ -8,6 +8,7 @@ class Extension(BaseExt):
 
     path = os.path.join(BaseExt.CHARACTER_SET_PATH, 'subsets')
     extension_name = 'subsets'
+    description = 'Subsets collections'
 
     @staticmethod
     def get_subsets():
