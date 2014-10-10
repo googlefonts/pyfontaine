@@ -203,6 +203,10 @@ def main(*argv):
     if not fonts and not glyphs:
         sys.exit(0)
 
+    if args.collections and arg.definedset:
+        sys.stderr.write(u'error: Only use --collection or --set, not both.\n')
+	    sys.exit(1)
+
     if args.collections:
         library.collections = args.collections.split(',')
 
