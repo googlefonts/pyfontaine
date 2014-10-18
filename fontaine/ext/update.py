@@ -48,3 +48,4 @@ def get_from_cache(filename, url):
 if __name__ == '__main__':
     get_file('Blocks.txt', 'http://www.unicode.org/Public/UNIDATA/Blocks.txt')
     get_file('languages.xml', 'https://raw.github.com/davelab6/extensis-languages/master/languages.xml')
+    get_file('AdobeSourceSansDevanagariGlyphOrderAndAliasDB.txt', 'https://raw.githubusercontent.com/pauldhunt/source-devanagari-sans/master/GlyphOrderAndAliasDB')

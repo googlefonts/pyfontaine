@@ -15,7 +15,7 @@ class Extension(BaseExt):
 
     @staticmethod
     def __getcharmaps__():
-        f = open(get_from_cache('GlyphOrderAndAliasDB.txt', URL), 'r')
+        f = open(get_from_cache('AdobeSourceSansDevanagariGlyphOrderAndAliasDB.txt', URL), 'r')
 
         glyphnames = []
         for line in f:
