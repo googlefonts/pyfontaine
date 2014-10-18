@@ -125,7 +125,7 @@ def usage():
         print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
         parser.print_help()
         sys.exit(1)
-    parser.add_argument('--flush-cache', action='store_true',
+    parser.add_argument('--update-data', action='store_true',
                         help='Clean application cache')
     parser.add_argument('--disable-unames', action='store_true',
                         help='This will prevent using Unicode names data')
@@ -182,10 +182,10 @@ def check_for_unicodechar(char):
 def main(*argv):
     args = usage()
 
-    if args.flush_cache:
-        import shutil
-        from fontaine.ext.update import get_data_directory
-        shutil.rmtree(get_data_directory())
+    if args.update_data:
+        from fontaine.ext.update import bulkupdate
+        bulkupdate()
+        sys.exit(0)
 
     glyphs = []
     fonts = []

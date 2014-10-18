@@ -31,7 +31,10 @@ def get_file(name, url):
                       'connection to download all character maps'))
         return False
     if r.status_code == 200:
-        with open(name, 'w') as f:
+        logging.warn('Updating {}'.format(name))
+        directory = get_data_directory()
+        filepath = op.join(directory, name)
+        with open(filepath, 'w') as f:
             f.write(r.content)
         return True
 
@@ -45,7 +48,7 @@ def get_from_cache(filename, url):
     return filepath
 
 
-if __name__ == '__main__':
+def bulkupdate():
     get_file('Blocks.txt', 'http://www.unicode.org/Public/UNIDATA/Blocks.txt')
     get_file('languages.xml', 'https://raw.github.com/davelab6/extensis-languages/master/languages.xml')
     get_file('AdobeSourceSansDevanagariGlyphOrderAndAliasDB.txt', 'https://raw.githubusercontent.com/pauldhunt/source-devanagari-sans/master/GlyphOrderAndAliasDB')
