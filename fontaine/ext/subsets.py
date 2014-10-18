@@ -3,6 +3,8 @@ import os
 
 from fontaine.ext.base import BaseExt
 
+import unicodedata
+
 
 class Extension(BaseExt):
 
@@ -46,5 +48,5 @@ class Extension(BaseExt):
             yield type('Charmap', (object,),
                        dict(glyphs=unicodes,
                             common_name=u'Subset %s' % common_name,
-                            short_name='subset-{}'.format(common_name),
+                            short_name=unicodedata.normalize('NFKD', u'subset-{}'.format(common_name)),
                             native_name=''))

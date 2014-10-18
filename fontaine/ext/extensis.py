@@ -4,6 +4,7 @@ import logging
 from lxml import etree
 
 import re
+import unicodedata
 
 from fontaine.ext.base import BaseExt
 from fontaine.ext.update import get_from_cache
@@ -34,9 +35,9 @@ class Extension(BaseExt):
             abbr = ext.getparent().attrib['abbreviated-name']
 
             yield type('Charmap', (object,),
-                       dict(glyphs=unicodes, common_name='Extensis {}'.format(common_name),
+                       dict(glyphs=unicodes, common_name=u'Extensis {}'.format(common_name),
                             native_name='', abbreviation=abbr,
-                            short_name=u'extensis-{}'.format(common_name.lower().replace(' ', '-').replace('-+-', '+'))))
+                            short_name=unicodedata.normalize('NFKD', u'extensis-{}'.format(common_name.lower().replace(' ', '-').replace('-+-', '+')))))
 
     @staticmethod
     def get_codepoints():

@@ -28,6 +28,8 @@ from fontaine.builder import Builder, Director
 from importlib import import_module
 from operator import itemgetter, attrgetter
 
+import unicodedata
+
 
 class FontaineArgParser(argparse.ArgumentParser):
 
@@ -39,7 +41,7 @@ class FontaineArgParser(argparse.ArgumentParser):
             max_length = 0
             for t in result:
                 max_length = max(len(t[0]), max_length)
-            err = '{0:<%s}{1}' % (max_length + 2)
+            err = u'{0:<%s}{1}' % (max_length + 2)
             sys.stderr.write('%s\n' % message)
             string = '\n'.join(map(lambda x: err.format(x[0], x[1]), result))
             print(string)
@@ -48,11 +50,10 @@ class FontaineArgParser(argparse.ArgumentParser):
             max_length = 0
             for t in result:
                 max_length = max(len(t.common_name), max_length)
-            err = '{0:<%s}"{1}"' % (max_length + 2)
+            err = u'{0:<%s}"{1}"' % (max_length + 2)
             sys.stderr.write('%s\n' % message)
-            string = u'\n'.join(map(lambda x: err.format(getattr(x, 'short_name', x.common_name.encode('ascii', 'ignore')),
-                                                         x.common_name.encode('ascii', 'ignore')), result))
-            print(string)
+            for x in result:
+                print(err.format(x.short_name, x.common_name))
         sys.exit(2)
 
 
@@ -81,7 +82,7 @@ def get_availablesets():
     return sorted(library.charmaps, key=attrgetter('common_name'))
 
 
-def definedset(s):
+def availablesets(s):
     if not s:
         return
     result = get_availablesets()
@@ -147,7 +148,7 @@ def usage():
     parser.add_argument('--show-hilbert', action='store_true',
                         help='Create PNG files represented coveragin of font'
                              ' charset in coverage_pngs directory')
-    parser.add_argument('--set', type=definedset, default='',
+    parser.add_argument('--set', type=availablesets, default='',
                         help='Specify the sets based on either common'
                              ' or native name')
     parser.add_argument('--collections', type=collections, default='',

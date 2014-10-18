@@ -66,9 +66,9 @@ class Director(object):
             os.makedirs(self.output_directory)
 
         cmaps = filter(lambda x: hasattr(x, 'key'), self.library.charmaps)
-
         for cmap in cmaps:
             if self.charmaps:
+                print(self.charmaps)
                 cn = getattr(cmap, 'common_name', False)
                 nn = getattr(cmap, 'short_name', False)
                 if cn and cn not in self.charmaps:

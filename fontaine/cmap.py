@@ -54,7 +54,6 @@ class Library(object):
                     module = import_module('fontaine.charmaps.internals.%s' % ext)
                     self.register(module.Charmap)
                 except (ImportError, AttributeError), ex:
-                    print(ex)
                     continue
         return self._charmaps
 

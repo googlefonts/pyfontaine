@@ -3,6 +3,8 @@ import re
 from fontaine.ext.base import BaseExt
 from fontaine.ext.update import get_from_cache
 
+import unicodedata
+
 UNIDATA_URL = 'http://www.unicode.org/Public/UNIDATA/Blocks.txt'
 
 
@@ -28,4 +30,4 @@ class Extension(BaseExt):
                        dict(glyphs=unicodes,
                             common_name=u'Unicode Block %s' % m.group(3),
                             native_name='',
-                            short_name='uni-{}'.format(m.group(3).lower().replace(' ', '-'))))
+                            short_name=unicodedata.normalize('NFKD', u'uni-{}'.format(m.group(3).lower().replace(' ', '-')))))

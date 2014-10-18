@@ -3,6 +3,8 @@ import os
 import os.path
 import re
 
+import unicodedata
+
 from fontaine.ext.base import BaseExt
 
 
@@ -30,7 +32,7 @@ class Extension(BaseExt):
             yield type('Charmap', (object,),
                        dict(glyphs=unicodes, common_name=common_name,
                             native_name='', abbreviation=abbr,
-                            short_name='fontconfig-{}'.format(abbr)))
+                            short_name=unicodedata.normalize('NFKD', u'fontconfig-{}'.format(abbr))))
 
     @staticmethod
     def iterate_orth():
