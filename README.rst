@@ -29,7 +29,7 @@ installer <http://www.pip-installer.org>`__::
 To install the latest development version::
 
     git clone https://github.com/davelab6/pyfontaine.git;
-    cd pyfontaine; 
+    cd pyfontaine;
     sudo python setup.py install;
 
 Usage
@@ -79,6 +79,14 @@ idea, `Øyvind 'pippin' Kolås <http://github.com/hodefoting>`__!):
 ``sh pyfontaine --coverage font.ttf; ls -l coverage_pngs/;`` (The PNG
 files are stored in a new directory, ``coverage_pngs``, under the
 current directory.)
+
+Update collection data
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can update all related text and xml data for collections in realtime with
+argument --update-data. Note. --update-data requires internet connections.
+
+    python --update-data font.ttf
 
 Python Module
 ~~~~~~~~~~~~~

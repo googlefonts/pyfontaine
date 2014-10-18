@@ -185,7 +185,6 @@ def main(*argv):
     if args.update_data:
         from fontaine.ext.update import bulkupdate
         bulkupdate()
-        sys.exit(0)
 
     glyphs = []
     fonts = []
