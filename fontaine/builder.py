@@ -21,7 +21,7 @@ from datetime import datetime
 
 from fontaine.const import SUPPORT_LEVEL_FULL, SUPPORT_LEVEL_UNSUPPORTED
 from fontaine.cmap import library
-from fontaine.font import FontFactory
+from fontaine.font import FontFactory, CharmapInfo
 from fontaine.structures.dict2xml import dict2xml, dict2txt
 
 
@@ -35,6 +35,8 @@ db = os.environ.get('UNAMES_DB') or os.path.join(os.path.dirname(__file__),
 
 
 def format(x):
+    if isinstance(x, str):
+        return x
     return u'U+%04x\x20\x20%s\x20\x20%s' % \
         (x, unichr(x), unicodedata.name(unichr(x), ''))
 
@@ -68,7 +70,6 @@ class Director(object):
         cmaps = filter(lambda x: hasattr(x, 'key'), self.library.charmaps)
         for cmap in cmaps:
             if self.charmaps:
-                print(self.charmaps)
                 cn = getattr(cmap, 'common_name', False)
                 nn = getattr(cmap, 'short_name', False)
                 if cn and cn not in self.charmaps:
@@ -137,26 +138,25 @@ class Director(object):
             desc['characterCount'] = font.character_count
 
             font_charactersets_names = []
-            for charmap, support_level, coverage, missing \
-                    in font.get_orthographies(self.library):
-                if support_level == SUPPORT_LEVEL_UNSUPPORTED:
+            for charmapinfo in font.get_orthographies(self.library):
+                if charmapinfo.support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
                 if 'orthographies' not in desc:
                     desc['orthographies'] = []
 
                 orth = OrderedDict({'orthography': OrderedDict()})
-                orth['orthography']['commonName'] = charmap.common_name
-                orth['orthography']['nativeName'] = charmap.native_name
-                orth['orthography']['supportLevel'] = support_level
+                orth['orthography']['commonName'] = charmapinfo.charmap.common_name
+                orth['orthography']['nativeName'] = charmapinfo.charmap.native_name
+                orth['orthography']['supportLevel'] = charmapinfo.support_level
 
-                if support_level != SUPPORT_LEVEL_FULL:
-                    values = u'\n%s' % u'\n'.join(unicodevalues_asstring(missing))
-                    orth['orthography']['percentCoverage'] = coverage
+                if charmapinfo.support_level != SUPPORT_LEVEL_FULL:
+                    values = u'\n%s' % u'\n'.join(unicodevalues_asstring(charmapinfo.missing))
+                    orth['orthography']['percentCoverage'] = charmapinfo.coverage
                     if self.missingValues:
                         orth['orthography']['missingValues'] = values
 
                 desc['orthographies'].append(orth)
-                font_charactersets_names.append(charmap.common_name)
+                font_charactersets_names.append(charmapinfo.charmap.common_name)
 
             if fonts_charactersets_names:
                 if (tree['identical'] and
@@ -209,8 +209,8 @@ class Builder(object):
             row = [font.common_name.encode('ascii', 'ignore')]
             row += [font.sub_family.encode('ascii', 'ignore')]
             for subset in _library.charmaps:
-                charmap, support_level, coverage, missing = font.get_othography_info(subset)
-                row.append(str(coverage))
+                charmapinfo = CharmapInfo(font, subset)
+                row.append(str(charmapinfo.coverage))
             doc.writerow(row)
 
         data.seek(0)
@@ -224,17 +224,17 @@ class Builder(object):
             print('{|')
             print('| colspan=3 |')
             for subset in _library.charmaps:
-                charmap, supported, coverage, missing = font.get_othography_info(subset)
-                if supported == SUPPORT_LEVEL_UNSUPPORTED:
+                charmapinfo = CharmapInfo(font, subset)
+                if charmapinfo.support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
 
-                glyphs = charmap.glyphs
+                glyphs = subset.glyphs
                 if callable(glyphs):
                     glyphs = glyphs()
 
                 print('|-')
-                print("| [[ %s ]] (%s/%s)  || style='text-align:right'" % (charmap.common_name, len(glyphs) - len(missing), len(glyphs)),
-                      " | {{bartable|%s|%%|2||background:green}}" % coverage)
+                print("| [[ %s ]] (%s/%s)  || style='text-align:right'" % (subset.common_name, len(glyphs) - len(charmapinfo.missing), len(glyphs)),
+                      " | {{bartable|%s|%%|2||background:green}}" % charmapinfo.coverage)
             print('|}')
 
 

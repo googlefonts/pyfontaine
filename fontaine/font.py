@@ -42,7 +42,7 @@ class FontFace(object):
 
     def __init__(self, fontfile):
         import fontTools.ttLib as ttLib
-        self.ttf = ttLib.TTFont(open(fontfile))
+        self.ttf = ttLib.TTFont(fontfile)
         self._flags = 0
 
     def getCharmap(self):
@@ -50,6 +50,9 @@ class FontFace(object):
         if tempcmap is not None:
             return map(lambda s: s[0], tempcmap.cmap.items())
         return []
+
+    def getGlyphNames(self):
+        return self.ttf.getGlyphNames()
 
     def getNames(self):
         return self.ttf['name'].names
@@ -124,14 +127,87 @@ class FontFactory:
         return TTFont(fontfile, charmaps)
 
 
+class CharmapInfo(object):
+
+    def __init__(self, ttfont, charmap):
+        self.charmap = charmap
+        self.missing = []
+        self.ttfont = ttfont
+        self.support_level = SUPPORT_LEVEL_UNSUPPORTED
+        self.coverage = 0
+
+        if hasattr(charmap, 'glyphnames'):
+            self.init_configuration_for_glyphnames()
+        else:
+            self.init_configuration_for_unicodes()
+
+    def init_configuration_for_glyphnames(self):
+        glyphnames = self.charmap.glyphnames
+        glyphs = set(glyphnames.pop())
+        hits = 0
+        while glyphs:
+            if set(glyphs) & set(self.ttfont.getGlyphNames()):
+                hits += 1
+            else:
+                self.missing += glyphs
+
+            if glyphnames:
+                glyphs = set(glyphnames.pop())
+            else:
+                glyphs = None
+
+        glyphs_count = len(self.ttfont.getGlyphNames())
+        if hits == glyphs_count:
+            self.coverage = 100
+            self.support_level = SUPPORT_LEVEL_FULL
+        else:
+            self.coverage = hits * 100 / glyphs_count
+            if self.coverage == 0:
+                pass
+            elif self.coverage < COVERAGE_MINIMAL:
+                self.support_level = SUPPORT_LEVEL_FRAGMENTARY
+            else:
+                self.support_level = SUPPORT_LEVEL_PARTIAL
+
+
+    def init_configuration_for_unicodes(self):
+
+        glyphs = getattr(self.charmap, 'glyphs', [])
+        if callable(glyphs):
+            glyphs = glyphs()
+
+        hits = 0
+        for char in glyphs:
+            if char not in self.ttfont._unicodeValues:
+                self.missing.append(char)
+            else:
+                hits += 1
+
+        glyphs_count = len(glyphs)
+        if hits == glyphs_count:
+            self.coverage = 100
+            self.support_level = SUPPORT_LEVEL_FULL
+        else:
+            self.coverage = hits * 100 / glyphs_count
+            if self.coverage == 0:
+                pass
+            elif self.coverage < COVERAGE_MINIMAL:
+                self.support_level = SUPPORT_LEVEL_FRAGMENTARY
+            else:
+                self.support_level = SUPPORT_LEVEL_PARTIAL
+
+
 class TTFont(object):
 
     def __init__(self, fontfile, charmaps=[]):
         self._fontFace = FontFace(fontfile)
         self._unicodeValues = self._fontFace.getCharmap()
 
-        self._charmaps = map(str.lower, charmaps)
+        self._charmaps = [str.lower(x) for x in charmaps]
         self.refresh_sfnt_properties()
+
+    def getGlyphNames(self):
+        return self._fontFace.getGlyphNames()
 
     def refresh_sfnt_properties(self):
         for record in self._fontFace.getNames():
@@ -139,40 +215,8 @@ class TTFont(object):
             value = unifyunicode(record.string)
             setattr(self, '_%s' % propname, value)
 
-    def get_othography_info(self, charmap, hits=0):
-        ''' Return 4-tuple list with short orthographies information
-            * selected supported character map by py-fontaine
-            * support level with current font instance
-            * percent of coverage filled glyphs
-            * array of missing unicode characters codes
-        '''
-        missing = []
-
-        glyphs = getattr(charmap, 'glyphs', [])
-        if callable(glyphs):
-            glyphs = glyphs()
-
-        for char in glyphs:
-            if char not in self._unicodeValues:
-                missing.append(char)
-            else:
-                hits += 1
-        glyphs_count = len(glyphs)
-        if hits == glyphs_count:
-            return (charmap, SUPPORT_LEVEL_FULL, 100, [])
-
-        coverage = hits * 100 / glyphs_count
-        if coverage == 0:
-            return (charmap, SUPPORT_LEVEL_UNSUPPORTED, 0, [])
-        elif coverage < COVERAGE_MINIMAL:
-            support_level = SUPPORT_LEVEL_FRAGMENTARY
-        else:
-            support_level = SUPPORT_LEVEL_PARTIAL
-        return (charmap, support_level, coverage, missing)
-
     def get_orthographies(self, _library=library):
-        ''' Return array of 4-tuples lists about supported orthographies
-        for current font instance'''
+        ''' Returns list of CharmapInfo about supported orthographies '''
         results = []
         for charmap in _library.charmaps:
             if self._charmaps:
@@ -180,19 +224,19 @@ class TTFont(object):
                 abbr = getattr(charmap, 'abbreviation', False)
                 nn = getattr(charmap, 'short_name', False)
 
-                if cn and cn.lower() in map(str.lower, self._charmaps):
+                if cn and cn.lower() in self._charmaps:
                     results.append(charmap)
 
-                elif nn and nn.lower() in map(str.lower, self._charmaps):
+                elif nn and nn.lower() in self._charmaps:
                     results.append(charmap)
 
-                elif abbr and abbr.lower() in map(str.lower, self._charmaps):
+                elif abbr and abbr.lower() in self._charmaps:
                     results.append(charmap)
             else:
                 results.append(charmap)
 
         for result in results:
-            yield self.get_othography_info(result)
+            yield CharmapInfo(self, result)
 
     _supported_orthographies = []
 
@@ -307,7 +351,7 @@ class FreeTypeFont(TTFont):
         while agindex != 0:
             self._unicodeValues.append(charcode)
             charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
-        self._charmaps = map(str.lower, charmaps)
+        self._charmaps = [charmap.lower() for charmap in charmaps]
         self.refresh_sfnt_properties()
 
     def refresh_sfnt_properties(self):
@@ -324,6 +368,10 @@ class FreeTypeFont(TTFont):
             value = unifyunicode(sfnt_record.string)
             setattr(self, '_%s' % propname, value)
 
+    def getGlyphNames(self):
+        raise NotImplementedError(('Get glyph names is not implemented'
+                                   ' with FreeType library'))
+
 
 class RoboFabFont(TTFont):
 
@@ -333,6 +381,9 @@ class RoboFabFont(TTFont):
         self.info = self._fontFace.info.__dict__
         self._unicodeValues = map(lambda x: x.unicode, self._fontFace)
         self._charmaps = map(str.lower, charmaps)
+
+    def getGlyphNames(self):
+        return [t.name for t in self._fontFace]
 
     @property
     def common_name(self):
