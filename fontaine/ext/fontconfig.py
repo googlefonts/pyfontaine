@@ -29,7 +29,8 @@ class Extension(BaseExt):
 
             yield type('Charmap', (object,),
                        dict(glyphs=unicodes, common_name=common_name,
-                            native_name='', abbreviation=abbr))
+                            native_name='', abbreviation=abbr,
+                            short_name='fontconfig-{}'.format(abbr)))
 
     @staticmethod
     def iterate_orth():

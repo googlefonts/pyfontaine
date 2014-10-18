@@ -23,7 +23,7 @@ class Extension(BaseExt):
         for ext in Extension.get_codepoints():
             parent_name = ext.getparent().attrib.get('parent')
 
-            common_name = u'Extensis %s' % ext.getparent().attrib['name']
+            common_name = ext.getparent().attrib['name']
             unicodes = []
             if parent_name:
                 common_name += u' + ' + parent_name
@@ -34,8 +34,9 @@ class Extension(BaseExt):
             abbr = ext.getparent().attrib['abbreviated-name']
 
             yield type('Charmap', (object,),
-                       dict(glyphs=unicodes, common_name=common_name,
-                            native_name='', abbreviation=abbr))
+                       dict(glyphs=unicodes, common_name='Extensis {}'.format(common_name),
+                            native_name='', abbreviation=abbr,
+                            short_name=u'extensis-{}'.format(common_name.lower().replace(' ', '-').replace('-+-', '+'))))
 
     @staticmethod
     def get_codepoints():

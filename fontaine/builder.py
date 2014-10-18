@@ -70,7 +70,7 @@ class Director(object):
         for cmap in cmaps:
             if self.charmaps:
                 cn = getattr(cmap, 'common_name', False)
-                nn = getattr(cmap, 'native_name', False)
+                nn = getattr(cmap, 'short_name', False)
                 if cn and cn not in self.charmaps:
                     continue
                 if nn and nn not in self.charmaps:

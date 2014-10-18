@@ -23,7 +23,10 @@ class Library(object):
         self.collections = collections
 
     def register(self, charmap):
-        self._charmaps.append(charmap())
+        charmap_ = charmap()
+        if not getattr(charmap_, 'short_name', False):
+            setattr(charmap_, 'short_name', charmap.__module__.split('.')[-1])
+        self._charmaps.append(charmap_)
 
     @property
     def charmaps(self):
@@ -50,7 +53,8 @@ class Library(object):
                 try:
                     module = import_module('fontaine.charmaps.internals.%s' % ext)
                     self.register(module.Charmap)
-                except (ImportError, AttributeError):
+                except (ImportError, AttributeError), ex:
+                    print(ex)
                     continue
         return self._charmaps
 

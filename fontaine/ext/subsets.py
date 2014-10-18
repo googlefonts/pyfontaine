@@ -46,4 +46,5 @@ class Extension(BaseExt):
             yield type('Charmap', (object,),
                        dict(glyphs=unicodes,
                             common_name=u'Subset %s' % common_name,
+                            short_name='subset-{}'.format(common_name),
                             native_name=''))

@@ -48,9 +48,10 @@ class FontaineArgParser(argparse.ArgumentParser):
             max_length = 0
             for t in result:
                 max_length = max(len(t.common_name), max_length)
-            err = '{0:<%s}{1}' % (max_length + 2)
+            err = '{0:<%s}"{1}"' % (max_length + 2)
             sys.stderr.write('%s\n' % message)
-            string = u'\n'.join(map(lambda x: err.format(x.common_name.encode('ascii', 'ignore'), ''), result))
+            string = u'\n'.join(map(lambda x: err.format(getattr(x, 'short_name', x.common_name.encode('ascii', 'ignore')),
+                                                         x.common_name.encode('ascii', 'ignore')), result))
             print(string)
         sys.exit(2)
 
@@ -84,7 +85,7 @@ def definedset(s):
     if not s:
         return
     result = get_availablesets()
-    shorts = map(lambda x: x.common_name, result)
+    shorts = map(lambda x: x.short_name, result)
     invalid = []
     for r in s.split(','):
         if r in shorts:

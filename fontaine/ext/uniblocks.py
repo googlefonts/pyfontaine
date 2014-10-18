@@ -27,4 +27,5 @@ class Extension(BaseExt):
             yield type('Charmap', (object,),
                        dict(glyphs=unicodes,
                             common_name=u'Unicode Block %s' % m.group(3),
-                            native_name=''))
+                            native_name='',
+                            short_name='uni-{}'.format(m.group(3).lower().replace(' ', '-'))))
