@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 #
-# cmap.py
+# pyfontaine
 #
 # Copyright (c) 2013,
 # Виталий Волков <hash.3g@gmail.com>
@@ -115,16 +115,11 @@ def collections(s):
 
 def usage():
     description = """
-    PyFontaine is a tool to analize your fonts or help to see glyphs analytics.
+    pyfontaine compares fonts, characters or glyphnames to defined glyph lists or character sets.
     """
 
     parser = FontaineArgParser(description=description)
-    # parser = argparse.ArgumentParser(description=description)
     parser.add_argument('font', metavar='font', type=str, nargs='+')
-    if len(sys.argv) == 1:
-        print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
-        parser.print_help()
-        sys.exit(1)
     parser.add_argument('--update-data', action='store_true',
                         help='Clean application cache')
     parser.add_argument('--disable-unames', action='store_true',
@@ -158,6 +153,10 @@ def usage():
     param = '%(version)s (%(url)s)' % {'url': url, 'version': VERSION}
     parser.add_argument('-V', '--version', action='version',
                         version="%(prog)s " + param)
+    if len(sys.argv) == 1:
+        print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
+        parser.print_help()
+        sys.exit(1)
     return parser.parse_args()
 
 
