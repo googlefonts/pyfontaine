@@ -231,7 +231,10 @@ def main(*argv):
         rows = [['Character Set'] + map(lambda x: '%s (%s)' % (unichr(x), hex(x)), glyphs)]
         max_length = 0
         for charmap in library.charmaps:
-            charset_glyphs = charmap.glyphs
+            if hasattr(charmap, 'glyphs'):
+                charset_glyphs = charmap.glyphs
+            else:
+                charset_glyphs = charmap.glyphnames
             if callable(charset_glyphs):
                 charset_glyphs = charset_glyphs()
 
