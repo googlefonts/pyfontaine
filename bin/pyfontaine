@@ -162,21 +162,23 @@ def usage():
 
 
 def check_for_unicodechar(char):
+    if os.path.exists(char):
+        return
 
     # char = char.encode('ascii').decode('utf8')
     char = char.decode('utf8')
 
     if len(char) == 1:
-        return ord(char)
+        return [ord(char)]
 
     if re.match('0x[0-9A-Fa-f]+', char):
-        return eval(char)
+        return [eval(char)]
 
     unimatch = re.match(r'U\+([0-9A-Fa-f]+)', char)
     if unimatch:
-        return eval('0x%s' % unimatch.group(1))
+        return [eval('0x%s' % unimatch.group(1))]
 
-    return None
+    return [ord(x) for x in char]
 
 
 def main(*argv):
@@ -186,14 +188,14 @@ def main(*argv):
         from fontaine.ext.update import bulkupdate
         bulkupdate()
 
-    glyphs = []
+    glyphs_groups = []
     fonts = []
 
     for filename in args.font:
         unicodecode = check_for_unicodechar(filename)
 
         if unicodecode:
-            glyphs.append(unicodecode)
+            glyphs_groups.append(unicodecode)
             continue
 
         if not os.path.exists(filename):
@@ -201,7 +203,7 @@ def main(*argv):
             sys.exit(1)
         fonts.append(filename)
 
-    if not fonts and not glyphs:
+    if not fonts and not glyphs_groups:
         sys.exit(0)
 
     if args.collections:
@@ -227,8 +229,8 @@ def main(*argv):
             tree = director.construct_tree(fonts)
             Builder.text_(tree).display()
 
-    if glyphs:
-        rows = [['Character Set'] + map(lambda x: '%s (%s)' % (unichr(x), hex(x)), glyphs)]
+    if glyphs_groups:
+        rows = [['Character Set']]  # + ['%s (%s)' % (unichr(x), hex(x)) for x in [glyphs for glyphs in glyphs_groups]]]
         max_length = 0
         for charmap in library.charmaps:
             if hasattr(charmap, 'glyphs'):
@@ -240,11 +242,17 @@ def main(*argv):
 
             max_length = max(max_length, len(charmap.common_name))
             row = [charmap.common_name]
-            has_true = False
-            for glyph in glyphs:
-                value = glyph in charset_glyphs
-                if value:
-                    has_true = True
+            for glyphs in glyphs_groups:
+                has_true = False
+                true_values = []
+                for glyph in glyphs:
+                    value = glyph in charset_glyphs
+
+                    if value:
+                        has_true = True
+                        true_values.append(value)
+
+                    value = bool(len(true_values) == len(glyphs))
                 row.append(str(value or ''))
 
             if has_true:
