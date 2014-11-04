@@ -118,7 +118,7 @@ def usage():
     PyFontaine is a tool to analize your fonts or help to see glyphs analytics.
     """
 
-    parser = FontaineArgParser(description=description)
+    parser = FontaineArgParser(description=description, add_help=False)
     # parser = argparse.ArgumentParser(description=description)
     parser.add_argument('font', metavar='font', type=str, nargs='+')
     if len(sys.argv) == 1:
