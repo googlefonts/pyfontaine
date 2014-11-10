@@ -14,6 +14,7 @@ bin
 var
 sdist
 develop-eggs
+.idea
 .installed.cfg
 lib
 lib64
