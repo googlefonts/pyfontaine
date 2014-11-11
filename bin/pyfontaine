@@ -159,6 +159,7 @@ def usage():
     parser.add_argument('-V', '--version', action='version',
                         version="%(prog)s " + param)
     if len(sys.argv) == 1:
+        print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
         parser.print_help()
         sys.exit(1)
     return parser.parse_args()
