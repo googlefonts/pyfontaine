@@ -153,6 +153,13 @@ def usage():
     parser.add_argument('--new-glyphmap', action='store_true',
                         help='Output a glyphlist from '
                              'the glyphs present in a font')
+    parser.add_argument('--new-charmap', action='store_true',
+                        help='Output a list of characters from '
+                             'the characters present in a font')
+    parser.add_argument('--compare-chars', action='store_true',
+                        help='Compare chars in fonts.')
+    parser.add_argument('--compare-glyphs', action='store_true',
+                        help='Compare glyphs in fonts.')
 
     url = 'https://github.com/davelab6/pyfontaine'
     param = '%(version)s (%(url)s)' % {'url': url, 'version': VERSION}
@@ -213,6 +220,10 @@ def main(*argv):
     if args.collections:
         library.collections = args.collections.split(',')
 
+    if len(fonts) == 1 and (args.compare_chars or args.compare_glyphs):
+        print('Need two or more fonts for comparison.', file=sys.stderr)
+        sys.exit(1)
+
     if fonts:
         if args.disable_unames:
             os.environ['DISABLE_UNAMES'] = 'disable'
@@ -232,6 +243,72 @@ def main(*argv):
         elif args.new_glyphmap:
             for glyph in TTFont(fonts[0]).getGlyphNames():
                 print(glyph)
+        elif args.new_charmap:
+            for char in TTFont(fonts[0])._fontFace.getCharmap():
+                print(char)
+        elif args.compare_chars:
+            standard_font = fonts.pop(0)
+            standard_charmap = TTFont(standard_font)._fontFace.getCharmapFull()
+            print('All fonts are compared to "{0}".'.format(standard_font))
+            for font in fonts:
+                charmap = TTFont(font)._fontFace.getCharmapFull()
+                missing_right = set(standard_charmap) - set(charmap)
+                missing_left = set(charmap) - set(standard_charmap)
+                if missing_right:
+                    col_width = [max(len(str(c)) for c in item) \
+                                 for item in zip(*missing_right)]
+                    print('\nFont "{0}" is missing {1} '
+                          'chars:'.format(font, len(missing_right)))
+                    for codepoint, symbol, uni_symbol in missing_right:
+                        print(str(codepoint).ljust(col_width[0] + 2),
+                              symbol.ljust(col_width[1] + 2),
+                              uni_symbol.ljust(col_width[2] + 2))
+                if missing_left:
+                    col_width = [max(len(str(c)) for c in item) \
+                                 for item in zip(*missing_left)]
+                    print('\nFont "{0}" has {1} chars that are not present in '
+                          'target font:'.format(font, len(missing_left)))
+                    for codepoint, symbol, uni_symbol in missing_left:
+                        print(str(codepoint).ljust(col_width[0] + 2),
+                              symbol.ljust(col_width[1] + 2),
+                              uni_symbol.ljust(col_width[2] + 2))
+                elif not(missing_left or missing_right):
+                    print('\nFonts "{0}" and "{1}" have equal '
+                          'characters sets.'.format(standard_font, font))
+        elif args.compare_glyphs:
+            standard_font = fonts.pop(0)
+            standard_ttf = TTFont(standard_font)._fontFace.ttf
+            standard_glyphnames = standard_ttf.getGlyphNames()
+            print('All fonts are compared to "{0}".'.format(standard_font))
+            for font in fonts:
+                ttf = TTFont(font)._fontFace.ttf
+                glyphnames = ttf.getGlyphNames()
+                missing_right = set(standard_glyphnames) - set(glyphnames)
+                missing_left = set(glyphnames) - set(standard_glyphnames)
+                if missing_right:
+                    missing = [(g_name, standard_ttf.getGlyphID(g_name)) \
+                               for g_name in missing_right]
+                    col_width = [max(len(str(c)) for c in item) \
+                                 for item in zip(*missing)]
+                    print('\nFont "{0}" is missing {1} '
+                          'glyphs:'.format(font, len(missing_right)))
+                    for g_name, g_id in missing:
+                        print(g_name.ljust(col_width[0] + 2),
+                              str(g_id).ljust(col_width[1] + 2))
+                if missing_left:
+                    missing = [(g_name, ttf.getGlyphID(g_name)) \
+                               for g_name in missing_left]
+
+                    col_width = [max(len(str(c)) for c in item) \
+                                 for item in zip(*missing)]
+                    print('\nFont "{0}" has {1} glyphs that are not present in '
+                          'target font:'.format(font, len(missing_left)))
+                    for g_name, g_id in missing:
+                        print(g_name.ljust(col_width[0] + 2),
+                              str(g_id).ljust(col_width[1] + 2))
+                elif not(missing_left or missing_right):
+                    print('\nFonts "{0}" and "{1}" have equal '
+                          'glyphs sets.'.format(standard_font, font))
         else:
             tree = director.construct_tree(fonts)
             Builder.text_(tree).display()

@@ -8,10 +8,12 @@
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
+from itertools import chain
 import os
 
 from fontaine.cmap import library
 from fontaine.const import *
+from fontTools.unicode import Unicode
 
 
 def unifyunicode(string):
@@ -50,6 +52,13 @@ class FontFace(object):
         if tempcmap is not None:
             return map(lambda s: s[0], tempcmap.cmap.items())
         return []
+
+    def getCharmapFull(self):
+        # returns itertools.chain object each element of which
+        # is a tuple of 3 elements like
+        # (73, 'I', 'LATIN CAPITAL LETTER I')
+        return chain.from_iterable([item + (Unicode[item[0]],) for item in t.cmap.items()] \
+                                   for t in self.ttf["cmap"].tables)
 
     def getGlyphNames(self):
         return self.ttf.getGlyphNames()
@@ -168,7 +177,6 @@ class CharmapInfo(object):
                 self.support_level = SUPPORT_LEVEL_FRAGMENTARY
             else:
                 self.support_level = SUPPORT_LEVEL_PARTIAL
-
 
     def init_configuration_for_unicodes(self):
 
