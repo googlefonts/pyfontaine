@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import re
-import fontaine
-from fontaine.ext.base import BaseExt
-from fontaine.ext.update import get_from_cache
-
-
-from collections import OrderedDict
 import fnmatch
 import os
+import re
+
+import fontaine
+from fontaine.ext.base import BaseExt
 
 
 def get_targets(directory):

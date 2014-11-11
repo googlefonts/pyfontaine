@@ -25,6 +25,7 @@ import fontaine
 from fontaine import VERSION
 from fontaine.cmap import library
 from fontaine.builder import Builder, Director
+from fontaine.font import TTFont
 from importlib import import_module
 from operator import itemgetter, attrgetter
 
@@ -149,13 +150,15 @@ def usage():
                              ' or native name')
     parser.add_argument('--collections', type=collections, default='',
                         help='Specify collections of charmaps to print')
+    parser.add_argument('--new-glyphmap', action='store_true',
+                        help='Output a glyphlist from '
+                             'the glyphs present in a font')
 
     url = 'https://github.com/davelab6/pyfontaine'
     param = '%(version)s (%(url)s)' % {'url': url, 'version': VERSION}
     parser.add_argument('-V', '--version', action='version',
                         version="%(prog)s " + param)
     if len(sys.argv) == 1:
-        print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
         parser.print_help()
         sys.exit(1)
     return parser.parse_args()
@@ -225,6 +228,9 @@ def main(*argv):
             Builder.json_(tree)
         elif args.wiki:
             Builder.wiki(fonts)
+        elif args.new_glyphmap:
+            for glyph in TTFont(fonts[0]).getGlyphNames():
+                print(glyph)
         else:
             tree = director.construct_tree(fonts)
             Builder.text_(tree).display()
