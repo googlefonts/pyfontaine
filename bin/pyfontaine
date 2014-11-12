@@ -24,7 +24,7 @@ sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 import fontaine
 from fontaine import VERSION
 from fontaine.cmap import library
-from fontaine.builder import Builder, Director
+from fontaine.builder import Builder, Director, CharMapGen, GlyphMapGen
 from fontaine.font import TTFont
 from importlib import import_module
 from operator import itemgetter, attrgetter
@@ -150,12 +150,18 @@ def usage():
                              ' or native name')
     parser.add_argument('--collections', type=collections, default='',
                         help='Specify collections of charmaps to print')
-    parser.add_argument('--new-glyphmap', action='store_true',
+    parser.add_argument('--new-glyphmap-txt', action='store_true',
                         help='Output a glyphlist from '
-                             'the glyphs present in a font')
-    parser.add_argument('--new-charmap', action='store_true',
+                             'the glyphs present in a font to a text file.')
+    parser.add_argument('--new-charmap-txt', action='store_true',
                         help='Output a list of characters from '
-                             'the characters present in a font')
+                             'the characters present in a font to a text file.')
+    parser.add_argument('--new-charmap-py', action='store_true',
+                        help='Output a list of characters from the characters '
+                             'present in a font to a python file.')
+    parser.add_argument('--new-glyphmap-py', action='store_true',
+                        help='Output a list of glyphs from the glyphs '
+                             'present in a font to a python file.')
     parser.add_argument('--compare-chars', action='store_true',
                         help='Compare chars in fonts.')
     parser.add_argument('--compare-glyphs', action='store_true',
@@ -240,12 +246,30 @@ def main(*argv):
             Builder.json_(tree)
         elif args.wiki:
             Builder.wiki(fonts)
-        elif args.new_glyphmap:
+        elif args.new_glyphmap_txt:
             for glyph in TTFont(fonts[0]).getGlyphNames():
                 print(glyph)
-        elif args.new_charmap:
+        elif args.new_charmap_txt:
             for char in TTFont(fonts[0])._fontFace.getCharmap():
                 print(char)
+        elif args.new_charmap_py:
+            font = fonts[0]
+            charmap = TTFont(font)._fontFace.getCharmapFull()
+            charmap_gen = CharMapGen(
+                charmap,
+                common_name=os.path.splitext(os.path.basename(font))[0]
+            )
+            charmap_gen.generate()
+            print(charmap_gen.py_gen.get_code())
+        elif args.new_glyphmap_py:
+            font = fonts[0]
+            glyphmap = TTFont(font)._fontFace.ttf.getReverseGlyphMap().items()
+            glyphmap_gen = GlyphMapGen(
+                glyphmap,
+                common_name=os.path.splitext(os.path.basename(font))[0]
+            )
+            glyphmap_gen.generate()
+            print(glyphmap_gen.py_gen.get_code())
         elif args.compare_chars:
             standard_font = fonts.pop(0)
             standard_charmap = TTFont(standard_font)._fontFace.getCharmapFull()

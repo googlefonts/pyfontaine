@@ -179,6 +179,93 @@ class Director(object):
         return tree
 
 
+class PyGen(object):
+    """
+    This is a very simplified code generator :)
+    Do not use pickle, eval, exec etc
+    """
+    def __init__(self):
+        self.code = []
+        self.tab = '    '
+        self.level = 0
+
+    def get_code(self):
+        return ''.join(self.code)
+
+    def write(self, string):
+        self.code.append(self.tab * self.level + string + '\n')
+
+    def newline(self, no=1):
+        res = ''
+        i = 1
+        while i <= no:
+            res += '\n'
+            i += 1
+        self.code.append(res)
+
+    def indent(self):
+        self.level += 1
+
+    def dedent(self):
+        if self.level == 0:
+            raise SyntaxError('Internal error in code generator')
+        self.level -= 1
+
+
+class CharMapGen(object):
+    def __init__(self, chars, **kwargs):
+        self.py_gen = PyGen()
+        self._chars = chars
+        self._common_name = kwargs.get('common_name', u'')
+        self._native_name = kwargs.get('native_name', u'')
+
+    def generate(self):
+        self.py_gen.write('# -*- coding: utf-8 -*-')
+        self.py_gen.newline(no=2)
+        self.py_gen.write('class Charmap(object):')
+        self.py_gen.indent()
+        self.py_gen.write('common_name = \'{0}\''.format(self._common_name))
+        self.py_gen.write('native_name = \'{0}\''.format(self._native_name))
+        self.py_gen.newline()
+        self.py_gen.write('def glyphs(self):')
+        self.py_gen.indent()
+        self.py_gen.write('chars = []')
+        for char in self._chars:
+            hex_formatted = '0x%0.4X' % char[0]
+            self.py_gen.write('chars.append({0})  #{1}'
+                              '\t{2}'.format(hex_formatted, char[1], char[2]))
+        self.py_gen.write('return chars')
+        self.py_gen.dedent()
+        self.py_gen.newline()
+
+
+class GlyphMapGen(object):
+    def __init__(self, glyphs, **kwargs):
+        self.py_gen = PyGen()
+        self._glyphs = glyphs
+        self._common_name = kwargs.get('common_name', u'')
+        self._native_name = kwargs.get('native_name', u'')
+
+    def generate(self):
+        self.py_gen.write('# -*- coding: utf-8 -*-')
+        self.py_gen.newline(no=2)
+        self.py_gen.write('class Charmap(object):')
+        self.py_gen.indent()
+        self.py_gen.write('common_name = \'{0}\''.format(self._common_name))
+        self.py_gen.write('native_name = \'{0}\''.format(self._native_name))
+        self.py_gen.newline()
+        self.py_gen.write('def glyphs(self):')
+        self.py_gen.indent()
+        self.py_gen.write('glyphs = []')
+        for glyph in self._glyphs:
+            hex_formatted = '0x%0.4X' % glyph[1]
+            self.py_gen.write('glyphs.append({0})  '
+                              '#{1}'.format(hex_formatted, glyph[0]))
+        self.py_gen.write('return glyphs')
+        self.py_gen.dedent()
+        self.py_gen.newline()
+
+
 class Builder(object):
 
     @staticmethod
