@@ -4,7 +4,7 @@ class Charmap:
     native_name = u'Slovenský Abeceda'
     key = ord(u'Č')
     abbreviation = 'SLK'
-    polishAlphabet = u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÁÄÉÍÓÔÚÝáäéíóôúýČčĎďĹĺĽľŇňŔŕŠšŤťŽž"
+    slovakAlphabet = u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÁÄÉÍÓÔÚÝáäéíóôúýČčĎďĹĺĽľŇňŔŕŠšŤťŽž"
     glyphs = map(ord, slovakAlphabet)
 
 # class names must be unique in each file
@@ -12,7 +12,7 @@ class CharmapAccents:
     common_name = u'Slovak Accents'
     native_name = u'Slovenský Akcenty'
     key = ord(u'č')
-    polishAccents = u"ÁÄÉÍÓÔÚÝáäéíóôúýČčĎďĹĺĽľŇňŔŕŠšŤťŽž"
+    slovakAccents = u"ÁÄÉÍÓÔÚÝáäéíóôúýČčĎďĹĺĽľŇňŔŕŠšŤťŽž"
     abbreviation = 'SLKA'
     glyphs = map(ord, slovakAccents)
 
