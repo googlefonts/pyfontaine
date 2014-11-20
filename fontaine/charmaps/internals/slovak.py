@@ -6,20 +6,3 @@ class Charmap:
     abbreviation = 'SLK'
     slovakAlphabet = u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÁÄÉÍÓÔÚÝáäéíóôúýČčĎďĹĺĽľŇňŔŕŠšŤťŽž"
     glyphs = map(ord, slovakAlphabet)
-
-# class names must be unique in each file
-class CharmapAccents:
-    common_name = u'Slovak Accents'
-    native_name = u'Slovenský Akcenty'
-    key = ord(u'č')
-    slovakAccents = u"ÁÄÉÍÓÔÚÝáäéíóôúýČčĎďĹĺĽľŇňŔŕŠšŤťŽž"
-    abbreviation = 'SLKA'
-    glyphs = map(ord, slovakAccents)
-
-# Class objects named Charmap are registed automatically.
-# Since we have a 2nd Charmap with another name,
-# we must register this class manually
-from fontaine.cmap import library
-library.register(CharmapAccents)
-
-
