@@ -21,6 +21,12 @@ and Unicode websites.
 Installation
 ------------
 
+On Mac OS X, install the pyicu dependency as follows:
+
+    CFLAGS=-I/usr/local/opt/icu4c/include \
+    LDFLAGS=-L/usr/local/opt/icu4c/lib \
+    pip install pyicu;
+
 Install the latest release easily with the `pip
 installer <http://www.pip-installer.org>`__::
 
