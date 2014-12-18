@@ -33,7 +33,6 @@ class Extension(BaseExt):
                     glyphnames.append(re.sub(r'\s+', ' ', line).split())
             charmap_dict = dict(glyphnames=glyphnames,
                                 common_name=target['name'],
-                                # short_name=target['name'].lower().replace(' ', '_'),
                                 short_name=target['name'],
                                 native_name='')
             charmaps.append(type('Charmap', (object,), charmap_dict))

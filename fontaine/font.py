@@ -152,7 +152,9 @@ class CharmapInfo(object):
 
     def init_configuration_for_glyphnames(self):
         glyphnames = self.charmap.glyphnames
-        glyphs = set(glyphnames.pop())
+        glyphs = None
+        if glyphnames:
+            glyphs = set(glyphnames.pop())
         hits = 0
         while glyphs:
             if set(glyphs) & set(self.ttfont.getGlyphNames()):
