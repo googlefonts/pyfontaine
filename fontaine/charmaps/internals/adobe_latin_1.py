@@ -235,5 +235,3 @@ class Charmap:
         glyphs += [0xFB01] # LATIN SMALL LIGATURE FIVE
         glyphs += [0xFB02] # LATIN SMALL LIGATURE FL
         return glyphs
-
-

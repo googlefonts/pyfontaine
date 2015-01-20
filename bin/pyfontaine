@@ -21,15 +21,12 @@ sys.path.append(os.path.realpath(path))
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
-import fontaine
 from fontaine import VERSION
 from fontaine.cmap import library
 from fontaine.builder import Builder, Director, CharMapGen, GlyphMapGen
 from fontaine.font import TTFont
 from importlib import import_module
-from operator import itemgetter, attrgetter
-
-import unicodedata
+from operator import attrgetter
 
 
 class FontaineArgParser(argparse.ArgumentParser):
@@ -209,16 +206,17 @@ def main(*argv):
     fonts = []
 
     for filename in args.font:
+        if os.path.exists(filename):
+            fonts.append(filename)
+            continue
+
         unicodecode = check_for_unicodechar(filename)
 
         if unicodecode:
             glyphs_groups.append(unicodecode)
             continue
 
-        if not os.path.exists(filename):
-            print("'%s' is not found" % (filename))
-            sys.exit(1)
-        fonts.append(filename)
+        print("'%s' is not found" % (filename))
 
     if not fonts and not glyphs_groups:
         sys.exit(0)
