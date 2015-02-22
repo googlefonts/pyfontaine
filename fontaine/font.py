@@ -44,7 +44,7 @@ class FontFace(object):
 
     def __init__(self, fontfile):
         import fontTools.ttLib as ttLib
-        self.ttf = ttLib.TTFont(fontfile)
+        self.ttf = ttLib.TTFont(fontfile, fontNumber=1)
         self._flags = 0
 
     def getCharmap(self):
