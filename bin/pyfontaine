@@ -77,7 +77,7 @@ def get_collections():
 
 
 def get_availablesets():
-    return sorted(library.charmaps, key=attrgetter('common_name'))
+    return sorted(library.charsets, key=attrgetter('common_name'))
 
 
 def availablesets(s):
@@ -146,14 +146,14 @@ def usage():
                         help='Specify the sets based on either common'
                              ' or native name')
     parser.add_argument('--collections', type=collections, default='',
-                        help='Specify collections of charmaps to print')
+                        help='Specify collections of charsets to print')
     parser.add_argument('--new-glyphmap-txt', action='store_true',
                         help='Output a glyphlist from '
                              'the glyphs present in a font to a text file.')
-    parser.add_argument('--new-charmap-txt', action='store_true',
+    parser.add_argument('--new-charset-txt', action='store_true',
                         help='Output a list of characters from '
                              'the characters present in a font to a text file.')
-    parser.add_argument('--new-charmap-py', action='store_true',
+    parser.add_argument('--new-charset-py', action='store_true',
                         help='Output a list of characters from the characters '
                              'present in a font to a python file.')
     parser.add_argument('--new-glyphmap-py', action='store_true',
@@ -232,7 +232,7 @@ def main(*argv):
         if args.disable_unames:
             os.environ['DISABLE_UNAMES'] = 'disable'
 
-        director = Director(charmaps=(args.set or '').split(','),
+        director = Director(charsets=(args.set or '').split(','),
                             missing=args.missing)
         if args.xml:
             tree = director.construct_tree(fonts)
@@ -247,18 +247,18 @@ def main(*argv):
         elif args.new_glyphmap_txt:
             for glyph in TTFont(fonts[0]).getGlyphNames():
                 print(glyph)
-        elif args.new_charmap_txt:
+        elif args.new_charset_txt:
             for char in TTFont(fonts[0])._fontFace.getCharmap():
                 print(char)
-        elif args.new_charmap_py:
+        elif args.new_charset_py:
             font = fonts[0]
-            charmap = TTFont(font)._fontFace.getCharmapFull()
-            charmap_gen = CharMapGen(
-                charmap,
+            charset = TTFont(font)._fontFace.getCharmapFull()
+            charset_gen = CharMapGen(
+                charset,
                 common_name=os.path.splitext(os.path.basename(font))[0]
             )
-            charmap_gen.generate()
-            print(charmap_gen.py_gen.get_code())
+            charset_gen.generate()
+            print(charset_gen.py_gen.get_code())
         elif args.new_glyphmap_py:
             font = fonts[0]
             glyphmap = TTFont(font)._fontFace.ttf.getReverseGlyphMap().items()
@@ -270,12 +270,12 @@ def main(*argv):
             print(glyphmap_gen.py_gen.get_code())
         elif args.compare_chars:
             standard_font = fonts.pop(0)
-            standard_charmap = TTFont(standard_font)._fontFace.getCharmapFull()
+            standard_charset = TTFont(standard_font)._fontFace.getCharmapFull()
             print('All fonts are compared to "{0}".'.format(standard_font))
             for font in fonts:
-                charmap = TTFont(font)._fontFace.getCharmapFull()
-                missing_right = set(standard_charmap) - set(charmap)
-                missing_left = set(charmap) - set(standard_charmap)
+                charset = TTFont(font)._fontFace.getCharmapFull()
+                missing_right = set(standard_charset) - set(charset)
+                missing_left = set(charset) - set(standard_charset)
                 if missing_right:
                     col_width = [max(len(str(c)) for c in item) \
                                  for item in zip(*missing_right)]
@@ -338,16 +338,16 @@ def main(*argv):
     if glyphs_groups:
         rows = [['Character Set']]  # + ['%s (%s)' % (unichr(x), hex(x)) for x in [glyphs for glyphs in glyphs_groups]]]
         max_length = 0
-        for charmap in library.charmaps:
-            if hasattr(charmap, 'glyphs'):
-                charset_glyphs = charmap.glyphs
+        for charset in library.charsets:
+            if hasattr(charset, 'glyphs'):
+                charset_glyphs = charset.glyphs
             else:
-                charset_glyphs = charmap.glyphnames
+                charset_glyphs = charset.glyphnames
             if callable(charset_glyphs):
                 charset_glyphs = charset_glyphs()
 
-            max_length = max(max_length, len(charmap.common_name))
-            row = [charmap.common_name]
+            max_length = max(max_length, len(charset.common_name))
+            row = [charset.common_name]
             for glyphs in glyphs_groups:
                 has_true = False
                 true_values = []

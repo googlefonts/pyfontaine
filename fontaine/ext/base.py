@@ -17,7 +17,7 @@ class PackageRequiredException(Exception):
 
 class BaseExt(object):
 
-    CHARACTER_SET_PATH = op.realpath(op.join(op.dirname(__file__), '..', 'charmaps'))
+    CHARACTER_SET_PATH = op.realpath(op.join(op.dirname(__file__), '..', 'charsets'))
 
     @staticmethod
     def convert_to_list_of_unicodes(string):
@@ -34,5 +34,5 @@ class BaseExt(object):
                    filter(lambda x: x != '', string.split(',')))
 
     @classmethod
-    def get_charmaps(cls):
-        return cls.__getcharmaps__()
+    def get_charsets(cls):
+        return cls.__getcharsets__()

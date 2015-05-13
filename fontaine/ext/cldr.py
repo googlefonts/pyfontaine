@@ -15,7 +15,7 @@ class Extension(BaseExt):
     description = 'CLDR collection'
 
     @staticmethod
-    def to_charmap(locale):
+    def to_charset(locale):
         glyphs = []
 
         try:
@@ -32,10 +32,10 @@ class Extension(BaseExt):
         return glyphs
 
     @staticmethod
-    def __getcharmaps__():
+    def __getcharsets__():
         for key, locale in icu.Locale.getAvailableLocales().items():
-            yield type('Charmap', (object,),
-                       dict(glyphs=Extension.to_charmap(locale),
+            yield type('Charset', (object,),
+                       dict(glyphs=Extension.to_charset(locale),
                             common_name='CLDR ' + locale.getDisplayName(),
                             native_name='', abbreviation=key,
                             short_name='cldr-{}'.format(key)))

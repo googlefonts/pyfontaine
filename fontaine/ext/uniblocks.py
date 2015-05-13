@@ -14,7 +14,7 @@ class Extension(BaseExt):
     description = 'Uniblocks collections'
 
     @staticmethod
-    def __getcharmaps__():
+    def __getcharsets__():
         content = open(get_from_cache('Blocks.txt', UNIDATA_URL), 'r').read()
 
         regex = re.compile('^([\da-f]+)..([\da-f]+);\s*(.*)$', re.I | re.U)
@@ -26,7 +26,7 @@ class Extension(BaseExt):
 
             glyphlist = '0x%s-0x%s' % (m.group(1), m.group(2))
             unicodes = Extension.convert_to_list_of_unicodes(glyphlist)
-            yield type('Charmap', (object,),
+            yield type('Charset', (object,),
                        dict(glyphs=unicodes,
                             common_name=u'Unicode Block %s' % m.group(3),
                             native_name='',

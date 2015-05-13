@@ -1,0 +1,113 @@
+# -*- coding: utf-8 -*-
+
+
+class Charset(object):
+    common_name = 'NotoSansTifinagh-Regular'
+    native_name = ''
+
+    def glyphs(self):
+        glyphs = []
+        glyphs.append(0x005E)  #dotbelowcomb
+        glyphs.append(0x0020)  #uni2D4C
+        glyphs.append(0x001F)  #uni2D4B
+        glyphs.append(0x001E)  #uni2D4A
+        glyphs.append(0x0023)  #uni2D4F
+        glyphs.append(0x0022)  #uni2D4E
+        glyphs.append(0x0021)  #uni2D4D
+        glyphs.append(0x0001)  #uniFEFF
+        glyphs.append(0x0061)  #glyph00097
+        glyphs.append(0x0060)  #glyph00096
+        glyphs.append(0x0063)  #glyph00099
+        glyphs.append(0x0062)  #glyph00098
+        glyphs.append(0x000C)  #uni2D38
+        glyphs.append(0x000D)  #uni2D39
+        glyphs.append(0x000A)  #uni2D36
+        glyphs.append(0x000B)  #uni2D37
+        glyphs.append(0x0008)  #uni2D34
+        glyphs.append(0x0009)  #uni2D35
+        glyphs.append(0x0006)  #uni2D32
+        glyphs.append(0x0007)  #uni2D33
+        glyphs.append(0x0004)  #uni2D30
+        glyphs.append(0x0005)  #uni2D31
+        glyphs.append(0x0044)  #glyph00068
+        glyphs.append(0x0045)  #glyph00069
+        glyphs.append(0x0042)  #glyph00066
+        glyphs.append(0x0043)  #glyph00067
+        glyphs.append(0x0011)  #uni2D3D
+        glyphs.append(0x0041)  #glyph00065
+        glyphs.append(0x000F)  #uni2D3B
+        glyphs.append(0x003F)  #glyph00063
+        glyphs.append(0x000E)  #uni2D3A
+        glyphs.append(0x0064)  #uni200D
+        glyphs.append(0x001D)  #uni2D49
+        glyphs.append(0x001C)  #uni2D48
+        glyphs.append(0x0017)  #uni2D43
+        glyphs.append(0x0016)  #uni2D42
+        glyphs.append(0x0015)  #uni2D41
+        glyphs.append(0x0014)  #uni2D40
+        glyphs.append(0x001B)  #uni2D47
+        glyphs.append(0x001A)  #uni2D46
+        glyphs.append(0x0019)  #uni2D45
+        glyphs.append(0x0018)  #uni2D44
+        glyphs.append(0x004F)  #glyph00079
+        glyphs.append(0x004E)  #glyph00078
+        glyphs.append(0x004B)  #glyph00075
+        glyphs.append(0x004A)  #glyph00074
+        glyphs.append(0x004D)  #glyph00077
+        glyphs.append(0x004C)  #glyph00076
+        glyphs.append(0x0047)  #glyph00071
+        glyphs.append(0x0046)  #glyph00070
+        glyphs.append(0x0049)  #glyph00073
+        glyphs.append(0x0048)  #glyph00072
+        glyphs.append(0x003C)  #uni2D6F
+        glyphs.append(0x0059)  #acutecomb
+        glyphs.append(0x002C)  #uni2D58
+        glyphs.append(0x002D)  #uni2D59
+        glyphs.append(0x0024)  #uni2D50
+        glyphs.append(0x0025)  #uni2D51
+        glyphs.append(0x0026)  #uni2D52
+        glyphs.append(0x0027)  #uni2D53
+        glyphs.append(0x0028)  #uni2D54
+        glyphs.append(0x0029)  #uni2D55
+        glyphs.append(0x002A)  #uni2D56
+        glyphs.append(0x002B)  #uni2D57
+        glyphs.append(0x002E)  #uni2D5A
+        glyphs.append(0x002F)  #uni2D5B
+        glyphs.append(0x0030)  #uni2D5C
+        glyphs.append(0x0031)  #uni2D5D
+        glyphs.append(0x0032)  #uni2D5E
+        glyphs.append(0x0033)  #uni2D5F
+        glyphs.append(0x0039)  #uni2D65
+        glyphs.append(0x0038)  #uni2D64
+        glyphs.append(0x003B)  #uni2D67
+        glyphs.append(0x003A)  #uni2D66
+        glyphs.append(0x0035)  #uni2D61
+        glyphs.append(0x0034)  #uni2D60
+        glyphs.append(0x0037)  #uni2D63
+        glyphs.append(0x0036)  #uni2D62
+        glyphs.append(0x0000)  #.notdef
+        glyphs.append(0x003D)  #uni2D70
+        glyphs.append(0x0002)  #uni000D
+        glyphs.append(0x005F)  #uni0331
+        glyphs.append(0x0003)  #uni00A0
+        glyphs.append(0x003E)  #uni2D7F
+        glyphs.append(0x0013)  #uni2D3F
+        glyphs.append(0x0040)  #glyph00064
+        glyphs.append(0x0012)  #uni2D3E
+        glyphs.append(0x0010)  #uni2D3C
+        glyphs.append(0x005C)  #uni0306
+        glyphs.append(0x005D)  #uni0307
+        glyphs.append(0x005B)  #uni0304
+        glyphs.append(0x005A)  #uni0302
+        glyphs.append(0x0058)  #glyph00088
+        glyphs.append(0x0054)  #glyph00084
+        glyphs.append(0x0055)  #glyph00085
+        glyphs.append(0x0056)  #glyph00086
+        glyphs.append(0x0057)  #glyph00087
+        glyphs.append(0x0050)  #glyph00080
+        glyphs.append(0x0051)  #glyph00081
+        glyphs.append(0x0052)  #glyph00082
+        glyphs.append(0x0053)  #glyph00083
+        return glyphs
+
+

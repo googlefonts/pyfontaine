@@ -22,8 +22,8 @@ class Extension(BaseExt):
     description = 'Glyph Lists'
 
     @staticmethod
-    def __getcharmaps__():
-        charmaps = []
+    def __getcharsets__():
+        charsets = []
         target_directory = os.path.join(os.path.dirname(fontaine.__file__),
                                         'glyphlists')
         for target in get_targets(target_directory):
@@ -31,9 +31,9 @@ class Extension(BaseExt):
             with open(target['path'], 'r') as f:
                 for line in f:
                     glyphnames.append(re.sub(r'\s+', ' ', line).split())
-            charmap_dict = dict(glyphnames=glyphnames,
+            charset_dict = dict(glyphnames=glyphnames,
                                 common_name=target['name'],
                                 short_name=target['name'],
                                 native_name='')
-            charmaps.append(type('Charmap', (object,), charmap_dict))
-        return charmaps
+            charsets.append(type('Charset', (object,), charset_dict))
+        return charsets

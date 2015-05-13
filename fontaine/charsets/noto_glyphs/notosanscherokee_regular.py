@@ -1,0 +1,101 @@
+# -*- coding: utf-8 -*-
+
+
+class Charset(object):
+    common_name = 'NotoSansCherokee-Regular'
+    native_name = ''
+
+    def glyphs(self):
+        glyphs = []
+        glyphs.append(0x002C)  #uni13F3
+        glyphs.append(0x001F)  #uni13F2
+        glyphs.append(0x0001)  #uniFEFF
+        glyphs.append(0x0050)  #uni13F0
+        glyphs.append(0x0012)  #uni13F4
+        glyphs.append(0x0047)  #uni13F1
+        glyphs.append(0x000E)  #uni13D9
+        glyphs.append(0x0045)  #uni13D8
+        glyphs.append(0x0026)  #uni13D5
+        glyphs.append(0x001D)  #uni13D4
+        glyphs.append(0x0044)  #uni13D7
+        glyphs.append(0x0039)  #uni13D6
+        glyphs.append(0x0049)  #uni13D1
+        glyphs.append(0x003C)  #uni13D0
+        glyphs.append(0x0028)  #uni13D3
+        glyphs.append(0x002A)  #uni13D2
+        glyphs.append(0x0036)  #uni13EB
+        glyphs.append(0x0041)  #uni13EC
+        glyphs.append(0x0032)  #uni13EA
+        glyphs.append(0x0057)  #uni13EF
+        glyphs.append(0x0030)  #uni13ED
+        glyphs.append(0x0052)  #uni13EE
+        glyphs.append(0x002D)  #uni13E8
+        glyphs.append(0x002E)  #uni13E9
+        glyphs.append(0x0011)  #uni13E2
+        glyphs.append(0x0016)  #uni13E3
+        glyphs.append(0x003F)  #uni13E0
+        glyphs.append(0x0034)  #uni13E1
+        glyphs.append(0x0022)  #uni13E6
+        glyphs.append(0x0038)  #uni13E7
+        glyphs.append(0x004A)  #uni13E4
+        glyphs.append(0x0020)  #uni13E5
+        glyphs.append(0x000F)  #uni13DE
+        glyphs.append(0x0023)  #uni13DD
+        glyphs.append(0x0010)  #uni13DF
+        glyphs.append(0x0024)  #uni13DA
+        glyphs.append(0x0058)  #uni13DC
+        glyphs.append(0x0051)  #uni13DB
+        glyphs.append(0x0000)  #.notdef
+        glyphs.append(0x002F)  #uni13B6
+        glyphs.append(0x0054)  #uni13CD
+        glyphs.append(0x003B)  #uni13CE
+        glyphs.append(0x003A)  #uni13CF
+        glyphs.append(0x0056)  #uni13CA
+        glyphs.append(0x003E)  #uni13CB
+        glyphs.append(0x001B)  #uni13CC
+        glyphs.append(0x0048)  #uni13B9
+        glyphs.append(0x003D)  #uni13B8
+        glyphs.append(0x000A)  #uni13B7
+        glyphs.append(0x0002)  #uni000D
+        glyphs.append(0x0037)  #uni13B5
+        glyphs.append(0x0053)  #uni13B4
+        glyphs.append(0x0009)  #uni13B3
+        glyphs.append(0x0033)  #uni13B2
+        glyphs.append(0x0029)  #uni13B1
+        glyphs.append(0x0013)  #uni13B0
+        glyphs.append(0x0003)  #uni00A0
+        glyphs.append(0x004F)  #uni13BF
+        glyphs.append(0x000C)  #uni13BE
+        glyphs.append(0x0019)  #uni13BD
+        glyphs.append(0x004E)  #uni13BC
+        glyphs.append(0x000B)  #uni13BB
+        glyphs.append(0x001A)  #uni13BA
+        glyphs.append(0x0035)  #uni13C8
+        glyphs.append(0x004C)  #uni13C9
+        glyphs.append(0x004D)  #uni13C4
+        glyphs.append(0x0021)  #uni13C5
+        glyphs.append(0x0031)  #uni13C6
+        glyphs.append(0x0055)  #uni13C7
+        glyphs.append(0x002B)  #uni13C0
+        glyphs.append(0x0043)  #uni13C1
+        glyphs.append(0x001E)  #uni13C2
+        glyphs.append(0x000D)  #uni13C3
+        glyphs.append(0x0042)  #uni13AF
+        glyphs.append(0x004B)  #uni13AD
+        glyphs.append(0x0017)  #uni13AE
+        glyphs.append(0x0027)  #uni13AB
+        glyphs.append(0x0008)  #uni13AC
+        glyphs.append(0x0007)  #uni13AA
+        glyphs.append(0x0025)  #uni13A6
+        glyphs.append(0x0040)  #uni13A7
+        glyphs.append(0x0014)  #uni13A4
+        glyphs.append(0x0015)  #uni13A5
+        glyphs.append(0x0006)  #uni13A2
+        glyphs.append(0x0046)  #uni13A3
+        glyphs.append(0x0004)  #uni13A0
+        glyphs.append(0x0005)  #uni13A1
+        glyphs.append(0x001C)  #uni13A8
+        glyphs.append(0x0018)  #uni13A9
+        return glyphs
+
+

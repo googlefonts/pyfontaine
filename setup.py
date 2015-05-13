@@ -27,7 +27,7 @@ setup(name='fontaine',
       author_email='dave@lab6.com',
       url='https://github.com/davelab6/pyfontaine',
       # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
-      packages=['fontaine', 'fontaine.charmaps', 'fontaine.charmaps.internals', 'fontaine.structures', 'fontaine.ext'],
+      packages=['fontaine', 'fontaine.charsets', 'fontaine.charsets.internals', 'fontaine.structures', 'fontaine.ext'],
       install_requires=[
           'lxml',
           'requests'
@@ -35,9 +35,9 @@ setup(name='fontaine',
       dependency_links=['https://github.com/behdad/fontTools/tarball/master#egg=fontTools-2.4'],
       package_data={
           'fontaine': [
-              'charmaps/names.db/*.*',
-              'charmaps/fontconfig/fc-lang/*.orth',
-              'charmaps/subsets/*.txt',
+              'charsets/names.db/*.*',
+              'charsets/fontconfig/fc-lang/*.orth',
+              'charsets/subsets/*.txt',
               'ext/data/*.*',
               'glyphlists/*.txt'
           ]

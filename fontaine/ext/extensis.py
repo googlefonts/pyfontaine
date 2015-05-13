@@ -19,7 +19,7 @@ class Extension(BaseExt):
     description = 'Extensis collection'
 
     @staticmethod
-    def __getcharmaps__():
+    def __getcharsets__():
         glyphs = {}
         for ext in Extension.get_codepoints():
             parent_name = ext.getparent().attrib.get('parent')
@@ -34,7 +34,7 @@ class Extension(BaseExt):
 
             abbr = ext.getparent().attrib['abbreviated-name']
 
-            yield type('Charmap', (object,),
+            yield type('Charset', (object,),
                        dict(glyphs=unicodes, common_name=u'Extensis {}'.format(common_name),
                             native_name='', abbreviation=abbr,
                             short_name=unicodedata.normalize('NFKD', u'extensis-{}'.format(common_name.lower().replace(' ', '-').replace('-+-', '+')))))

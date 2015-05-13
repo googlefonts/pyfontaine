@@ -28,16 +28,16 @@ def lookup_languages(unichar, _library=library):
     except AssertionError:
         return []
 
-    charmaps = []
+    charsets = []
 
-    for charmap in _library.charmaps:
+    for charset in _library.charsets:
 
-        glyphs = getattr(charmap, 'glyphs', [])
+        glyphs = getattr(charset, 'glyphs', [])
         if callable(glyphs):
             glyphs = glyphs()
         if ord(unicode(unichar)) in glyphs:
-            charmaps.append(charmap)
-    return charmaps
+            charsets.append(charset)
+    return charsets
 
 
 class FontFace(object):
@@ -47,13 +47,13 @@ class FontFace(object):
         self.ttf = ttLib.TTFont(fontfile, fontNumber=1)
         self._flags = 0
 
-    def getCharmap(self):
+    def getCharset(self):
         tempcmap = self.ttf['cmap'].getcmap(3, 1)
         if tempcmap is not None:
             return map(lambda s: s[0], tempcmap.cmap.items())
         return []
 
-    def getCharmapFull(self):
+    def getCharsetFull(self):
         # returns itertools.chain object each element of which
         # is a tuple of 3 elements like
         # (73, 'I', 'LATIN CAPITAL LETTER I')
@@ -119,39 +119,39 @@ class TTXFontFace(FontFace):
 class FontFactory:
 
     @staticmethod
-    def openfont(fontfile, charmaps=[]):
+    def openfont(fontfile, charsets=[]):
         if fontfile.lower().endswith('.ttx'):
-            return TTXFont(fontfile, charmaps)
+            return TTXFont(fontfile, charsets)
         if fontfile.lower().endswith('.ufo') and os.path.isdir(fontfile):
             try:
                 import robofab
-                return RoboFabFont(fontfile, charmaps)
+                return RoboFabFont(fontfile, charsets)
             except ImportError:
                 raise Exception('Install [RoboFab](https://pypi.python.org/pypi/robofab/) before using UFO with Pyfontaine')
         try:
             import freetype
-            return FreeTypeFont(fontfile, charmaps)
+            return FreeTypeFont(fontfile, charsets)
         except ImportError:
             pass
-        return TTFont(fontfile, charmaps)
+        return TTFont(fontfile, charsets)
 
 
-class CharmapInfo(object):
+class CharsetInfo(object):
 
-    def __init__(self, ttfont, charmap):
-        self.charmap = charmap
+    def __init__(self, ttfont, charset):
+        self.charset = charset
         self.missing = []
         self.ttfont = ttfont
         self.support_level = SUPPORT_LEVEL_UNSUPPORTED
         self.coverage = 0
 
-        if hasattr(charmap, 'glyphnames'):
+        if hasattr(charset, 'glyphnames'):
             self.init_configuration_for_glyphnames()
         else:
             self.init_configuration_for_unicodes()
 
     def init_configuration_for_glyphnames(self):
-        glyphnames = self.charmap.glyphnames
+        glyphnames = self.charset.glyphnames
         glyphs = None
         if glyphnames:
             glyphs = set(glyphnames.pop())
@@ -182,7 +182,7 @@ class CharmapInfo(object):
 
     def init_configuration_for_unicodes(self):
 
-        glyphs = getattr(self.charmap, 'glyphs', [])
+        glyphs = getattr(self.charset, 'glyphs', [])
         if callable(glyphs):
             glyphs = glyphs()
 
@@ -209,11 +209,11 @@ class CharmapInfo(object):
 
 class TTFont(object):
 
-    def __init__(self, fontfile, charmaps=[]):
+    def __init__(self, fontfile, charsets=[]):
         self._fontFace = FontFace(fontfile)
-        self._unicodeValues = self._fontFace.getCharmap()
+        self._unicodeValues = self._fontFace.getCharset()
 
-        self._charmaps = [str.lower(x) for x in charmaps]
+        self._charsets = [str.lower(x) for x in charsets]
         self.refresh_sfnt_properties()
 
     def getGlyphNames(self):
@@ -226,27 +226,27 @@ class TTFont(object):
             setattr(self, '_%s' % propname, value)
 
     def get_orthographies(self, _library=library):
-        ''' Returns list of CharmapInfo about supported orthographies '''
+        ''' Returns list of CharsetInfo about supported orthographies '''
         results = []
-        for charmap in _library.charmaps:
-            if self._charmaps:
-                cn = getattr(charmap, 'common_name', False)
-                abbr = getattr(charmap, 'abbreviation', False)
-                nn = getattr(charmap, 'short_name', False)
+        for charset in _library.charsets:
+            if self._charsets:
+                cn = getattr(charset, 'common_name', False)
+                abbr = getattr(charset, 'abbreviation', False)
+                nn = getattr(charset, 'short_name', False)
 
-                if cn and cn.lower() in self._charmaps:
-                    results.append(charmap)
+                if cn and cn.lower() in self._charsets:
+                    results.append(charset)
 
-                elif nn and nn.lower() in self._charmaps:
-                    results.append(charmap)
+                elif nn and nn.lower() in self._charsets:
+                    results.append(charset)
 
-                elif abbr and abbr.lower() in self._charmaps:
-                    results.append(charmap)
+                elif abbr and abbr.lower() in self._charsets:
+                    results.append(charset)
             else:
-                results.append(charmap)
+                results.append(charset)
 
         for result in results:
-            yield CharmapInfo(self, result)
+            yield CharsetInfo(self, result)
 
     _supported_orthographies = []
 
@@ -343,17 +343,17 @@ class TTFont(object):
 
 class TTXFont(TTFont):
 
-    def __init__(self, fontfile, charmaps=[]):
+    def __init__(self, fontfile, charsets=[]):
         self._fontFace = TTXFontFace(fontfile)
-        self._unicodeValues = self._fontFace.getCharmap()
+        self._unicodeValues = self._fontFace.getCharset()
 
-        self._charmaps = map(str.lower, charmaps)
+        self._charsets = map(str.lower, charsets)
         self.refresh_sfnt_properties()
 
 
 class FreeTypeFont(TTFont):
 
-    def __init__(self, fontfile, charmaps=[]):
+    def __init__(self, fontfile, charsets=[]):
         import freetype
         self._unicodeValues = []
         self._fontFace = freetype.Face(fontfile)
@@ -361,7 +361,7 @@ class FreeTypeFont(TTFont):
         while agindex != 0:
             self._unicodeValues.append(charcode)
             charcode, agindex = self._fontFace.get_next_char(charcode, agindex)
-        self._charmaps = [charmap.lower() for charmap in charmaps]
+        self._charsets = [charset.lower() for charset in charsets]
         self.refresh_sfnt_properties()
 
     def refresh_sfnt_properties(self):
@@ -385,12 +385,12 @@ class FreeTypeFont(TTFont):
 
 class RoboFabFont(TTFont):
 
-    def __init__(self, fontfile, charmaps=[]):
+    def __init__(self, fontfile, charsets=[]):
         import robofab.world
         self._fontFace = robofab.world.OpenFont(fontfile)
         self.info = self._fontFace.info.__dict__
         self._unicodeValues = map(lambda x: x.unicode, self._fontFace)
-        self._charmaps = map(str.lower, charmaps)
+        self._charsets = map(str.lower, charsets)
 
     def getGlyphNames(self):
         return [t.name for t in self._fontFace]

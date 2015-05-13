@@ -1,0 +1,103 @@
+# -*- coding: utf-8 -*-
+
+
+class Charset(object):
+    common_name = 'NotoSansNewTaiLue-Regular'
+    native_name = ''
+
+    def glyphs(self):
+        glyphs = []
+        glyphs.append(0x003E)  #uni19BE
+        glyphs.append(0x003D)  #uni19BD
+        glyphs.append(0x003F)  #uni19BF
+        glyphs.append(0x003A)  #uni19BA
+        glyphs.append(0x003C)  #uni19BC
+        glyphs.append(0x003B)  #uni19BB
+        glyphs.append(0x0001)  #uniFEFF
+        glyphs.append(0x005A)  #glyph00090
+        glyphs.append(0x0024)  #uni19A0
+        glyphs.append(0x0025)  #uni19A1
+        glyphs.append(0x0026)  #uni19A2
+        glyphs.append(0x0027)  #uni19A3
+        glyphs.append(0x0028)  #uni19A4
+        glyphs.append(0x0029)  #uni19A5
+        glyphs.append(0x002A)  #uni19A6
+        glyphs.append(0x002B)  #uni19A7
+        glyphs.append(0x002C)  #uni19A8
+        glyphs.append(0x002D)  #uni19A9
+        glyphs.append(0x002E)  #uni19AA
+        glyphs.append(0x002F)  #uni19AB
+        glyphs.append(0x0043)  #uni19C3
+        glyphs.append(0x0040)  #uni19C0
+        glyphs.append(0x0020)  #uni199C
+        glyphs.append(0x0021)  #uni199D
+        glyphs.append(0x0022)  #uni199E
+        glyphs.append(0x0039)  #uni19B9
+        glyphs.append(0x0023)  #uni199F
+        glyphs.append(0x0035)  #uni19B5
+        glyphs.append(0x0034)  #uni19B4
+        glyphs.append(0x0037)  #uni19B7
+        glyphs.append(0x0036)  #uni19B6
+        glyphs.append(0x0031)  #uni19B1
+        glyphs.append(0x0030)  #uni19B0
+        glyphs.append(0x0033)  #uni19B3
+        glyphs.append(0x0032)  #uni19B2
+        glyphs.append(0x000D)  #uni1989
+        glyphs.append(0x000C)  #uni1988
+        glyphs.append(0x0053)  #uni19D9
+        glyphs.append(0x0052)  #uni19D8
+        glyphs.append(0x0007)  #uni1983
+        glyphs.append(0x0006)  #uni1982
+        glyphs.append(0x0005)  #uni1981
+        glyphs.append(0x004E)  #uni19D4
+        glyphs.append(0x000B)  #uni1987
+        glyphs.append(0x000A)  #uni1986
+        glyphs.append(0x0009)  #uni1985
+        glyphs.append(0x0008)  #uni1984
+        glyphs.append(0x0048)  #uni19C8
+        glyphs.append(0x0049)  #uni19C9
+        glyphs.append(0x0042)  #uni19C2
+        glyphs.append(0x001E)  #uni199A
+        glyphs.append(0x001F)  #uni199B
+        glyphs.append(0x0041)  #uni19C1
+        glyphs.append(0x0046)  #uni19C6
+        glyphs.append(0x0047)  #uni19C7
+        glyphs.append(0x0044)  #uni19C4
+        glyphs.append(0x0045)  #uni19C5
+        glyphs.append(0x001C)  #uni1998
+        glyphs.append(0x001D)  #uni1999
+        glyphs.append(0x0014)  #uni1990
+        glyphs.append(0x0015)  #uni1991
+        glyphs.append(0x0016)  #uni1992
+        glyphs.append(0x0017)  #uni1993
+        glyphs.append(0x0018)  #uni1994
+        glyphs.append(0x0019)  #uni1995
+        glyphs.append(0x001A)  #uni1996
+        glyphs.append(0x001B)  #uni1997
+        glyphs.append(0x0000)  #.notdef
+        glyphs.append(0x0010)  #uni198C
+        glyphs.append(0x000F)  #uni198B
+        glyphs.append(0x0055)  #uni19DE
+        glyphs.append(0x0013)  #uni198F
+        glyphs.append(0x0054)  #uni19DA
+        glyphs.append(0x0011)  #uni198D
+        glyphs.append(0x0002)  #uni000D
+        glyphs.append(0x0051)  #uni19D7
+        glyphs.append(0x0050)  #uni19D6
+        glyphs.append(0x004F)  #uni19D5
+        glyphs.append(0x0004)  #uni1980
+        glyphs.append(0x004D)  #uni19D3
+        glyphs.append(0x0003)  #uni00A0
+        glyphs.append(0x004C)  #uni19D2
+        glyphs.append(0x004B)  #uni19D1
+        glyphs.append(0x004A)  #uni19D0
+        glyphs.append(0x0056)  #uni19DF
+        glyphs.append(0x000E)  #uni198A
+        glyphs.append(0x0038)  #uni19B8
+        glyphs.append(0x0058)  #glyph00088
+        glyphs.append(0x0059)  #glyph00089
+        glyphs.append(0x0057)  #glyph00087
+        glyphs.append(0x0012)  #uni198E
+        return glyphs
+
+

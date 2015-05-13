@@ -13,7 +13,7 @@ INCLUDE_REGEX = re.compile('include ([\w]+.orth)', re.I | re.U | re.S)
 
 
 dirname = os.path.dirname(fontaine.__file__)
-ORTH_SOURCE_DIR = os.path.join(dirname, 'charmaps', 'fontconfig', 'fc-lang')
+ORTH_SOURCE_DIR = os.path.join(dirname, 'charsets', 'fontconfig', 'fc-lang')
 
 
 class Extension(BaseExt):
@@ -22,14 +22,14 @@ class Extension(BaseExt):
     description = 'FontConfig collection'
 
     @staticmethod
-    def __getcharmaps__():
+    def __getcharsets__():
         for ext in Extension.iterate_orth():
-            unicodes, common_name, abbr = Extension.get_orth_charmap(ext)
+            unicodes, common_name, abbr = Extension.get_orth_charset(ext)
 
             if not common_name:
                 continue
 
-            yield type('Charmap', (object,),
+            yield type('Charset', (object,),
                        dict(glyphs=unicodes, common_name=common_name,
                             native_name='', abbreviation=abbr,
                             short_name=unicodedata.normalize('NFKD', u'fontconfig-{}'.format(abbr))))
@@ -84,7 +84,7 @@ class Extension(BaseExt):
         return common_name, common_name_match.group(2), ','.join(glyphs)
 
     @staticmethod
-    def get_orth_charmap(orthfile):
+    def get_orth_charset(orthfile):
         with open(orthfile) as fp:
             content = fp.read()
 

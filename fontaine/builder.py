@@ -21,7 +21,7 @@ from datetime import datetime
 
 from fontaine.const import SUPPORT_LEVEL_FULL, SUPPORT_LEVEL_UNSUPPORTED
 from fontaine.cmap import library
-from fontaine.font import FontFactory, CharmapInfo
+from fontaine.font import FontFactory, CharsetInfo
 from fontaine.structures.dict2xml import dict2xml, dict2txt
 
 
@@ -30,7 +30,7 @@ def yesno(val):
 
 
 db = os.environ.get('UNAMES_DB') or os.path.join(os.path.dirname(__file__),
-                                                 'charmaps', 'names.db',
+                                                 'charsets', 'names.db',
                                                  'en.names-db')
 
 
@@ -54,10 +54,10 @@ extract_firstline = lambda text: \
 
 class Director(object):
 
-    def __init__(self, show_hilbert=None, charmaps=[], missing=False,
+    def __init__(self, show_hilbert=None, charsets=[], missing=False,
                  _library=None):
         self.show_hilbert = show_hilbert
-        self.charmaps = filter(lambda x: x != '', charmaps)
+        self.charsets = filter(lambda x: x != '', charsets)
         self.missingValues = missing
         strdate = datetime.now().strftime('%Y-%m-%d-%H%M%S')
         self.output_directory = 'pyfontaine-%s' % strdate
@@ -67,14 +67,14 @@ class Director(object):
         if not os.path.exists(self.output_directory):
             os.makedirs(self.output_directory)
 
-        cmaps = filter(lambda x: hasattr(x, 'key'), self.library.charmaps)
+        cmaps = filter(lambda x: hasattr(x, 'key'), self.library.charsets)
         for cmap in cmaps:
-            if self.charmaps:
+            if self.charsets:
                 cn = getattr(cmap, 'common_name', False)
                 nn = getattr(cmap, 'short_name', False)
-                if cn and cn not in self.charmaps:
+                if cn and cn not in self.charsets:
                     continue
-                if nn and nn not in self.charmaps:
+                if nn and nn not in self.charsets:
                     continue
 
             if cmap.key not in font._unicodeValues:
@@ -116,7 +116,7 @@ class Director(object):
         # set to tree flag `identical` to `False`
         fonts_charactersets_names = []
         for font_filename in fonts:
-            font = FontFactory.openfont(font_filename, charmaps=self.charmaps)
+            font = FontFactory.openfont(font_filename, charsets=self.charsets)
 
             F = OrderedDict()
             desc = OrderedDict()
@@ -138,25 +138,25 @@ class Director(object):
             desc['characterCount'] = font.character_count
 
             font_charactersets_names = []
-            for charmapinfo in font.get_orthographies(self.library):
-                if charmapinfo.support_level == SUPPORT_LEVEL_UNSUPPORTED:
+            for charsetinfo in font.get_orthographies(self.library):
+                if charsetinfo.support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
                 if 'orthographies' not in desc:
                     desc['orthographies'] = []
 
                 orth = OrderedDict({'orthography': OrderedDict()})
-                orth['orthography']['commonName'] = charmapinfo.charmap.common_name
-                orth['orthography']['nativeName'] = charmapinfo.charmap.native_name
-                orth['orthography']['supportLevel'] = charmapinfo.support_level
+                orth['orthography']['commonName'] = charsetinfo.charset.common_name
+                orth['orthography']['nativeName'] = charsetinfo.charset.native_name
+                orth['orthography']['supportLevel'] = charsetinfo.support_level
 
-                if charmapinfo.support_level != SUPPORT_LEVEL_FULL:
-                    values = u'\n%s' % u'\n'.join(unicodevalues_asstring(charmapinfo.missing))
-                    orth['orthography']['percentCoverage'] = charmapinfo.coverage
+                if charsetinfo.support_level != SUPPORT_LEVEL_FULL:
+                    values = u'\n%s' % u'\n'.join(unicodevalues_asstring(charsetinfo.missing))
+                    orth['orthography']['percentCoverage'] = charsetinfo.coverage
                     if self.missingValues:
                         orth['orthography']['missingValues'] = values
 
                 desc['orthographies'].append(orth)
-                font_charactersets_names.append(charmapinfo.charmap.common_name)
+                font_charactersets_names.append(charsetinfo.charset.common_name)
 
             if fonts_charactersets_names:
                 if (tree['identical'] and
@@ -222,7 +222,7 @@ class CharMapGen(object):
     def generate(self):
         self.py_gen.write('# -*- coding: utf-8 -*-')
         self.py_gen.newline(no=2)
-        self.py_gen.write('class Charmap(object):')
+        self.py_gen.write('class Charset(object):')
         self.py_gen.indent()
         self.py_gen.write('common_name = \'{0}\''.format(self._common_name))
         self.py_gen.write('native_name = \'{0}\''.format(self._native_name))
@@ -249,7 +249,7 @@ class GlyphMapGen(object):
     def generate(self):
         self.py_gen.write('# -*- coding: utf-8 -*-')
         self.py_gen.newline(no=2)
-        self.py_gen.write('class Charmap(object):')
+        self.py_gen.write('class Charset(object):')
         self.py_gen.indent()
         self.py_gen.write('common_name = \'{0}\''.format(self._common_name))
         self.py_gen.write('native_name = \'{0}\''.format(self._native_name))
@@ -287,7 +287,7 @@ class Builder(object):
         doc = csv.writer(data, delimiter=',', quoting=csv.QUOTE_MINIMAL)
 
         headers = ['Family', 'Style']
-        for subset in _library.charmaps:
+        for subset in _library.charsets:
             headers.append(subset.common_name.encode('ascii', 'ignore'))
         doc.writerow(headers)
 
@@ -295,9 +295,9 @@ class Builder(object):
             font = FontFactory.openfont(filename)
             row = [font.common_name.encode('ascii', 'ignore')]
             row += [font.sub_family.encode('ascii', 'ignore')]
-            for subset in _library.charmaps:
-                charmapinfo = CharmapInfo(font, subset)
-                row.append(str(charmapinfo.coverage))
+            for subset in _library.charsets:
+                charsetinfo = CharsetInfo(font, subset)
+                row.append(str(charsetinfo.coverage))
             doc.writerow(row)
 
         data.seek(0)
@@ -310,9 +310,9 @@ class Builder(object):
             print('=== %s ===' % font.common_name.encode('ascii', 'ignore'))
             print('{|')
             print('| colspan=3 |')
-            for subset in _library.charmaps:
-                charmapinfo = CharmapInfo(font, subset)
-                if charmapinfo.support_level == SUPPORT_LEVEL_UNSUPPORTED:
+            for subset in _library.charsets:
+                charsetinfo = CharsetInfo(font, subset)
+                if charsetinfo.support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
 
                 glyphs = subset.glyphs
@@ -320,8 +320,8 @@ class Builder(object):
                     glyphs = glyphs()
 
                 print('|-')
-                print("| [[ %s ]] (%s/%s)  || style='text-align:right'" % (subset.common_name, len(glyphs) - len(charmapinfo.missing), len(glyphs)),
-                      " | {{bartable|%s|%%|2||background:green}}" % charmapinfo.coverage)
+                print("| [[ %s ]] (%s/%s)  || style='text-align:right'" % (subset.common_name, len(glyphs) - len(charsetinfo.missing), len(glyphs)),
+                      " | {{bartable|%s|%%|2||background:green}}" % charsetinfo.coverage)
             print('|}')
 
 

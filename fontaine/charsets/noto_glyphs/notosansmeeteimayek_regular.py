@@ -1,0 +1,103 @@
+# -*- coding: utf-8 -*-
+
+
+class Charset(object):
+    common_name = 'NotoSansMeeteiMayek-Regular'
+    native_name = ''
+
+    def glyphs(self):
+        glyphs = []
+        glyphs.append(0x0033)  #uniABD8
+        glyphs.append(0x0034)  #uniABD9
+        glyphs.append(0x002F)  #uniABD4
+        glyphs.append(0x0030)  #uniABD5
+        glyphs.append(0x0031)  #uniABD6
+        glyphs.append(0x0032)  #uniABD7
+        glyphs.append(0x002B)  #uniABD0
+        glyphs.append(0x002C)  #uniABD1
+        glyphs.append(0x002D)  #uniABD2
+        glyphs.append(0x002E)  #uniABD3
+        glyphs.append(0x0001)  #uniFEFF
+        glyphs.append(0x005A)  #glyph00090
+        glyphs.append(0x0048)  #uniABED
+        glyphs.append(0x0047)  #uniABEC
+        glyphs.append(0x0046)  #uniABEB
+        glyphs.append(0x0045)  #uniABEA
+        glyphs.append(0x0038)  #uniABDD
+        glyphs.append(0x0039)  #uniABDE
+        glyphs.append(0x003A)  #uniABDF
+        glyphs.append(0x0035)  #uniABDA
+        glyphs.append(0x0036)  #uniABDB
+        glyphs.append(0x0037)  #uniABDC
+        glyphs.append(0x0029)  #uniABCE
+        glyphs.append(0x0028)  #uniABCD
+        glyphs.append(0x002A)  #uniABCF
+        glyphs.append(0x0025)  #uniABCA
+        glyphs.append(0x003C)  #uniABE1
+        glyphs.append(0x003B)  #uniABE0
+        glyphs.append(0x004F)  #uniABF6
+        glyphs.append(0x0050)  #uniABF7
+        glyphs.append(0x004D)  #uniABF4
+        glyphs.append(0x004E)  #uniABF5
+        glyphs.append(0x004B)  #uniABF2
+        glyphs.append(0x004C)  #uniABF3
+        glyphs.append(0x0049)  #uniABF0
+        glyphs.append(0x004A)  #uniABF1
+        glyphs.append(0x0051)  #uniABF8
+        glyphs.append(0x0052)  #uniABF9
+        glyphs.append(0x0011)  #uniAAED
+        glyphs.append(0x0012)  #uniAAEE
+        glyphs.append(0x0013)  #uniAAEF
+        glyphs.append(0x000E)  #uniAAEA
+        glyphs.append(0x000F)  #uniAAEB
+        glyphs.append(0x0010)  #uniAAEC
+        glyphs.append(0x0002)  #uni000D
+        glyphs.append(0x0003)  #uni00A0
+        glyphs.append(0x0008)  #uniAAE4
+        glyphs.append(0x0009)  #uniAAE5
+        glyphs.append(0x000A)  #uniAAE6
+        glyphs.append(0x000B)  #uniAAE7
+        glyphs.append(0x0004)  #uniAAE0
+        glyphs.append(0x0005)  #uniAAE1
+        glyphs.append(0x0006)  #uniAAE2
+        glyphs.append(0x0007)  #uniAAE3
+        glyphs.append(0x000C)  #uniAAE8
+        glyphs.append(0x000D)  #uniAAE9
+        glyphs.append(0x0015)  #uniAAF1
+        glyphs.append(0x0014)  #uniAAF0
+        glyphs.append(0x0017)  #uniAAF3
+        glyphs.append(0x0016)  #uniAAF2
+        glyphs.append(0x0019)  #uniAAF5
+        glyphs.append(0x0018)  #uniAAF4
+        glyphs.append(0x001A)  #uniAAF6
+        glyphs.append(0x0024)  #uniABC9
+        glyphs.append(0x0023)  #uniABC8
+        glyphs.append(0x0020)  #uniABC5
+        glyphs.append(0x001F)  #uniABC4
+        glyphs.append(0x0022)  #uniABC7
+        glyphs.append(0x0021)  #uniABC6
+        glyphs.append(0x001C)  #uniABC1
+        glyphs.append(0x001B)  #uniABC0
+        glyphs.append(0x001E)  #uniABC3
+        glyphs.append(0x001D)  #uniABC2
+        glyphs.append(0x0044)  #uniABE9
+        glyphs.append(0x0043)  #uniABE8
+        glyphs.append(0x0042)  #uniABE7
+        glyphs.append(0x0041)  #uniABE6
+        glyphs.append(0x0040)  #uniABE5
+        glyphs.append(0x003F)  #uniABE4
+        glyphs.append(0x003E)  #uniABE3
+        glyphs.append(0x003D)  #uniABE2
+        glyphs.append(0x0027)  #uniABCC
+        glyphs.append(0x0026)  #uniABCB
+        glyphs.append(0x0000)  #.notdef
+        glyphs.append(0x0058)  #glyph00088
+        glyphs.append(0x0059)  #glyph00089
+        glyphs.append(0x0054)  #glyph00084
+        glyphs.append(0x0055)  #glyph00085
+        glyphs.append(0x0056)  #glyph00086
+        glyphs.append(0x0057)  #glyph00087
+        glyphs.append(0x0053)  #glyph00083
+        return glyphs
+
+

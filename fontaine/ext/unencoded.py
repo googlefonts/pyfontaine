@@ -14,14 +14,14 @@ class Extension(BaseExt):
     description = 'Unencoded Glyphs'
 
     @staticmethod
-    def __getcharmaps__():
+    def __getcharsets__():
         f = open(get_from_cache('AdobeSourceSansDevanagariGlyphOrderAndAliasDB.txt', URL), 'r')
 
         glyphnames = []
         for line in f:
             glyphnames += [re.sub(r'\s+', ' ', line).split()]
 
-        return [type('Charmap', (object,),
+        return [type('Charset', (object,),
                      dict(glyphnames=glyphnames,
                           common_name='Unencoded Glyphs',
                           short_name='unencoded-glyphs',

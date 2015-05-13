@@ -32,7 +32,7 @@ class Extension(BaseExt):
         return open(path).read()
 
     @staticmethod
-    def __getcharmaps__():
+    def __getcharsets__():
         for filepath in os.listdir(Extension.path):
             common_name = os.path.splitext(os.path.basename(filepath))[0]
 
@@ -45,7 +45,7 @@ class Extension(BaseExt):
                 if not ch:
                     continue
                 unicodes.append(int(ch.lstrip('U+'), 16))
-            yield type('Charmap', (object,),
+            yield type('Charset', (object,),
                        dict(glyphs=unicodes,
                             common_name=u'Subset %s' % common_name,
                             short_name=unicodedata.normalize('NFKD', u'subset-{}'.format(common_name)),
