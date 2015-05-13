@@ -37,5 +37,5 @@ class Extension(BaseExt):
             yield type('Charmap', (object,),
                        dict(glyphs=Extension.to_charmap(locale),
                             common_name='CLDR ' + locale.getDisplayName(),
-                            native_name='', abbreviation=locale,
-                            short_name='cldr-{}'.format(locale)))
+                            native_name='', abbreviation=key,
+                            short_name='cldr-{}'.format(key)))
