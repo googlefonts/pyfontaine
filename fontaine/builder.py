@@ -153,6 +153,8 @@ class Director(object):
                 if charsetinfo.support_level != SUPPORT_LEVEL_FULL:
                     values = u'\n%s' % u'\n'.join(unicodevalues_asstring(charsetinfo.missing))
                     orth['orthography']['percentCoverage'] = charsetinfo.coverage
+                    orth['orthography']['Coverage'] = charsetinfo.glyphs_count
+                    orth['orthography']['SetTotal'] = charsetinfo.hits
                     if self.missingValues:
                         orth['orthography']['missingValues'] = values
 
@@ -353,7 +355,9 @@ NAMES = {
     'orthography': 'Orthography',
     'supportLevel': 'Support level',
     'percentCoverage': 'Percent coverage',
-    'missingValues': 'Missing values'
+    'missingValues': 'Missing values',
+    'Coverage': 'Coverage',
+    'SetTotal': 'Set total'
 }
 
 

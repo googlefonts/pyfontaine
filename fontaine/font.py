@@ -155,10 +155,10 @@ class CharsetInfo(object):
         glyphs = None
         if glyphnames:
             glyphs = set(glyphnames.pop())
-        hits = 0
+        self.hits = 0
         while glyphs:
             if set(glyphs) & set(self.ttfont.getGlyphNames()):
-                hits += 1
+                self.hits += 1
             else:
                 self.missing += glyphs
 
@@ -167,12 +167,12 @@ class CharsetInfo(object):
             else:
                 glyphs = None
 
-        glyphs_count = len(self.ttfont.getGlyphNames())
-        if hits == glyphs_count:
+        self.glyphs_count = len(self.ttfont.getGlyphNames())
+        if self.hits == self.glyphs_count:
             self.coverage = 100
             self.support_level = SUPPORT_LEVEL_FULL
         else:
-            self.coverage = hits * 100 / glyphs_count
+            self.coverage = self.hits * 100 / self.glyphs_count
             if self.coverage == 0:
                 pass
             elif self.coverage < COVERAGE_MINIMAL:
@@ -186,19 +186,19 @@ class CharsetInfo(object):
         if callable(glyphs):
             glyphs = glyphs()
 
-        hits = 0
+        self.hits = 0
         for char in glyphs:
             if char not in self.ttfont._unicodeValues:
                 self.missing.append(char)
             else:
-                hits += 1
+                self.hits += 1
 
-        glyphs_count = len(glyphs)
-        if hits == glyphs_count:
+        self.glyphs_count = len(glyphs)
+        if self.hits == self.glyphs_count:
             self.coverage = 100
             self.support_level = SUPPORT_LEVEL_FULL
         else:
-            self.coverage = hits * 100 / glyphs_count
+            self.coverage = self.hits * 100 / self.glyphs_count
             if self.coverage == 0:
                 pass
             elif self.coverage < COVERAGE_MINIMAL:
