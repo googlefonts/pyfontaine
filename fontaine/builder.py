@@ -151,11 +151,11 @@ class Director(object):
                 orth['orthography']['supportLevel'] = charsetinfo.support_level
 
                 if charsetinfo.support_level != SUPPORT_LEVEL_FULL:
-                    values = u'\n%s' % u'\n'.join(unicodevalues_asstring(charsetinfo.missing))
                     orth['orthography']['percentCoverage'] = charsetinfo.coverage
                     orth['orthography']['Coverage'] = charsetinfo.glyphs_count
                     orth['orthography']['SetTotal'] = charsetinfo.hits
                     if self.missingValues:
+                        values = u'\n%s' % u'\n'.join(unicodevalues_asstring(charsetinfo.missing))
                         orth['orthography']['missingValues'] = values
 
                 desc['orthographies'].append(orth)
@@ -276,6 +276,24 @@ class Builder(object):
     @staticmethod
     def text_(tree):
         return dict2txt(tree, names=NAMES)
+
+    @staticmethod
+    def compact_(fonts, _library=library):
+        for filename in fonts:
+            font = FontFactory.openfont(filename)
+            print('Filename:', font.common_name)
+            print('Glyph count: ', font.glyph_num)
+            print('Character count:', font.character_count)
+            for subset in _library.charsets:
+                charsetinfo = CharsetInfo(font, subset)
+                if charsetinfo.support_level == SUPPORT_LEVEL_FULL:
+                    continue
+                if charsetinfo.support_level == SUPPORT_LEVEL_UNSUPPORTED:
+                    continue
+                print('{}% {}/{} {}'.format(charsetinfo.coverage, 
+                                            charsetinfo.hits,
+                                            charsetinfo.glyphs_count,
+                                            subset.common_name))
 
     @staticmethod
     def xml_(tree):

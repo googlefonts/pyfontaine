@@ -145,6 +145,7 @@ def usage():
     parser.add_argument('--set', type=availablesets, default='',
                         help='Specify the sets based on either common'
                              ' or native name')
+    parser.add_argument('--text-compact', action='store_true')
     parser.add_argument('--collections', type=collections, default='',
                         help='Specify collections of charsets to print')
     parser.add_argument('--new-glyphmap-txt', action='store_true',
@@ -234,7 +235,9 @@ def main(*argv):
 
         director = Director(charsets=(args.set or '').split(','),
                             missing=args.missing)
-        if args.xml:
+        if args.text_compact:
+            Builder.compact_(fonts)
+        elif args.xml:
             tree = director.construct_tree(fonts)
             Builder.xml_(tree).display()
         elif args.csv:
