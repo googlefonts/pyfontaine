@@ -120,6 +120,7 @@ class Director(object):
 
             F = OrderedDict()
             desc = OrderedDict()
+            desc['Filename'] = os.path.basename(font_filename)
             desc['commonName'] = font.common_name
             desc['subFamily'] = font.sub_family
             desc['style'] = font.style_flags
@@ -330,6 +331,7 @@ class Builder(object):
 NAMES = {
     'fonts': 'Fonts',
     'font': 'Font',
+    'Filename': 'Filename',
     'commonName': 'Common name',
     'nativeName': 'Native name',
     'subFamily': 'Sub family',
