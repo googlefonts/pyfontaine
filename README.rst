@@ -88,9 +88,9 @@ Update collection data
 ~~~~~~~~~~~~~~~~~~~~~~
 
 You can update all related text and xml data for collections in realtime with
-argument --update-data. Note. --update-data requires internet connections.
+argument ``--update-data 1``. Note that this requires internet connections.
 
-    python --update-data font.ttf
+    python --update-data 1
 
 Python Module
 ~~~~~~~~~~~~~
