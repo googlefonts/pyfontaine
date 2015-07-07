@@ -293,7 +293,7 @@ class Builder(object):
                 print('{}% {}/{} {}'.format(charsetinfo.coverage, 
                                             charsetinfo.hits,
                                             charsetinfo.glyphs_count,
-                                            subset.common_name))
+                                            subset.common_name.encode('ascii', 'ignore')))
 
     @staticmethod
     def xml_(tree):
