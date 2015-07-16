@@ -1,4 +1,4 @@
-`pyfontaine <http://documentup.com/davelab6/pyfontaine>`__
+pyfontaine
 ==========================================================
 
 pyfontaine analyses fonts for their language and character/glyph-set support.
