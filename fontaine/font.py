@@ -155,6 +155,9 @@ class CharsetInfo(object):
         glyphs = None
         if glyphnames:
             glyphs = set(glyphnames.pop())
+
+        self.glyphs_in_charset_count = len(glyphs)
+
         self.hits = 0
         while glyphs:
             if set(glyphs) & set(self.ttfont.getGlyphNames()):
@@ -185,6 +188,8 @@ class CharsetInfo(object):
         glyphs = getattr(self.charset, 'glyphs', [])
         if callable(glyphs):
             glyphs = glyphs()
+
+        self.glyphs_in_charset_count = len(glyphs)
 
         self.hits = 0
         for char in glyphs:
