@@ -116,7 +116,7 @@ def usage():
     pyfontaine compares fonts, characters or glyphnames to defined glyph lists or character sets.
     """
 
-    parser = FontaineArgParser(description=description, add_help=False)
+    parser = FontaineArgParser(description=description, add_help=True)
     # parser = argparse.ArgumentParser(description=description)
     parser.add_argument('font', metavar='font', type=str, nargs='+')
     parser.add_argument('--update-data', action='store_true',
