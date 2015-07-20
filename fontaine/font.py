@@ -156,7 +156,7 @@ class CharsetInfo(object):
         if glyphnames:
             glyphs = set(glyphnames.pop())
 
-        self.glyphs_in_charset_count = len(glyphs)
+        self.glyphs_in_charset_count = len(glyphs or [])
 
         self.hits = 0
         while glyphs:
@@ -189,7 +189,7 @@ class CharsetInfo(object):
         if callable(glyphs):
             glyphs = glyphs()
 
-        self.glyphs_in_charset_count = len(glyphs)
+        self.glyphs_in_charset_count = len(glyphs or [])
 
         self.hits = 0
         for char in glyphs:
