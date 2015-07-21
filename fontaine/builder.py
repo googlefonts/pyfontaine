@@ -148,16 +148,16 @@ class Director(object):
                 orth = OrderedDict({'orthography': OrderedDict()})
                 orth['orthography']['commonName'] = charsetinfo.charset.common_name
                 orth['orthography']['nativeName'] = charsetinfo.charset.native_name
-                orth['orthography']['supportLevel'] = charsetinfo.support_level
 
                 if charsetinfo.support_level != SUPPORT_LEVEL_FULL:
-                    orth['orthography']['percentCoverage'] = charsetinfo.coverage
                     orth['orthography']['Coverage'] = charsetinfo.glyphs_count
                     orth['orthography']['SetTotal'] = charsetinfo.glyphs_in_charset_count
+                    orth['orthography']['percentCoverage'] = charsetinfo.coverage
                     if self.missingValues:
                         values = u'\n%s' % u'\n'.join(unicodevalues_asstring(charsetinfo.missing))
                         orth['orthography']['missingValues'] = values
 
+                orth['orthography']['supportLevel'] = charsetinfo.support_level
                 desc['orthographies'].append(orth)
                 font_charactersets_names.append(charsetinfo.charset.common_name)
 
@@ -374,8 +374,8 @@ NAMES = {
     'supportLevel': 'Support level',
     'percentCoverage': 'Percent coverage',
     'missingValues': 'Missing values',
-    'Coverage': 'Coverage',
-    'SetTotal': 'Set total'
+    'Coverage': 'Glyphs in set',
+    'SetTotal': 'Glyphs in font'
 }
 
 
