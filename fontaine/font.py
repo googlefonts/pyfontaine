@@ -183,6 +183,8 @@ class CharsetInfo(object):
             else:
                 self.support_level = SUPPORT_LEVEL_PARTIAL
 
+        self.glyphs_in_charset_count -= len(self.missing)
+
     def init_configuration_for_unicodes(self):
 
         glyphs = getattr(self.charset, 'glyphs', [])
@@ -210,6 +212,8 @@ class CharsetInfo(object):
                 self.support_level = SUPPORT_LEVEL_FRAGMENTARY
             else:
                 self.support_level = SUPPORT_LEVEL_PARTIAL
+
+        self.glyphs_in_charset_count -= len(self.missing)
 
 
 class TTFont(object):
