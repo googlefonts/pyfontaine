@@ -5,14 +5,14 @@ pyfontaine analyses fonts for their language and character/glyph-set support.
 
 It has a straightforward pythonic set definition format:
 
-- `simple example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/africaan.py>`__
-- `medium example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/armenian.py>`__
-- `complex example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charmaps/polish.py>`__
+- `simple example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charsets/internals/africaan.py>`__
+- `medium example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charsets/internals/armenian.py>`__
+- `complex example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charsets/internals/polish.py>`__
 
 Additional definitions are downloaded from the Extensis, font-config and Unicode websites during installation, and can be updated without reinstalling. 
 
 Adding your own definitions is easy. 
-All files in the `internals <https://github.com/davelab6/pyfontaine/tree/master/fontaine/charmaps/internals>`__ directory are auto-detected, so just add definition files there.
+All files in the `internals <https://github.com/davelab6/pyfontaine/tree/master/fontaine/charsets/internals>`__ directory are auto-detected, so just add definition files there.
 
 Installation
 ------------
@@ -49,7 +49,7 @@ To output font reports in various formats::
     pyfontaine --wiki font.ttf;
 
 The `--wiki` format produces a MediaWiki table
-(example <https://en.wikipedia.org/wiki/DejaVu_fonts#Unicode_coverage>__)
+(`example <https://en.wikipedia.org/wiki/DejaVu_fonts#Unicode_coverage>`__)
 
 To only show character sets from different collections::
 
@@ -85,7 +85,7 @@ You can update remote collections data when you are online:
 Python Module
 ~~~~~~~~~~~~~
 
-It has a python module. Here is an `example script <https://github.com/xen/fontbakery/blob/master/scripts/famchar.py>`__ from the Font Bakery project.
+It has a python module. Here is an `example script <https://github.com/googlefonts/fontbakery/blob/4defa831942fcebe10a3970f95816d49a4498446/scripts/famchar.py>`__ from the Font Bakery project.
 
 Contributing
 ------------
