@@ -17,6 +17,12 @@ All files in the `internals <https://github.com/davelab6/pyfontaine/tree/master/
 Installation
 ------------
 
+First, install Python and the [pip](https://pip.pypa.io) python package manager.
+
+    curl -O https://bootstrap.pypa.io/get-pip.py;
+    sudo python get-pip.py;
+    rm get-pip.py;
+
 On Mac OS X, install the pyicu dependency as follows::
 
     CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pyicu;
