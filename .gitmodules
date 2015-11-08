@@ -1,0 +1,3 @@
+[submodule "fontaine/charsets/fontconfig"]		
+	path = fontaine/charsets/fontconfig
+	url = git://anongit.freedesktop.org/fontconfig/
