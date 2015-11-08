@@ -1,6 +1,8 @@
 pyfontaine
 ==========================================================
 
+|Build Status| |Health| |Coverage Status|
+
 pyfontaine analyses fonts for their language and character/glyph-set support.
 
 It has a straightforward pythonic set definition format:
@@ -137,3 +139,9 @@ Related Projects
 -  `fontbakery <https://github.com/xen/fontbakery>`__
 -  `libunicodenames <https://bitbucket.org/sortsmill/libunicodenames>`__
 
+.. |Build Status| image:: https://travis-ci.org/davelab6/pyfontaine.svg
+   :target: https://travis-ci.org/davelab6/pyfontaine
+.. |Health| image:: https://landscape.io/github/davelab6/pyfontaine/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/davelab6/pyfontaine/master
+.. |Coverage Status| image:: https://img.shields.io/coveralls/davelab6/pyfontaine.svg
+   :target: https://coveralls.io/r/davelab6/pyfontaine
