@@ -161,7 +161,8 @@ class Director(object):
                 desc['orthographies'].append(orth)
                 font_charactersets_names.append(charsetinfo.charset.common_name)
 
-            desc['orthographies'] = sorted(desc['orthographies'], reverse=True, key=lambda x: x['orthography'].get('percentCoverage', 100))
+            if 'orthographies' in desc:
+                desc['orthographies'] = sorted(desc['orthographies'], reverse=True, key=lambda x: x['orthography'].get('percentCoverage', 100))
 
             if fonts_charactersets_names:
                 if (tree['identical'] and
