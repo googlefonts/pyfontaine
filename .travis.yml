@@ -1,0 +1,17 @@
+language: python
+os:
+  - linux
+  - osx
+python:
+  - "2.7"
+
+branches:
+  only:
+    - master
+
+install:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install python; fi
+  - CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pyicu;
+
+script:
+  - python setup.py install
