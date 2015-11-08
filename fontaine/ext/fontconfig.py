@@ -50,7 +50,7 @@ class Extension(BaseExt):
         glyphs = []
 
         fn, ext = os.path.splitext(os.path.basename(filename))
-        common_name_regex = re.compile(u'#\s+(\w+)\s*\((%s)\)' % fn, re.I | re.U | re.S)
+        common_name_regex = re.compile(u'#\s+([\w_]+)\s*\((%s)\)' % fn, re.I | re.U | re.S)
 
         common_name_match = common_name_regex.search(content)
         if common_name_match:
