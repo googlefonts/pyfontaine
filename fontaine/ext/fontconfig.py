@@ -43,6 +43,7 @@ class Extension(BaseExt):
         for fileorth in os.listdir(ORTH_SOURCE_DIR):
             if os.path.splitext(fileorth)[1] == '.orth':
                 result.append(os.path.join(ORTH_SOURCE_DIR, fileorth))
+
         return result
 
     @staticmethod
@@ -50,7 +51,12 @@ class Extension(BaseExt):
         glyphs = []
 
         fn, ext = os.path.splitext(os.path.basename(filename))
-        common_name_regex = re.compile(u'#\s+([\w_]+)\s*\((%s)\)' % fn, re.I | re.U | re.S)
+
+        # unordinarynames = {
+        #     ''
+        # }
+
+        common_name_regex = re.compile(u'#\s+([åíá,\s\(\)\'\w/-]+)\s*\((%s)\)' % fn.replace('_', '-'), re.I | re.U | re.S)
 
         common_name_match = common_name_regex.search(content)
         if common_name_match:
@@ -58,6 +64,8 @@ class Extension(BaseExt):
             common_name = common_name % (common_name_match.group(1).decode('utf-8', 'ignore'),
                                          common_name_match.group(2), fn)
         else:
+            # print(fn)
+            # print(content.decode('utf-8', 'ignore'))
             return [], '', ''
 
         for line in content.split('\n'):
