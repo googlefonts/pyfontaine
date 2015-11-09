@@ -310,15 +310,35 @@ class Builder(object):
         data = StringIO.StringIO()
         doc = csv.writer(data, delimiter=',', quoting=csv.QUOTE_MINIMAL)
 
-        headers = ['Family', 'Style']
+        headers = ['Filename', 'commonName', 'subFamily', 'style', 
+            'weight', 'fixedWidth', 'fixedSizes', 'copyright', 'license', 
+            'licenseUrl', 'version', 'vendor', 'vendorUrl', 'designer', 
+            'designerUrl', 'glyphCount', 'characterCount']
+        
         for subset in _library.charsets:
             headers.append(subset.common_name.encode('ascii', 'ignore'))
         doc.writerow(headers)
 
         for filename in fonts:
             font = FontFactory.openfont(filename)
-            row = [font.common_name.encode('ascii', 'ignore')]
+            row =  [os.path.basename(filename).encode('ascii', 'ignore')]
+            row += [font.common_name.encode('ascii', 'ignore')]
             row += [font.sub_family.encode('ascii', 'ignore')]
+            row += [font.style_flags.encode('ascii', 'ignore')]
+            row += [font.weight.encode('ascii', 'ignore')]
+            row += [yesno(font.is_fixed_width)]
+            row += [yesno(font.has_fixed_sizes)]
+            row += [extract_firstline(font.copyright or '').encode('ascii', 'ignore')]
+            row += [extract_firstline(font.license or '').encode('ascii', 'ignore')]
+            row += [font.license_url.encode('ascii', 'ignore')]
+            row += [font.version.encode('ascii', 'ignore')]
+            row += [extract_firstline(font.vendor or '').encode('ascii', 'ignore')]
+            row += [font.vendor_url.encode('ascii', 'ignore')]
+            row += [font.designer.encode('ascii', 'ignore')]
+            row += [font.designer_url.encode('ascii', 'ignore')]
+            row += [str(font.glyph_num)]
+            row += [str(font.character_count)]
+
             for subset in _library.charsets:
                 charsetinfo = CharsetInfo(font, subset)
                 row.append(str(charsetinfo.coverage))
