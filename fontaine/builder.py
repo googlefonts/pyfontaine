@@ -146,6 +146,11 @@ class Director(object):
                     desc['orthographies'] = []
 
                 orth = OrderedDict({'orthography': OrderedDict()})
+
+                orth['orthography']['Coverage'] = 0
+                orth['orthography']['SetTotal'] = 0
+                orth['orthography']['percentCoverage'] = 0
+                orth['orthography']['missingValues'] = ''
                 orth['orthography']['commonName'] = charsetinfo.charset.common_name
                 orth['orthography']['nativeName'] = charsetinfo.charset.native_name
 
@@ -158,6 +163,7 @@ class Director(object):
                         orth['orthography']['missingValues'] = values
 
                 orth['orthography']['supportLevel'] = charsetinfo.support_level
+
                 desc['orthographies'].append(orth)
                 font_charactersets_names.append(charsetinfo.charset.common_name)
 
