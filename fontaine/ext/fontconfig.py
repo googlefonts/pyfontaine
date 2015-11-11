@@ -56,7 +56,9 @@ class Extension(BaseExt):
         #     ''
         # }
 
-        common_name_regex = re.compile(u'#\s+([åíá,\s\(\)\'\w/-]+)\s*\((%s)\)' % fn.replace('_', '-'), re.I | re.U | re.S)
+        common_name_regex = re.compile(u'#\s+([åíá,\s\(\)\'\w/-]+)\s*\(([\w_-]{2,6})\)', re.I | re.U | re.S)
+
+        content = content.replace('# Chinese (traditional) ZH-TW', '# Chinese traditional (ZH-TW)')
 
         common_name_match = common_name_regex.search(content)
         if common_name_match:
