@@ -293,8 +293,8 @@ class Builder(object):
             print('Character count:', font.character_count)
             for subset in _library.charsets:
                 charsetinfo = CharsetInfo(font, subset)
-                if charsetinfo.support_level == SUPPORT_LEVEL_FULL:
-                    continue
+                # if charsetinfo.support_level == SUPPORT_LEVEL_FULL:
+                #     continue
                 if charsetinfo.support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
                 print('{}% {}/{} {}'.format(charsetinfo.coverage, 
