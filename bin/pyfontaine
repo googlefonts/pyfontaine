@@ -234,7 +234,7 @@ def main(*argv):
         print('Need two or more fonts for comparison.', file=sys.stderr)
         sys.exit(1)
 
-    if fonts:
+    if fonts and not glyphs_groups:
         if args.disable_unames:
             os.environ['DISABLE_UNAMES'] = 'disable'
 
@@ -343,11 +343,10 @@ def main(*argv):
             tree = director.construct_tree(fonts)
             Builder.text_(tree).display()
 
-    if glyphs_groups:
+    if glyphs_groups and not fonts:
         header = ['Character Set']
 
-        rows = []  # + ['%s (%s)' % (unichr(x), hex(x)) for x in [glyphs for glyphs in glyphs_groups]]]
-        max_length = 0
+        rows = []
         for charset in library.charsets:
             if hasattr(charset, 'glyphs'):
                 charset_glyphs = charset.glyphs
@@ -356,7 +355,6 @@ def main(*argv):
             if callable(charset_glyphs):
                 charset_glyphs = charset_glyphs()
 
-            max_length = max(max_length, len(charset.common_name))
             row = [charset.common_name]
             for glyphs in glyphs_groups:
                 has_true = False
@@ -388,6 +386,34 @@ def main(*argv):
         else:
             print(tabulate.tabulate(rows, header, tablefmt='plain'))
 
+    if glyphs_groups and fonts:
+        header = ['Font']
+        rows = []
+        for font in fonts:
+
+            unicodevalues = TTFont(font)._unicodeValues
+
+            row = [os.path.basename(font)]
+            for glyphs in glyphs_groups:
+                value = False
+                for glyph in glyphs:
+                    value = glyph in unicodevalues
+                    glyph_unicode = str.upper('U+%04x' % ord(unichr(glyph)))
+                    if glyph_unicode not in header:
+                        header.append(glyph_unicode)
+                    row.append(str(value))
+
+            rows.append(row)
+
+        if args.csv:
+            import cStringIO
+            data = cStringIO.StringIO()
+            doc = UnicodeWriter(data, delimiter=';')
+            doc.writerows([header] + rows)
+            data.seek(0)
+            print(data.read().decode('utf-8'))
+        else:
+            print(tabulate.tabulate(rows, header, tablefmt='plain'))
 
 import csv
 
