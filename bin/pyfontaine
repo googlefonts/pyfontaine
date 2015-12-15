@@ -344,7 +344,9 @@ def main(*argv):
             Builder.text_(tree).display()
 
     if glyphs_groups:
-        rows = [['Character Set']]  # + ['%s (%s)' % (unichr(x), hex(x)) for x in [glyphs for glyphs in glyphs_groups]]]
+        header = ['Character Set']
+
+        rows = []  # + ['%s (%s)' % (unichr(x), hex(x)) for x in [glyphs for glyphs in glyphs_groups]]]
         max_length = 0
         for charset in library.charsets:
             if hasattr(charset, 'glyphs'):
@@ -367,6 +369,10 @@ def main(*argv):
                         true_values.append(value)
 
                     value = bool(len(true_values) == len(glyphs))
+
+                    glyph_unicode = str.upper('U+%04x' % ord(unichr(glyph)))
+                    if glyph_unicode not in header:
+                        header.append(glyph_unicode)
                 row.append(str(value or ''))
 
             if has_true:
@@ -376,20 +382,11 @@ def main(*argv):
             import cStringIO
             data = cStringIO.StringIO()
             doc = UnicodeWriter(data, delimiter=';')
-            doc.writerows(rows)
+            doc.writerows([header] + rows)
             data.seek(0)
             print(data.read().decode('utf-8'))
         else:
-            for row in rows:
-                string = ''
-                first = True
-                for g in row:
-                    if first:
-                        string += (u'{:<%s}' % (max_length + 4)).format(g)
-                        first = False
-                    else:
-                        string += u'{:<15}'.format(g)
-                print(string)
+            print(tabulate.tabulate(rows, header, tablefmt='plain'))
 
 
 import csv
