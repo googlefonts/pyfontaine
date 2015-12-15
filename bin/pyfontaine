@@ -87,8 +87,9 @@ def availablesets(s):
 
     shorts = map(lambda x: x.short_name, result)
     naive_names = [x.native_name for x in result if x.native_name]
+    commons = [x.common_name for x in result if x.common_name]
 
-    names = shorts + naive_names
+    names = shorts + naive_names + commons
     invalid = []
     for r in s.split(','):
         if r in names:
