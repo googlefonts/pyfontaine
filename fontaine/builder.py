@@ -70,11 +70,14 @@ class Director(object):
         cmaps = filter(lambda x: hasattr(x, 'key'), self.library.charsets)
         for cmap in cmaps:
             if self.charsets:
-                cn = getattr(cmap, 'common_name', False)
-                nn = getattr(cmap, 'short_name', False)
-                if cn and cn not in self.charsets:
+                common = getattr(cmap, 'common_name', False)
+                short = getattr(cmap, 'short_name', False)
+                naive = getattr(cmap, 'native_name', False)
+                if common and common not in self.charsets:
                     continue
-                if nn and nn not in self.charsets:
+                if short and short not in self.charsets:
+                    continue
+                if naive and naive not in self.charsets:
                     continue
 
             if cmap.key not in font._unicodeValues:

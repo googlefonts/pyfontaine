@@ -242,11 +242,15 @@ class TTFont(object):
                 cn = getattr(charset, 'common_name', False)
                 abbr = getattr(charset, 'abbreviation', False)
                 nn = getattr(charset, 'short_name', False)
+                naive = getattr(charset, 'native_name', False)
 
                 if cn and cn.lower() in self._charsets:
                     results.append(charset)
 
                 elif nn and nn.lower() in self._charsets:
+                    results.append(charset)
+
+                elif naive and naive.lower() in self._charsets:
                     results.append(charset)
 
                 elif abbr and abbr.lower() in self._charsets:
