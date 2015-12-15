@@ -49,6 +49,10 @@ Given a list of space separated unicode characters, or unicode values, it return
     pyfontaine 0x0061;
     pyfontaine ğ ø ∂;
 
+Similarly you can find out if a font supports specific characters by also giving the filename::
+
+    pyfontaine U+C480 U+C481 font.ttf;
+
 To output font reports in various formats::
 
     pyfontaine --xml font.ttf;
