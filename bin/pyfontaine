@@ -408,7 +408,7 @@ def main(*argv):
         if args.csv:
             import cStringIO
             data = cStringIO.StringIO()
-            doc = UnicodeWriter(data, delimiter=';')
+            doc = UnicodeWriter(data, delimiter=',')
             doc.writerows([header] + rows)
             data.seek(0)
             print(data.read().decode('utf-8'))
