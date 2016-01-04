@@ -20,7 +20,7 @@ from fontaine import VERSION
 
 setup(name='fontaine',
       version=VERSION,
-      description='Fontaine font tool',
+      description='font analysis tool for determining character/glyph support',
       license="GNU GPLv3",
       long_description=readme,
       author='Dave Crossland, Виталий Волков',
