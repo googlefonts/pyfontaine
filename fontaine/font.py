@@ -392,8 +392,11 @@ class FreeTypeFont(TTFont):
             setattr(self, '_%s' % propname, value)
 
     def getGlyphNames(self):
-        raise NotImplementedError(('Get glyph names is not implemented'
-                                   ' with FreeType library'))
+        """
+        TODO: Fix this so that pyfontaine falls back to using fontTools to get glyph names
+        if getGlyphNames() is really needed by the given mode of use. 
+        """
+        return "glyphnames-unknown-with-freetype"
 
 
 class RoboFabFont(TTFont):
