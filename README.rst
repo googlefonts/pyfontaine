@@ -19,11 +19,9 @@ All files in the `internals <https://github.com/davelab6/pyfontaine/tree/master/
 Installation
 ------------
 
-First, install Python and the `pip <http://www.pip-installer.org>`__ python package manager. This is installed by default with `homebrew <http://brew.sh/>`__, so, try to run pip and if it isn't available then install homebrew, or install pip directly as follows::
+First, install Python and the `pip <http://www.pip-installer.org>`__ python package manager. This is installed by default with `homebrew <http://brew.sh/>`__ python, so, install homebrew, then install pip as follows::
 
-    curl -O https://bootstrap.pypa.io/get-pip.py;
-    sudo python get-pip.py;
-    rm get-pip.py;
+    brew install python;
 
 On Mac OS X, install the pyicu dependency as follows::
 
