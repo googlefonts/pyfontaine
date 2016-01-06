@@ -88,7 +88,7 @@ To print a list of all the missing unicode values from each set::
 Update collection data
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can update remote collections data when you are online:
+You can update remote collections data when you are online::
 
     pyfontaine --update-data 1;
 
@@ -96,6 +96,14 @@ Python Module
 ~~~~~~~~~~~~~
 
 It has a python module, ``fontaine``
+
+PyPI
+~~~~~~~
+
+To release a new version on PyPI, update the `fontaine/__init__.py` version number and then run::
+
+    python setup.py build;
+    python setup.py sdist upload;
 
 Contributing
 ------------
