@@ -11,9 +11,9 @@ It has a straightforward pythonic set definition format:
 - `medium example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charsets/internals/armenian.py>`__
 - `complex example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charsets/internals/polish.py>`__
 
-Additional definitions are downloaded from the Extensis, font-config and Unicode websites during installation, and can be updated without reinstalling. 
+Additional definitions are downloaded from the Extensis, font-config and Unicode websites during installation, and can be updated without reinstalling.
 
-Adding your own definitions is easy. 
+Adding your own definitions is easy.
 All files in the `internals <https://github.com/davelab6/pyfontaine/tree/master/fontaine/charsets/internals>`__ directory are auto-detected, so just add definition files there.
 
 Installation
@@ -79,8 +79,8 @@ To print a list of all the missing unicode values from each set::
 
     pyfontaine --missing --set adobe_latin_3 font.ttf;
 
-.. To output visualisations of the coverage using `Hilbert curves <http://en.wikipedia.org/wiki/Hilbert_curve>`__ (thanks for the idea, `Øyvind 'pippin' Kolås <http://github.com/hodefoting>`__!): 
-.. 
+.. To output visualisations of the coverage using `Hilbert curves <http://en.wikipedia.org/wiki/Hilbert_curve>`__ (thanks for the idea, `Øyvind 'pippin' Kolås <http://github.com/hodefoting>`__!):
+..
 ..    pyfontaine --coverage font.ttf; ls -l coverage_pngs/;
 ..
 .. The PNG files are stored in a new directory, ``coverage_pngs``, under the current directory.
@@ -120,15 +120,15 @@ Thanks
 ------
 
 We would like to thank some upstream projects that make pyfontaine even
-more useful: 
+more useful:
 
 * `Thomas Phinney <http://www.thomasphinney.com/>`__ for the `WebINK Character
   Sets <http://blog.webink.com/custom-font-subsetting-for-faster-websites/>`__
 
 * `Behdad Esfabod <http://behdad.org>`__ for the `font-config languages
-  definitions <http://cgit.freedesktop.org/fontconfig/tree/fc-lang>`__ 
+  definitions <http://cgit.freedesktop.org/fontconfig/tree/fc-lang>`__
 
-* Unicode Consortium for the `Unicode Blocks 
+* Unicode Consortium for the `Unicode Blocks
   <http://www.unicode.org/Public/UNIDATA/Blocks.txt>`__
 
 Dependencies
@@ -141,6 +141,7 @@ Dependencies
 - `PyICU <http://pyicu.osafoundation.org/>`__
 - `simpleHilbertCurve <https://github.com/dentearl/simpleHilbertCurve>`__
 - `matplotlib <https://pypi.python.org/pypi/matplotlib>`__
+- `tabulate <https://pypi.python.org/pypi/tabulate>`__
 
 Related Projects
 ----------------
