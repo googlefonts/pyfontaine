@@ -56,7 +56,7 @@ class Extension(BaseExt):
         #     ''
         # }
 
-        common_name_regex = re.compile(u'#\s+([åíá,\s\(\)\'\w/-]+)\s*\(([\w_-]{2,6})\)', re.I | re.U | re.S)
+        common_name_regex = re.compile(u'#\s+([\u00E5\u00ED\u00E1,\s\(\)\'\w/-]+)\s*\(([\w_-]{2,6})\)', re.I | re.U | re.S)
 
         content = content.replace('# Chinese (traditional) ZH-TW', '# Chinese traditional (ZH-TW)')
 
