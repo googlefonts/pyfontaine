@@ -97,10 +97,24 @@ Python Module
 
 It has a python module, ``fontaine``
 
-PyPI
-~~~~~~~
+Making a release on PyPI
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-To release a new version on PyPI, update the `fontaine/__init__.py` version number and then run::
+To release a new version on PyPI, increment the [fontaine/__init__.py](fontaine/__init__.py) version number following the [semver](https://www.semver.org) versioning scheme. 
+
+Then set up a ``~/.pypirc`` file::
+
+    [distutils]
+    index-servers=pypi
+    
+    [pypi]
+    repository = https://pypi.python.org/pypi
+		
+		[server-login]
+    username = user
+    password = password
+
+Then run::
 
     python setup.py build;
     python setup.py sdist upload;
