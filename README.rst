@@ -22,6 +22,7 @@ Installation
 First, install Python and the `pip <http://www.pip-installer.org>`__ python package manager. This is installed by default with `homebrew <http://brew.sh/>`__ python, so, install homebrew, then install pip as follows::
 
     brew install python;
+    brew install icu4c;
 
 On Mac OS X, install the pyicu dependency as follows::
 
