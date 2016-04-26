@@ -16,6 +16,7 @@ Fix errors
 ```
 $ brew update
 $ brew upgrade
+$ brew install python icu4c
 ```
 Install needed python libraries:
 ```
