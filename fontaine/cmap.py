@@ -53,7 +53,7 @@ class Library(object):
                 try:
                     module = import_module('fontaine.charsets.internals.%s' % ext)
                     self.register(module.Charset)
-                except (ImportError, AttributeError), ex:
+                except (ImportError, AttributeError) as ex:
                     continue
         return self._charsets
 
