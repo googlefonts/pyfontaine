@@ -11,6 +11,7 @@
 # See accompanying LICENSE.txt file for details.
 
 from setuptools import setup
+from io import open
 
 with open("README.rst", 'r', encoding='utf-8') as readme_file:
     readme = readme_file.read()
