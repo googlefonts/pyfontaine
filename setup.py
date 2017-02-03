@@ -12,7 +12,7 @@
 
 from setuptools import setup
 
-with open("README.rst", 'r') as readme_file:
+with open("README.rst", 'r', encoding='utf-8') as readme_file:
     readme = readme_file.read()
 
 from fontaine import VERSION
