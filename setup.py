@@ -39,6 +39,8 @@ setup(name='fontaine',
               'charsets/names.db/*.*',
               'charsets/fontconfig/fc-lang/*.orth',
               'charsets/subsets/*.txt',
+              'charsets/internals/google_glyphsets/*',
+              'charsets/internals/google_glyphsets/*/*',
               'ext/data/*.*',
               'glyphlists/*.txt'
           ]
