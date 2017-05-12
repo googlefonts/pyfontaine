@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Google extras'
+    common_name = u'Google Fonts: Extras'
     native_name = u''
 
     def glyphs(self):
