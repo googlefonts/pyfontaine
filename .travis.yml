@@ -1,16 +1,25 @@
+sudo: false
 language: python
 os:
   - linux
 python:
   - "2.7"
-
 branches:
   only:
     - master
-
+compiler:
+  - gcc
 install:
+  - ls -lh /usr/bin/gcc*
+  - ls -lh /usr/bin/g++*
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install python; fi
-  - CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pyicu;
-
+  - CC=/usr/bin/gcc-6 CXX=/usr/bin/g++-6 CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pyicu;
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-6
+    - g++-6
 script:
   - python setup.py install
