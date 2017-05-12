@@ -28,9 +28,9 @@ On Mac OS X, install the pyicu dependency as follows::
 
     CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pyicu;
 
-Install the latest release easily with pip::
+Install the latest release easily with pip, along with its python dependencies::
 
-    sudo pip install fontaine
+    sudo pip install fonttools tabulate fontaine
 
 To install the latest development version::
 
