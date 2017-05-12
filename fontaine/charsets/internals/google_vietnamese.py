@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Google vietnamese'
+    common_name = u'Google Fonts: Vietnamese'
     native_name = u''
     abbreviation = 'VIT'
 

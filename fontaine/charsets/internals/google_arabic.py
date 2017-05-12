@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Google arabic'
+    common_name = u'Google Fonts: Arabic'
     native_name = u''
     abbreviation = 'ARAB'
 
