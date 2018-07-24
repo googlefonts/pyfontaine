@@ -10,7 +10,7 @@ from fontaine.ext.base import BaseExt
 from fontaine.ext.update import get_from_cache
 
 
-EXTENSIS_LANG_XML = 'https://raw.github.com/davelab6/extensis-languages/master/languages.xml'
+EXTENSIS_LANG_XML = 'https://github.com/davelab6/extensis-languages/raw/gh-pages/languages.xml'
 
 
 class Extension(BaseExt):
