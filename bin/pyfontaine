@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # pyfontaine
@@ -9,9 +9,9 @@
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
-from __future__ import print_function
 import argparse
 import codecs
+import io
 import os
 import re
 import sys
@@ -19,9 +19,7 @@ import sys
 path = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(os.path.realpath(path))
 
-sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
-
-from fontaine import VERSION
+from fontaine._version import version as __version__
 from fontaine.cmap import library
 from fontaine.builder import Builder, Director, CharMapGen, GlyphMapGen
 from fontaine.font import TTFont
@@ -85,7 +83,7 @@ def availablesets(s):
         return
     result = get_availablesets()
 
-    shorts = map(lambda x: x.short_name, result)
+    shorts = [x.short_name for x in result if x.short_name]
     naive_names = [x.native_name for x in result if x.native_name]
     commons = [x.common_name for x in result if x.common_name]
 
@@ -138,14 +136,14 @@ def usage():
     parser.add_argument('--json', action='store_true',
                         help='Output information in JSON')
     parser.add_argument('--wiki', action='store_true',
-                        help='Print information in wikipedia format')
+                        help='Print information using Mediawiki syntax')
     parser.add_argument('--csv', action='store_true',
                         help=('Output font coverage information in CSV.'
                               ' If glyphs have been passed to script then'
                               ' it shows rows with character set and values'
                               ' True if glyph exists in collections'))
     parser.add_argument('--show-hilbert', action='store_true',
-                        help='Create PNG files represented coveragin of font'
+                        help='Create PNG files representing coverage of font'
                              ' charset in coverage_pngs directory')
     parser.add_argument('--set', type=availablesets, default='',
                         help='Specify the sets based on either common'
@@ -171,23 +169,17 @@ def usage():
                         help='Compare glyphs in fonts.')
 
     url = 'https://github.com/davelab6/pyfontaine'
-    param = '%(version)s (%(url)s)' % {'url': url, 'version': VERSION}
+    param = '%(version)s (%(url)s)' % {'url': url, 'version': __version__}
     parser.add_argument('-V', '--version', action='version',
                         version="%(prog)s " + param)
     if len(sys.argv) == 1:
-        print('pyFontaine %s (https://github.com/davelab6/pyfontaine)' % VERSION)
+        print(f'pyFontaine {__version__} (https://github.com/davelab6/pyfontaine)')
         parser.print_help()
         sys.exit(1)
     return parser.parse_args()
 
 
 def check_for_unicodechar(char):
-    if os.path.exists(char):
-        return
-
-    # char = char.encode('ascii').decode('utf8')
-    char = char.decode('utf8')
-
     if len(char) == 1:
         return [ord(char)]
 
@@ -211,18 +203,18 @@ def main(*argv):
     glyphs_groups = []
     fonts = []
 
-    for filename in args.font:
-        if os.path.exists(filename):
-            fonts.append(filename)
+    for arg in args.font:
+        if os.path.exists(arg):
+            fonts.append(arg)
             continue
 
-        unicodecode = check_for_unicodechar(filename)
+        unicodecode = check_for_unicodechar(arg)
 
         if unicodecode:
             glyphs_groups.append(unicodecode)
             continue
 
-        print("'%s' is not found" % (filename))
+        print("'%s' is not found" % (arg))
 
     if not fonts and not glyphs_groups:
         sys.exit(0)
@@ -368,7 +360,7 @@ def main(*argv):
 
                     value = bool(len(true_values) == len(glyphs))
 
-                    glyph_unicode = str.upper('U+%04x' % ord(unichr(glyph)))
+                    glyph_unicode = str.upper('U+%04x' % glyph)
                     if glyph_unicode not in header:
                         header.append(glyph_unicode)
                 row.append(str(value or ''))
@@ -377,8 +369,7 @@ def main(*argv):
                 rows.append(row)
 
         if args.csv:
-            import cStringIO
-            data = cStringIO.StringIO()
+            data = io.StringIO()
             doc = UnicodeWriter(data, delimiter=',')
             doc.writerows([header] + rows)
             data.seek(0)
@@ -394,11 +385,11 @@ def main(*argv):
             unicodevalues = TTFont(font)._unicodeValues
 
             row = [os.path.basename(font)]
-            for glyphs in glyphs_groups:
+            for glyphs_group in glyphs_groups:
                 value = False
-                for glyph in glyphs:
+                for glyph in glyphs_group:
                     value = glyph in unicodevalues
-                    glyph_unicode = str.upper('U+%04x' % ord(unichr(glyph)))
+                    glyph_unicode = str.upper('U+%04x' % glyph)
                     if glyph_unicode not in header:
                         header.append(glyph_unicode)
                     row.append(str(value))
@@ -406,8 +397,7 @@ def main(*argv):
             rows.append(row)
 
         if args.csv:
-            import cStringIO
-            data = cStringIO.StringIO()
+            data = io.StringIO()
             doc = UnicodeWriter(data, delimiter=',')
             doc.writerows([header] + rows)
             data.seek(0)
@@ -422,8 +412,7 @@ class UnicodeWriter:
 
     def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
         # Redirect output to a queue
-        import cStringIO
-        self.queue = cStringIO.StringIO()
+        self.queue = io.StringIO()
         self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
         self.stream = f
         self.encoder = codecs.getincrementalencoder(encoding)()

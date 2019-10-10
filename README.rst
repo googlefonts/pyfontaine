@@ -28,9 +28,9 @@ On Mac OS X, install the pyicu dependency as follows::
 
     CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pyicu;
 
-Install the latest release easily with pip, along with its python dependencies::
+Install the latest release easily with pip::
 
-    sudo pip install fonttools tabulate fontaine
+    sudo pip install fontaine
 
 To install the latest development version::
 
@@ -96,12 +96,12 @@ You can update remote collections data when you are online::
 Python Module
 ~~~~~~~~~~~~~
 
-It has a python module, ``fontaine``
+It has a python module called ``fontaine``
 
 Making a release on PyPI
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-To release a new version on PyPI, increment the [fontaine/__init__.py](fontaine/__init__.py) version number following the [semver](https://www.semver.org) versioning scheme. 
+To release a new version on PyPI, create and push a new git tag with a version number following the [semver](https://www.semver.org) versioning scheme.
 
 Then set up a ``~/.pypirc`` file::
 
@@ -127,9 +127,10 @@ Your contributions under `the GPLv3 <LICENSE.txt>`__ are welcome!
 
 pyfontaine is a python reimplementation of
 `Fontaine <http://fontaine.sf.net>`__ by Ed Trager, and has been made by
-by `Vitaly Volkov <http://github.com/hash3g>`__, `Dave
-Crossland <http://github.com/davelab6>`__ and `Mikhail
-Kashkin <http://github.com/xen>`__.
+ `Vitaly Volkov <http://github.com/hash3g>`__,
+ `Dave Crossland <http://github.com/davelab6>`__,
+ `Mikhail Kashkin <http://github.com/xen>`__ and
+ `Felipe Sanches <http://github.com/felipesanches>`__.
 
 Thanks
 ------
@@ -138,7 +139,7 @@ We would like to thank some upstream projects that make pyfontaine even
 more useful:
 
 * `Thomas Phinney <http://www.thomasphinney.com/>`__ for the `WebINK Character
-  Sets <http://blog.webink.com/custom-font-subsetting-for-faster-websites/>`__
+  Sets <http://web.archive.org/web/20150222004543/http://blog.webink.com/custom-font-subsetting-for-faster-websites/>`__
 
 * `Behdad Esfabod <http://behdad.org>`__ for the `font-config languages
   definitions <http://cgit.freedesktop.org/fontconfig/tree/fc-lang>`__
@@ -157,12 +158,13 @@ Dependencies
 - `simpleHilbertCurve <https://github.com/dentearl/simpleHilbertCurve>`__
 - `matplotlib <https://pypi.python.org/pypi/matplotlib>`__
 - `tabulate <https://pypi.python.org/pypi/tabulate>`__
+- `requests <https://pypi.python.org/pypi/requests>`__
 
 Related Projects
 ----------------
 
 -  `fontaine <http://fontaine.sf.net>`__
--  `fontbakery <https://github.com/xen/fontbakery>`__
+-  `fontbakery <https://github.com/googlefonts/fontbakery>`__
 -  `libunicodenames <https://bitbucket.org/sortsmill/libunicodenames>`__
 
 .. |Build Status| image:: https://travis-ci.org/davelab6/pyfontaine.svg

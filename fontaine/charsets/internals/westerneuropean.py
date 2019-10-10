@@ -5,12 +5,12 @@ class Charset:
     abbreviation = 'WE'
 
     def glyphs(self):
-        glyphs  = range(0x00C0, 0x00CF)
-        glyphs += range(0x00D0, 0x00D6)
-        glyphs += range(0x00D8, 0x00DF)
-        glyphs += range(0x00E0, 0x00EF)
-        glyphs += range(0x00F0, 0x00F6)
-        glyphs += range(0x00F8, 0x00FF)
+        glyphs  = list(range(0x00C0, 0x00CF))
+        glyphs += list(range(0x00D0, 0x00D6))
+        glyphs += list(range(0x00D8, 0x00DF))
+        glyphs += list(range(0x00E0, 0x00EF))
+        glyphs += list(range(0x00F0, 0x00F6))
+        glyphs += list(range(0x00F8, 0x00FF))
         return glyphs
 
 

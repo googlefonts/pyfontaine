@@ -63,7 +63,7 @@ class Extension(BaseExt):
         common_name_match = common_name_regex.search(content)
         if common_name_match:
             common_name = u'%s (fc-lang/%s.orth)'
-            common_name = common_name % (common_name_match.group(1).decode('utf-8', 'ignore'), fn)
+            common_name = common_name % (common_name_match.group(1), fn)
         else:
             # print(fn)
             # print(content.decode('utf-8', 'ignore'))
