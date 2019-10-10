@@ -14,7 +14,7 @@ class Charset:
         0x0376,
         0x0377
     ]
-    glyphs += list(xrange(0x03d8, 0x03e1))
+    glyphs += list(range(0x03d8, 0x03e1))
     glyphs += [
         0x03f7,
         0x03f8,

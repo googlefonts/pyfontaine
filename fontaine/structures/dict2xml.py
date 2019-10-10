@@ -9,7 +9,6 @@
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
 
-from __future__ import print_function
 from collections import OrderedDict
 import re
 import sys
@@ -23,7 +22,7 @@ class dict2xml(object):
         self.doc = Document()
 
         if len(structure) == 1:
-            rootName = unicode(structure.keys()[0])
+            rootName = list(structure.keys())[0]
             self.root = self.doc.createElement(rootName)
 
             self.doc.appendChild(self.root)
@@ -55,8 +54,7 @@ class dict2xml(object):
                 grandFather.appendChild(tag)
 
         else:
-            data = unicode(structure)
-            tag = self.doc.createTextNode(data)
+            tag = self.doc.createTextNode(str(structure))
             father.appendChild(tag)
 
     def display(self):
@@ -72,7 +70,7 @@ class dict2txt(object):
 
         identical = structure.pop('identical', None)
         if len(structure) == 1:
-            rootName = unicode(structure.keys()[0])
+            rootName = list(structure.keys())[0]
             self.output += self.name(rootName) + '\n'
             if rootName.lower() == 'fonts' and identical is not None:
                 if identical:
@@ -105,7 +103,7 @@ class dict2txt(object):
             for k, l in enumerate(structure):
                 self.build(structure[k], indent + self.indent)
         elif structure:
-            self.output += u' %s' % unicode(structure) + '\n'
+            self.output += u' %s' % structure + '\n'
 
     def display(self):
         sys.stdout.write(self.output)

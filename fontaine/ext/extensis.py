@@ -55,7 +55,7 @@ class Extension(BaseExt):
             xml_content = ''
 
         content = re.sub('<!--.[^>]*-->', '', xml_content)
-        doc = etree.fromstring(content.lstrip('`'))
+        doc = etree.fromstring(content.lstrip('`').encode("utf-8"))
 
         return doc.findall('.//scanning-codepoints')
 

@@ -4,7 +4,7 @@ class Charset:
     native_name = u'ᏣᎳᎩ'
     key = 0x13E3
     abbreviation = 'CHR'
-    glyphs = xrange(0x13A0, 0x13F4)
+    glyphs = range(0x13A0, 0x13F4)
 
 
 

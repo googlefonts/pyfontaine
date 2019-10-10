@@ -11,8 +11,8 @@
 
 from __future__ import print_function
 import csv
+import io
 import os
-import StringIO
 import sys
 import unicodedata
 
@@ -37,15 +37,15 @@ db = os.environ.get('UNAMES_DB') or os.path.join(os.path.dirname(__file__),
 def format(x):
     if isinstance(x, str):
         return x
-    return u'U+%04x\x20\x20%s\x20\x20%s' % \
-        (x, unichr(x), unicodedata.name(unichr(x), ''))
+    return 'U+%04x %s %s' % \
+        (x, chr(x), unicodedata.name(chr(x), ''))
 
 
 def unicodevalues_asstring(values):
     """ Return string with unicodenames (unless that is disabled) """
     if not os.environ.get('DISABLE_UNAMES'):
         return map(lambda x: '%s' % format(x).strip(), values)
-    return map(lambda x: u'U+%04x %s' % (x, unichr(x)), sorted(values))
+    return map(lambda x: 'U+%04x %s' % (x, chr(x)), sorted(values))
 
 
 extract_firstline = lambda text: \
@@ -316,7 +316,7 @@ class Builder(object):
 
     @staticmethod
     def csv_(fonts, _library=library):
-        data = StringIO.StringIO()
+        data = io.StringIO()
         doc = csv.writer(data, delimiter=',', quoting=csv.QUOTE_MINIMAL)
 
         headers = ['Filename', 'commonName', 'subFamily', 'style', 
@@ -368,12 +368,16 @@ class Builder(object):
                 if charsetinfo.support_level == SUPPORT_LEVEL_UNSUPPORTED:
                     continue
 
-                glyphs = subset.glyphs
-                if callable(glyphs):
-                    glyphs = glyphs()
+                if not hasattr(subset, 'glyphs'):
+                    continue
+
+                if callable(subset.glyphs):
+                    glyphs = list(subset.glyphs())
+                else:
+                    glyphs = list(subset.glyphs)
 
                 print('|-')
-                print("| [[ %s ]] (%s/%s)  || style='text-align:right'" % (subset.common_name, len(glyphs) - len(charsetinfo.missing), len(glyphs)),
+                print("| [[ %s ]] (%s/%s)  || style='text-align:right'" % (subset.common_name, len(glyphs) - len(list(charsetinfo.missing)), len(glyphs)),
                       " | {{bartable|%s|%%|2||background:green}}" % charsetinfo.coverage)
             print('|}')
 
@@ -414,8 +418,8 @@ def pprint_dict(obj, indent, length):
         comma = ', '
         if i + 1 == length:
             comma = ''
-        if type(obj[key]) in [str, int, unicode]:
-            value = unicode(obj[key]).replace('\n', ', ').strip(', ')
+        if type(obj[key]) in [str, int]:
+            value = str(obj[key]).replace('\n', ', ').strip(', ')
             value = value.replace('"', '\"').replace('\\', '\\\\')
             value = value.replace('\r', '')
             sys.stdout.write((u"%s  %r: \"%s\"%s" % (indent, key, value, comma)))
@@ -429,7 +433,7 @@ def pprint(obj, indent='', items_length=0):
     if isinstance(obj, OrderedDict):
         length = len(obj.keys())
         if length == 1:
-            pprint(obj[obj.keys()[0]], indent, items_length=items_length)
+            pprint(obj[list(obj.keys())[0]], indent, items_length=items_length)
             return
 
         sys.stdout.write((u"%s{" % indent))

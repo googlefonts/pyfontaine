@@ -15,13 +15,6 @@ from fontaine.cmap import library
 from fontaine.const import *
 from fontTools.unicode import Unicode
 
-
-def unifyunicode(string):
-    if '\000' in string:
-        string = unicode(string, 'utf-16-be').encode('utf-8')
-    return string.decode('utf8', 'ignore')
-
-
 def lookup_languages(unichar, _library=library):
     try:
         assert len(unichar) == 1
@@ -50,7 +43,7 @@ class FontFace(object):
     def getCharset(self):
         tempcmap = self.ttf['cmap'].getcmap(3, 1)
         if tempcmap is not None:
-            return map(lambda s: s[0], tempcmap.cmap.items())
+            return list(map(lambda s: s[0], tempcmap.cmap.items()))
         return []
 
     def getCharsetFull(self):
@@ -67,17 +60,16 @@ class FontFace(object):
         return self.ttf['name'].names
 
     def findName(self, nameid):
-        names = filter(lambda s: str(s.nameID) == str(nameid), self.getNames())
-        if not len(names):
-            return
-        return names[0]
+        names = list(filter(lambda s: str(s.nameID) == str(nameid), self.getNames()))
+        if names:
+            return names[0]
 
     @property
     def family_name(self):
         value = self.findName(1)
         if not value:
             return ''
-        return unifyunicode(value.string)
+        return value.toUnicode()
 
     @property
     def num_glyphs(self):
@@ -88,7 +80,7 @@ class FontFace(object):
         value = self.findName(17)
         if not value:
             return ''
-        return unifyunicode(value.string)
+        return value.toUnicode()
 
     @property
     def style_flags(self):
@@ -191,7 +183,7 @@ class CharsetInfo(object):
         if callable(glyphs):
             glyphs = glyphs()
 
-        self.glyphs_in_charset_count = len(glyphs or [])
+        self.glyphs_in_charset_count = len(list(glyphs) or [])
 
         self.hits = 0
         for char in glyphs:
@@ -200,7 +192,7 @@ class CharsetInfo(object):
             else:
                 self.hits += 1
 
-        self.glyphs_count = len(glyphs)
+        self.glyphs_count = len(list(glyphs))
         if self.hits == self.glyphs_count:
             self.coverage = 100
             self.support_level = SUPPORT_LEVEL_FULL
@@ -231,7 +223,7 @@ class TTFont(object):
     def refresh_sfnt_properties(self):
         for record in self._fontFace.getNames():
             propname = NAME_ID_FONTPROPMAP.get(record.nameID)
-            value = unifyunicode(record.string)
+            value = record.toUnicode()
             setattr(self, '_%s' % propname, value)
 
     def get_orthographies(self, _library=library):
@@ -360,7 +352,7 @@ class TTXFont(TTFont):
         self._fontFace = TTXFontFace(fontfile)
         self._unicodeValues = self._fontFace.getCharset()
 
-        self._charsets = map(str.lower, charsets)
+        self._charsets = list(map(str.lower, charsets))
         self.refresh_sfnt_properties()
 
 
@@ -388,7 +380,7 @@ class FreeTypeFont(TTFont):
             except freetype.FT_Exception:
                 continue
             propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
-            value = unifyunicode(sfnt_record.string)
+            value = sfnt_record.toUnicode()
             setattr(self, '_%s' % propname, value)
 
     def getGlyphNames(self):
@@ -405,8 +397,8 @@ class RoboFabFont(TTFont):
         import robofab.world
         self._fontFace = robofab.world.OpenFont(fontfile)
         self.info = self._fontFace.info.__dict__
-        self._unicodeValues = map(lambda x: x.unicode, self._fontFace)
-        self._charsets = map(str.lower, charsets)
+        self._unicodeValues = list(map(lambda x: x.unicode, self._fontFace))
+        self._charsets = list(map(str.lower, charsets))
 
     def getGlyphNames(self):
         return [t.name for t in self._fontFace]

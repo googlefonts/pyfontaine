@@ -13,11 +13,11 @@ class Charset:
         0x038e,
         0x038f,
         0x0390] + \
-        list(xrange(0x0391, 0x03a1)) + \
-        list(xrange(0x03a3, 0x03a9)) + \
-        list(xrange(0x03aa, 0x03b0)) + \
-        list(xrange(0x03b1, 0x03c9)) + \
-        list(xrange(0x03ca, 0x03ce))
+        list(range(0x0391, 0x03a1)) + \
+        list(range(0x03a3, 0x03a9)) + \
+        list(range(0x03aa, 0x03b0)) + \
+        list(range(0x03b1, 0x03c9)) + \
+        list(range(0x03ca, 0x03ce))
 
 
 

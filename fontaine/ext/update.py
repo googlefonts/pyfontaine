@@ -13,10 +13,10 @@ APPDATA_DIRNAME = 'pyfontaine'
 
 def get_data_directory():
     try:
-        #Windows code:
+        # Windows code:
         d = op.join(os.environ["APPDATA"], APPDATA_DIRNAME)
     except KeyError:
-        #Linux and Mac code:
+        # GNU+Linux and MacOS code:
         d = op.join(op.expanduser("~"), ".local", "share", APPDATA_DIRNAME)
     if not op.exists(d):
         os.makedirs(d)
@@ -35,7 +35,7 @@ def get_file(name, url):
         directory = get_data_directory()
         filepath = op.join(directory, name)
         with open(filepath, 'w') as f:
-            f.write(r.content)
+            f.write(r.content.decode('utf-8'))
         return True
 
 
