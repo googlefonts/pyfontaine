@@ -1,7 +1,7 @@
 pyfontaine
 ==========================================================
 
-|Build Status|
+|Latest PyPI Version| |Python| |Travis Build Status| |License: GPL v3|
 
 pyfontaine analyses fonts for their language and character/glyph-set support.
 
@@ -167,5 +167,12 @@ Related Projects
 -  `fontbakery <https://github.com/googlefonts/fontbakery>`__
 -  `libunicodenames <https://bitbucket.org/sortsmill/libunicodenames>`__
 
-.. |Build Status| image:: https://travis-ci.org/googlefonts/pyfontaine.svg
+
+.. |Latest PyPI Version| image:: https://img.shields.io/pypi/v/fontaine.svg?style=flat
+   :target: https://pypi.python.org/pypi/fontaine
+.. |Python| image:: https://img.shields.io/pypi/pyversions/fontaine.svg?style=flat
+   :target: https://pypi.python.org/pypi/fontaine
+.. |Travis Build Status| image:: https://travis-ci.org/googlefonts/pyfontaine.svg
    :target: https://travis-ci.org/googlefonts/pyfontaine
+.. |License: GPL v3| image:: https://img.shields.io/badge/License-GPLv3-blue.svg
+   :target: https://www.gnu.org/licenses/gpl-3.0
