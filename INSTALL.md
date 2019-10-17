@@ -48,7 +48,7 @@ $ python setup.py install
 ```sh
 mkdir ~/src;
 cd ~/src;
-git clone git://github.com/davelab6/pyfontaine'
+git clone git://github.com/googlefonts/pyfontaine'
 cd pyfontaine'
 git submodule init;
 git submodule update;

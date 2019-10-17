@@ -168,12 +168,12 @@ def usage():
     parser.add_argument('--compare-glyphs', action='store_true',
                         help='Compare glyphs in fonts.')
 
-    url = 'https://github.com/davelab6/pyfontaine'
+    url = 'https://github.com/googlefonts/pyfontaine'
     param = '%(version)s (%(url)s)' % {'url': url, 'version': __version__}
     parser.add_argument('-V', '--version', action='version',
                         version="%(prog)s " + param)
     if len(sys.argv) == 1:
-        print(f'pyFontaine {__version__} (https://github.com/davelab6/pyfontaine)')
+        print(f'pyFontaine {__version__} (https://github.com/googlefonts/pyfontaine)')
         parser.print_help()
         sys.exit(1)
     return parser.parse_args()

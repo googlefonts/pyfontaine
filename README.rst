@@ -7,14 +7,14 @@ pyfontaine analyses fonts for their language and character/glyph-set support.
 
 It has a straightforward pythonic set definition format:
 
-- `simple example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charsets/internals/africaan.py>`__
-- `medium example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charsets/internals/armenian.py>`__
-- `complex example <https://github.com/davelab6/pyfontaine/blob/master/fontaine/charsets/internals/polish.py>`__
+- `simple example <https://github.com/googlefonts/pyfontaine/blob/master/fontaine/charsets/internals/africaan.py>`__
+- `medium example <https://github.com/googlefonts/pyfontaine/blob/master/fontaine/charsets/internals/armenian.py>`__
+- `complex example <https://github.com/googlefonts/pyfontaine/blob/master/fontaine/charsets/internals/polish.py>`__
 
 Additional definitions are downloaded from the Extensis, font-config and Unicode websites during installation, and can be updated without reinstalling.
 
 Adding your own definitions is easy.
-All files in the `internals <https://github.com/davelab6/pyfontaine/tree/master/fontaine/charsets/internals>`__ directory are auto-detected, so just add definition files there.
+All files in the `internals <https://github.com/googlefonts/pyfontaine/tree/master/fontaine/charsets/internals>`__ directory are auto-detected, so just add definition files there.
 
 Installation
 ------------
@@ -34,7 +34,7 @@ Install the latest release easily with pip::
 
 To install the latest development version::
 
-    sudo pip install https://github.com/davelab6/pyfontaine/archive/master.zip;
+    sudo pip install https://github.com/googlefonts/pyfontaine/archive/master.zip;
 
 Usage
 -----
@@ -167,9 +167,9 @@ Related Projects
 -  `fontbakery <https://github.com/googlefonts/fontbakery>`__
 -  `libunicodenames <https://bitbucket.org/sortsmill/libunicodenames>`__
 
-.. |Build Status| image:: https://travis-ci.org/davelab6/pyfontaine.svg
-   :target: https://travis-ci.org/davelab6/pyfontaine
-.. |Health| image:: https://landscape.io/github/davelab6/pyfontaine/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/davelab6/pyfontaine/master
-.. |Coverage Status| image:: https://img.shields.io/coveralls/davelab6/pyfontaine.svg
-   :target: https://coveralls.io/r/davelab6/pyfontaine
+.. |Build Status| image:: https://travis-ci.org/googlefonts/pyfontaine.svg
+   :target: https://travis-ci.org/googlefonts/pyfontaine
+.. |Health| image:: https://landscape.io/github/googlefonts/pyfontaine/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/googlefonts/pyfontaine/master
+.. |Coverage Status| image:: https://img.shields.io/coveralls/googlefonts/pyfontaine.svg
+   :target: https://coveralls.io/r/googlefonts/pyfontaine
