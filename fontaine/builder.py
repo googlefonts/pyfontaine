@@ -17,7 +17,6 @@ import sys
 import unicodedata
 
 from collections import OrderedDict
-from datetime import datetime
 
 from fontaine.const import SUPPORT_LEVEL_FULL, SUPPORT_LEVEL_UNSUPPORTED
 from fontaine.cmap import library
@@ -57,31 +56,24 @@ class Director(object):
     def __init__(self, show_hilbert=None, charsets=[], missing=False,
                  _library=None):
         self.show_hilbert = show_hilbert
-        self.charsets = filter(lambda x: x != '', charsets)
+        self.charsets = list(filter(lambda x: x != '', charsets))
         self.missingValues = missing
-        strdate = datetime.now().strftime('%Y-%m-%d-%H%M%S')
-        self.output_directory = 'pyfontaine-%s' % strdate
+        self.output_directory = 'coverage_pngs'
         self.library = _library or library
 
     def represent_coverage_png(self, font):
-        if not os.path.exists(self.output_directory):
-            os.makedirs(self.output_directory)
-
         cmaps = filter(lambda x: hasattr(x, 'key'), self.library.charsets)
         for cmap in cmaps:
             if self.charsets:
-                common = getattr(cmap, 'common_name', False)
                 short = getattr(cmap, 'short_name', False)
-                naive = getattr(cmap, 'native_name', False)
-                if common and common not in self.charsets:
-                    continue
                 if short and short not in self.charsets:
-                    continue
-                if naive and naive not in self.charsets:
                     continue
 
             if cmap.key not in font._unicodeValues:
                 continue
+
+            if not os.path.exists(self.output_directory):
+                os.makedirs(self.output_directory)
 
             filename = u'%s/%s-%s-hilbert' % (self.output_directory,
                                               font.common_name,
@@ -105,6 +97,7 @@ class Director(object):
                              ' --level=3'
                              ' --out="%s" "%s"') % (filename, txtFilename)
             os.system(hilbertScript)
+            print(f"Hilbert map saved to {filename}")
 
     def construct_tree(self, fonts):
         if self.show_hilbert:

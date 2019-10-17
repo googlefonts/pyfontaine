@@ -80,11 +80,11 @@ To print a list of all the missing unicode values from each set::
 
     pyfontaine --missing --set adobe_latin_3 font.ttf;
 
-.. To output visualisations of the coverage using `Hilbert curves <http://en.wikipedia.org/wiki/Hilbert_curve>`__ (thanks for the idea, `Øyvind 'pippin' Kolås <http://github.com/hodefoting>`__!):
-..
-..    pyfontaine --coverage font.ttf; ls -l coverage_pngs/;
-..
-.. The PNG files are stored in a new directory, ``coverage_pngs``, under the current directory.
+ To output visualisations of the coverage using `Hilbert curves <http://en.wikipedia.org/wiki/Hilbert_curve>`__ (thanks for the idea, `Øyvind 'pippin' Kolås <http://github.com/hodefoting>`__!):
+
+    pyfontaine --show_hilbert font.ttf; ls -l coverage_pngs/;
+
+ The PNG files are stored in a new directory, ``coverage_pngs``, under the current directory.
 
 Update collection data
 ~~~~~~~~~~~~~~~~~~~~~~
