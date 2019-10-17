@@ -23,7 +23,7 @@ setup(name='fontaine',
       long_description=readme,
       author='Dave Crossland, Виталий Волков, Felipe Sanches',
       author_email='dave@lab6.com',
-      url='https://github.com/davelab6/pyfontaine',
+      url='https://github.com/googlefonts/pyfontaine',
       # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
       packages=['fontaine', 'fontaine.charsets', 'fontaine.charsets.internals', 'fontaine.structures', 'fontaine.ext'],
       classifiers=[
