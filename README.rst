@@ -1,7 +1,7 @@
 pyfontaine
 ==========================================================
 
-|Build Status| |Health| |Coverage Status|
+|Build Status|
 
 pyfontaine analyses fonts for their language and character/glyph-set support.
 
@@ -169,7 +169,3 @@ Related Projects
 
 .. |Build Status| image:: https://travis-ci.org/googlefonts/pyfontaine.svg
    :target: https://travis-ci.org/googlefonts/pyfontaine
-.. |Health| image:: https://landscape.io/github/googlefonts/pyfontaine/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/googlefonts/pyfontaine/master
-.. |Coverage Status| image:: https://img.shields.io/coveralls/googlefonts/pyfontaine.svg
-   :target: https://coveralls.io/r/googlefonts/pyfontaine
