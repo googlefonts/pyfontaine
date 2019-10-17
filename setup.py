@@ -3,9 +3,11 @@
 #
 # fontaine.py
 #
-# Copyright (c) 2013,
-# Виталий Волков <hash.3g@gmail.com>
-# Dave Crossland <dave@understandinglimited.com>
+# Copyright (c) 2019, the pyfontaine authors:
+#
+# - Dave Crossland <dave@understandinglimited.com>
+# - Felipe Sanches <juca@members.fsf.org>
+# - Vitaly Volkov <hash.3g@gmail.com>
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
@@ -21,11 +23,15 @@ setup(name='fontaine',
       description='Font analysis tool for determining character/glyph support',
       license="GNU GPLv3",
       long_description=readme,
-      author='Dave Crossland, Виталий Волков, Felipe Sanches',
+      author='Dave Crossland, Felipe Sanches, Vitaly Volkov',
       author_email='dave@lab6.com',
       url='https://github.com/googlefonts/pyfontaine',
-      # more examples here http://docs.python.org/distutils/examples.html#pure-python-distribution-by-package
-      packages=['fontaine', 'fontaine.charsets', 'fontaine.charsets.internals', 'fontaine.structures', 'fontaine.ext'],
+      packages=[
+          'fontaine',
+          'fontaine.charsets',
+          'fontaine.charsets.internals',
+          'fontaine.structures',
+          'fontaine.ext'],
       classifiers=[
           'Environment :: Console',
           'Intended Audience :: Developers',
