@@ -374,7 +374,7 @@ class FreeTypeFont(TTFont):
         sfnt_count = self._fontFace.sfnt_name_count
         if not isinstance(sfnt_count, int):
             return
-        for i in xrange(sfnt_count):
+        for i in range(sfnt_count):
             try:
                 sfnt_record = self._fontFace.get_sfnt_name(i)
             except freetype.FT_Exception:

@@ -230,7 +230,8 @@ def main(*argv):
         if args.disable_unames:
             os.environ['DISABLE_UNAMES'] = 'disable'
 
-        director = Director(charsets=(args.set or '').split(','),
+        director = Director(show_hilbert=args.show_hilbert,
+                            charsets=(args.set or '').split(','),
                             missing=args.missing)
         if args.text_compact:
             Builder.compact_(fonts)
