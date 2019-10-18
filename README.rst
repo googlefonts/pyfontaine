@@ -127,10 +127,10 @@ Your contributions under `the GPLv3 <LICENSE.txt>`__ are welcome!
 
 pyfontaine is a python reimplementation of
 `Fontaine <http://fontaine.sf.net>`__ by Ed Trager, and has been made by
- `Vitaly Volkov <http://github.com/hash3g>`__,
- `Dave Crossland <http://github.com/davelab6>`__,
- `Mikhail Kashkin <http://github.com/xen>`__ and
- `Felipe Sanches <http://github.com/felipesanches>`__.
+`Vitaly Volkov <http://github.com/hash3g>`__,
+`Dave Crossland <http://github.com/davelab6>`__,
+`Mikhail Kashkin <http://github.com/xen>`__ and
+`Felipe Sanches <http://github.com/felipesanches>`__.
 
 Thanks
 ------
