@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from gfonts_utils import codepointsInNamelist
+from fontaine.namelist import codepointsInNamelist
 
 class Charset:
     common_name = u'Google Fonts: Greek Expert'
@@ -7,7 +7,7 @@ class Charset:
     abbreviation = 'GREK'
 
     def glyphs(self):
-        glyphs = codepointsInNamelist("google_glyphsets/Greek/GF-greek-expert.nam")
+        glyphs = codepointsInNamelist("charsets/internals/google_glyphsets/Greek/GF-greek-expert.nam")
         return glyphs
 
 
