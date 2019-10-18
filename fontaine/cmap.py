@@ -50,11 +50,8 @@ class Library(object):
 
         if 'all' in self.collections or 'pyfontaine' in self.collections:
             for ext in fontaine.charsets.internals.__all__:
-                try:
-                    module = import_module('fontaine.charsets.internals.%s' % ext)
-                    self.register(module.Charset)
-                except (ImportError, AttributeError) as ex:
-                    continue
+                module = import_module('fontaine.charsets.internals.%s' % ext)
+                self.register(module.Charset)
         return self._charsets
 
 

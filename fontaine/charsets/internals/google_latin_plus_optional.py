@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from gfonts_utils import codepointsInNamelist
+from fontaine.namelist import codepointsInNamelist
 
 class Charset:
     common_name = u'Google Fonts: Latin Plus (Optional Glyphs)'
@@ -7,7 +7,7 @@ class Charset:
     abbreviation = 'LAT'
 
     def glyphs(self):
-        glyphs = codepointsInNamelist("google_glyphsets/GF-latin-plus_optional-glyphs.nam")
+        glyphs = codepointsInNamelist("charsets/internals/google_glyphsets/GF-latin-plus_optional-glyphs.nam")
         return glyphs
 
 
