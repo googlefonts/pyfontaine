@@ -11,6 +11,7 @@
 
 from __future__ import print_function
 import csv
+import json
 import io
 import os
 import sys
@@ -304,8 +305,7 @@ class Builder(object):
 
     @staticmethod
     def json_(tree):
-        items_length = 0
-        pprint(tree, indent='', items_length=items_length)
+        print(json.dumps(tree, indent=2, sort_keys=False))
 
     @staticmethod
     def csv_(fonts, _library=library):
