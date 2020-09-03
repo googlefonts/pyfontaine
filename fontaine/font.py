@@ -182,8 +182,9 @@ class CharsetInfo(object):
         glyphs = getattr(self.charset, 'glyphs', [])
         if callable(glyphs):
             glyphs = glyphs()
+        glyphs = list(glyphs) or []
 
-        self.glyphs_in_charset_count = len(list(glyphs) or [])
+        self.glyphs_in_charset_count = len(glyphs)
 
         self.hits = 0
         for char in glyphs:
@@ -192,7 +193,7 @@ class CharsetInfo(object):
             else:
                 self.hits += 1
 
-        self.glyphs_count = len(list(glyphs))
+        self.glyphs_count = len(glyphs)
         if self.hits == self.glyphs_count:
             self.coverage = 100
             self.support_level = SUPPORT_LEVEL_FULL
