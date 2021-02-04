@@ -12,7 +12,6 @@ script:
   - export QUIET=" 2>&1 > long_output.txt && cat long_output.txt | tail -n20"
   - python setup.py install
   - eval pyfontaine 0x0061 $QUIET
-  - eval pyfontaine ğ ø ∂ $QUIET
   - eval pyfontaine U+C480 U+C481 $FONT $QUIET
   - eval pyfontaine --xml $FONT $QUIET
   - eval pyfontaine --json $FONT $QUIET
