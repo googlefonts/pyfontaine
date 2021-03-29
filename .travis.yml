@@ -6,7 +6,7 @@ python:
   - "3.6"
 branches:
   only:
-    - master
+    - main
 script:
   - export FONT=data/test/Mada-Regular.ttf # sample font file for testing purposes
   - export QUIET=" 2>&1 > long_output.txt && cat long_output.txt | tail -n20"
