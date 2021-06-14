@@ -42,9 +42,6 @@ To install the latest development version::
     pip3 install git+https://github.com/googlefonts/pyfontaine.git#egg=fontaine --user;
 
 
-
-If someone could confirm that this is correct it would be nice to add this to the readme or I could open a PR.
-
 Usage
 -----
 
