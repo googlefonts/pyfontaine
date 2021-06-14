@@ -33,7 +33,7 @@ Install the latest release easily with pip::
 
 To install the latest development version::
 
-    pip3 install https://github.com/googlefonts/pyfontaine/archive/main.zip --user;
+    pip3 install git+https://github.com/googlefonts/pyfontaine.git#egg=fontaine --user;
 
 Usage
 -----
