@@ -29,11 +29,11 @@ First, install Python and the `pip <http://www.pip-installer.org>`__ python pack
 
 Install the latest release easily with pip::
 
-    sudo pip3 install fontaine
+    sudo pip3 install fontaine --user;
 
 To install the latest development version::
 
-    sudo pip3 install https://github.com/googlefonts/pyfontaine/archive/master.zip;
+    sudo pip3 install https://github.com/googlefonts/pyfontaine/archive/master.zip --user;
 
 Usage
 -----
