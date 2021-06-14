@@ -19,22 +19,21 @@ All files in the `internals <https://github.com/googlefonts/pyfontaine/tree/mast
 Installation
 ------------
 
-First, install Python and the `pip <http://www.pip-installer.org>`__ python package manager. This is installed by default with `homebrew <http://brew.sh/>`__ python, so, install homebrew, then install pip as follows::
+First, install Python and the `pip <http://www.pip-installer.org>`__ python package manager. This is installed by default with `homebrew <http://brew.sh/>`__ python, so, install homebrew, then install the neccessary depedencies (`PyICU <https://pypi.org/project/PyICU/>`__) as follows::
 
-    brew install python;
-    brew install icu4c;
-
-On Mac OS X, install the pyicu dependency as follows::
-
-    CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pyicu;
+    brew install python icu4c pkg-config;
+    export PATH="/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH";
+    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/icu4c/lib/pkgconfig";
+    export CC="$(which gcc)" CXX="$(which g++)";
+    pip3 install --no-binary=:pyicu: pyicu;
 
 Install the latest release easily with pip::
 
-    sudo pip install fontaine
+    sudo pip3 install fontaine
 
 To install the latest development version::
 
-    sudo pip install https://github.com/googlefonts/pyfontaine/archive/master.zip;
+    sudo pip3 install https://github.com/googlefonts/pyfontaine/archive/master.zip;
 
 Usage
 -----
