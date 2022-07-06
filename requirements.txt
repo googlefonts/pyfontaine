@@ -1,6 +1,6 @@
 --index-url https://pypi.python.org/simple/
 fonttools==4.0.2
-lxml==4.6.5
+lxml==4.9.1
 PyICU==2.3.1
 requests==2.22.0
 tabulate==0.8.5
