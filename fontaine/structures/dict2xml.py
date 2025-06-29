@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # dict2xml.py
 #
@@ -9,15 +8,13 @@
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
 
-from collections import OrderedDict
 import re
 import sys
-
+from collections import OrderedDict
 from xml.dom.minidom import Document
 
 
-class dict2xml(object):
-
+class dict2xml:
     def __init__(self, structure):
         self.doc = Document()
 
@@ -26,13 +23,17 @@ class dict2xml(object):
             self.root = self.doc.createElement(rootName)
 
             self.doc.appendChild(self.root)
-            identical = structure[rootName].pop('identical', None)
+            identical = structure[rootName].pop("identical", None)
             if identical is not None:
-                itag = self.doc.createElement('identical')
+                itag = self.doc.createElement("identical")
                 if identical:
-                    textnode = self.doc.createTextNode(u'All fonts have the same character sets.')
+                    textnode = self.doc.createTextNode(
+                        "All fonts have the same character sets."
+                    )
                 else:
-                    textnode = self.doc.createTextNode(u'All fonts do NOT have the same character sets.')
+                    textnode = self.doc.createTextNode(
+                        "All fonts do NOT have the same character sets."
+                    )
                 itag.appendChild(textnode)
                 self.root.appendChild(itag)
             self.build(self.root, structure[rootName])
@@ -61,49 +62,56 @@ class dict2xml(object):
         sys.stdout.write(self.doc.toprettyxml(indent="  "))
 
 
-class dict2txt(object):
-
-    def __init__(self, structure, names=None, indent='  '):
-        self.output = u''
+class dict2txt:
+    def __init__(self, structure, names=None, indent="  "):
+        self.output = ""
         self.indent = indent
         self.names = names
 
-        identical = structure.pop('identical', None)
+        identical = structure.pop("identical", None)
         if len(structure) == 1:
             rootName = list(structure.keys())[0]
-            self.output += self.name(rootName) + '\n'
-            if rootName.lower() == 'fonts' and identical is not None:
+            self.output += self.name(rootName) + "\n"
+            if rootName.lower() == "fonts" and identical is not None:
                 if identical:
-                    self.output += u'%sAll fonts have the same character sets.\n' % indent
+                    self.output += (
+                        "%sAll fonts have the same character sets.\n" % indent
+                    )
                 else:
-                    self.output += u'%sAll fonts do NOT have the same character sets.\n' % indent
+                    self.output += (
+                        "%sAll fonts do NOT have the same character sets.\n" % indent
+                    )
             self.build(structure[rootName])
 
     def name(self, key):
         return self.names.get(key, key)
 
-    def build(self, structure, indent=''):
+    def build(self, structure, indent=""):
         if isinstance(structure, OrderedDict):
             for k in structure.keys():
                 if isinstance(structure[k], OrderedDict):
-                    self.output += u'%s%s:' % (indent, self.name(k)) + '\n'
+                    self.output += f"{indent}{self.name(k)}:" + "\n"
                     self.build(structure[k], indent + self.indent)
                 elif isinstance(structure[k], list):
-                    self.output += u'%s%s:' % (indent, self.name(k)) + '\n'
+                    self.output += f"{indent}{self.name(k)}:" + "\n"
                     self.build(structure[k], indent + self.indent)
                 elif structure[k]:
-                    self.output += u'%s%s:' % (indent, self.name(k))
-                    if k == 'missingValues':
-                        self.build(re.sub(r'U\+',
-                                          '%sU+' % (indent + self.indent * 2),
-                                          structure[k]))
+                    self.output += f"{indent}{self.name(k)}:"
+                    if k == "missingValues":
+                        self.build(
+                            re.sub(
+                                r"U\+",
+                                "%sU+" % (indent + self.indent * 2),
+                                structure[k],
+                            )
+                        )
                     else:
                         self.build(structure[k], indent + self.indent)
         elif isinstance(structure, list):
             for k, l in enumerate(structure):
                 self.build(structure[k], indent + self.indent)
         elif structure:
-            self.output += u' %s' % structure + '\n'
+            self.output += " %s" % structure + "\n"
 
     def display(self):
         sys.stdout.write(self.output)

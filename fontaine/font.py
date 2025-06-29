@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # font.py
 #
@@ -8,12 +7,13 @@
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
-from itertools import chain
 import os
+from itertools import chain
 
 from fontaine.cmap import library
 from fontaine.const import *
 from fontTools.unicode import Unicode
+
 
 def lookup_languages(unichar, _library=library):
     try:
@@ -24,8 +24,7 @@ def lookup_languages(unichar, _library=library):
     charsets = []
 
     for charset in _library.charsets:
-
-        glyphs = getattr(charset, 'glyphs', [])
+        glyphs = getattr(charset, "glyphs", [])
         if callable(glyphs):
             glyphs = glyphs()
         if ord(unicode(unichar)) in glyphs:
@@ -33,15 +32,15 @@ def lookup_languages(unichar, _library=library):
     return charsets
 
 
-class FontFace(object):
-
+class FontFace:
     def __init__(self, fontfile):
         import fontTools.ttLib as ttLib
+
         self.ttf = ttLib.TTFont(fontfile, fontNumber=1)
         self._flags = 0
 
     def getCharset(self):
-        tempcmap = self.ttf['cmap'].getcmap(3, 1)
+        tempcmap = self.ttf["cmap"].getcmap(3, 1)
         if tempcmap is not None:
             return list(map(lambda s: s[0], tempcmap.cmap.items()))
         return []
@@ -50,14 +49,16 @@ class FontFace(object):
         # returns itertools.chain object each element of which
         # is a tuple of 3 elements like
         # (73, 'I', 'LATIN CAPITAL LETTER I')
-        return chain.from_iterable([item + (Unicode[item[0]],) for item in t.cmap.items()] \
-                                   for t in self.ttf["cmap"].tables)
+        return chain.from_iterable(
+            [item + (Unicode[item[0]],) for item in t.cmap.items()]
+            for t in self.ttf["cmap"].tables
+        )
 
     def getGlyphNames(self):
         return self.ttf.getGlyphNames()
 
     def getNames(self):
-        return self.ttf['name'].names
+        return self.ttf["name"].names
 
     def findName(self, nameid):
         names = list(filter(lambda s: str(s.nameID) == str(nameid), self.getNames()))
@@ -68,68 +69,70 @@ class FontFace(object):
     def family_name(self):
         value = self.findName(1)
         if not value:
-            return ''
+            return ""
         return value.toUnicode()
 
     @property
     def num_glyphs(self):
-        return int(self.ttf['maxp'].numGlyphs)
+        return int(self.ttf["maxp"].numGlyphs)
 
     @property
     def style_name(self):
         value = self.findName(17)
         if not value:
-            return ''
+            return ""
         return value.toUnicode()
 
     @property
     def style_flags(self):
-        if int(self.ttf['OS/2'].usWeightClass) > 400:
+        if int(self.ttf["OS/2"].usWeightClass) > 400:
             self._flags = self._flags | FT_STYLE_FLAG_BOLD
-        if self.ttf['post'].italicAngle != 0.0:
+        if self.ttf["post"].italicAngle != 0.0:
             self._flags = self._flags | FT_STYLE_FLAG_ITALIC
         return self._flags
 
     @property
     def is_fixed_width(self):
-        return bool(self.ttf['head'].flags & FT_FACE_FLAG_FIXED_WIDTH)
+        return bool(self.ttf["head"].flags & FT_FACE_FLAG_FIXED_WIDTH)
 
     @property
     def has_fixed_sizes(self):
-        return bool(self.ttf['head'].flags & FT_FACE_FLAG_FIXED_SIZES)
+        return bool(self.ttf["head"].flags & FT_FACE_FLAG_FIXED_SIZES)
 
 
 class TTXFontFace(FontFace):
-
     def __init__(self, fontfile):
         import fontTools.ttLib as ttLib
+
         self.ttf = ttLib.TTFont(None)
         self.ttf.importXML(fontfile, quiet=True)
         self._flags = 0
 
 
 class FontFactory:
-
     @staticmethod
     def openfont(fontfile, charsets=[]):
-        if fontfile.lower().endswith('.ttx'):
+        if fontfile.lower().endswith(".ttx"):
             return TTXFont(fontfile, charsets)
-        if fontfile.lower().endswith('.ufo') and os.path.isdir(fontfile):
+        if fontfile.lower().endswith(".ufo") and os.path.isdir(fontfile):
             try:
                 import robofab
+
                 return RoboFabFont(fontfile, charsets)
             except ImportError:
-                raise Exception('Install [RoboFab](https://pypi.python.org/pypi/robofab/) before using UFO with Pyfontaine')
+                raise Exception(
+                    "Install [RoboFab](https://pypi.python.org/pypi/robofab/) before using UFO with Pyfontaine"
+                )
         try:
             import freetype
+
             return FreeTypeFont(fontfile, charsets)
         except ImportError:
             pass
         return TTFont(fontfile, charsets)
 
 
-class CharsetInfo(object):
-
+class CharsetInfo:
     def __init__(self, ttfont, charset):
         self.charset = charset
         self.missing = []
@@ -137,7 +140,7 @@ class CharsetInfo(object):
         self.support_level = SUPPORT_LEVEL_UNSUPPORTED
         self.coverage = 0
 
-        if hasattr(charset, 'glyphnames'):
+        if hasattr(charset, "glyphnames"):
             self.init_configuration_for_glyphnames()
         else:
             self.init_configuration_for_unicodes()
@@ -178,8 +181,7 @@ class CharsetInfo(object):
         self.glyphs_in_charset_count -= len(self.missing)
 
     def init_configuration_for_unicodes(self):
-
-        glyphs = getattr(self.charset, 'glyphs', [])
+        glyphs = getattr(self.charset, "glyphs", [])
         if callable(glyphs):
             glyphs = glyphs()
         glyphs = list(glyphs) or []
@@ -209,8 +211,7 @@ class CharsetInfo(object):
         self.glyphs_in_charset_count -= len(self.missing)
 
 
-class TTFont(object):
-
+class TTFont:
     def __init__(self, fontfile, charsets=[]):
         self._fontFace = FontFace(fontfile)
         self._unicodeValues = self._fontFace.getCharset()
@@ -225,17 +226,17 @@ class TTFont(object):
         for record in self._fontFace.getNames():
             propname = NAME_ID_FONTPROPMAP.get(record.nameID)
             value = record.toUnicode()
-            setattr(self, '_%s' % propname, value)
+            setattr(self, "_%s" % propname, value)
 
     def get_orthographies(self, _library=library):
-        ''' Returns list of CharsetInfo about supported orthographies '''
+        """Returns list of CharsetInfo about supported orthographies"""
         results = []
         for charset in _library.charsets:
             if self._charsets:
-                cn = getattr(charset, 'common_name', False)
-                abbr = getattr(charset, 'abbreviation', False)
-                nn = getattr(charset, 'short_name', False)
-                naive = getattr(charset, 'native_name', False)
+                cn = getattr(charset, "common_name", False)
+                abbr = getattr(charset, "abbreviation", False)
+                nn = getattr(charset, "short_name", False)
+                naive = getattr(charset, "native_name", False)
 
                 if cn and cn.lower() in self._charsets:
                     results.append(charset)
@@ -265,41 +266,48 @@ class TTFont(object):
     @property
     def character_count(self):
         return len(self._unicodeValues)
+
     _character_count = 0
 
     @property
     def common_name(self):
         default = self._fontFace.family_name
         return self._common_name or default
-    _common_name = ''
+
+    _common_name = ""
 
     @property
     def copyright(self):
         return self._copyright
-    _copyright = ''
+
+    _copyright = ""
 
     @property
     def designer(self):
         return self._designer
-    _designer = ''
+
+    _designer = ""
 
     @property
     def designer_url(self):
         return self._designer_url
-    _designer_url = ''
+
+    _designer_url = ""
 
     @property
     def license(self):
         try:
-            return self._license.split('\n')[0]
+            return self._license.split("\n")[0]
         except IndexError:
             return self._license
-    _license = ''
+
+    _license = ""
 
     @property
     def license_url(self):
         return self._license_url
-    _license_url = ''
+
+    _license_url = ""
 
     @property
     def glyph_num(self):
@@ -307,36 +315,42 @@ class TTFont(object):
 
     @property
     def style_flags(self):
-        return FT_STYLE_ITALIC \
-            if self._fontFace.style_flags & FT_STYLE_FLAG_ITALIC \
-            else ''
+        return (
+            FT_STYLE_ITALIC if self._fontFace.style_flags & FT_STYLE_FLAG_ITALIC else ""
+        )
 
     @property
     def sub_family(self):
         default = self._fontFace.style_name
         return self._sub_family or default
-    _sub_family = ''
+
+    _sub_family = ""
 
     @property
     def vendor(self):
         return self._vendor
-    _vendor = ''
+
+    _vendor = ""
 
     @property
     def vendor_url(self):
         return self._vendor_url
-    _vendor_url = ''
+
+    _vendor_url = ""
 
     @property
     def version(self):
         return self._version
-    _version = ''
+
+    _version = ""
 
     @property
     def weight(self):
-        return FT_STYLE_BOLD \
-            if self._fontFace.style_flags & FT_STYLE_FLAG_BOLD \
+        return (
+            FT_STYLE_BOLD
+            if self._fontFace.style_flags & FT_STYLE_FLAG_BOLD
             else FT_STYLE_NORMAL
+        )
 
     @property
     def is_fixed_width(self):
@@ -348,7 +362,6 @@ class TTFont(object):
 
 
 class TTXFont(TTFont):
-
     def __init__(self, fontfile, charsets=[]):
         self._fontFace = TTXFontFace(fontfile)
         self._unicodeValues = self._fontFace.getCharset()
@@ -358,9 +371,9 @@ class TTXFont(TTFont):
 
 
 class FreeTypeFont(TTFont):
-
     def __init__(self, fontfile, charsets=[]):
         import freetype
+
         self._unicodeValues = []
         self._fontFace = freetype.Face(fontfile)
         charcode, agindex = self._fontFace.get_first_char()
@@ -372,6 +385,7 @@ class FreeTypeFont(TTFont):
 
     def refresh_sfnt_properties(self):
         import freetype
+
         sfnt_count = self._fontFace.sfnt_name_count
         if not isinstance(sfnt_count, int):
             return
@@ -382,20 +396,20 @@ class FreeTypeFont(TTFont):
                 continue
             propname = NAME_ID_FONTPROPMAP.get(sfnt_record.name_id)
             value = sfnt_record.toUnicode()
-            setattr(self, '_%s' % propname, value)
+            setattr(self, "_%s" % propname, value)
 
     def getGlyphNames(self):
         """
         TODO: Fix this so that pyfontaine falls back to using fontTools to get glyph names
-        if getGlyphNames() is really needed by the given mode of use. 
+        if getGlyphNames() is really needed by the given mode of use.
         """
         return "glyphnames-unknown-with-freetype"
 
 
 class RoboFabFont(TTFont):
-
     def __init__(self, fontfile, charsets=[]):
         import robofab.world
+
         self._fontFace = robofab.world.OpenFont(fontfile)
         self.info = self._fontFace.info.__dict__
         self._unicodeValues = list(map(lambda x: x.unicode, self._fontFace))
@@ -406,27 +420,27 @@ class RoboFabFont(TTFont):
 
     @property
     def common_name(self):
-        return self.info.get('familyName', '')
+        return self.info.get("familyName", "")
 
     @property
     def copyright(self):
-        return self.info.get('copyright', '')
+        return self.info.get("copyright", "")
 
     @property
     def designer(self):
-        return self.info.get('openTypeNameDesigner', '')
+        return self.info.get("openTypeNameDesigner", "")
 
     @property
     def designer_url(self):
-        return self.info.get('openTypeNameManufacturerURL', '')
+        return self.info.get("openTypeNameManufacturerURL", "")
 
     @property
     def license(self):
-        return self.info.get('openTypeNameLicense', '')
+        return self.info.get("openTypeNameLicense", "")
 
     @property
     def license_url(self):
-        return self.info.get('openTypeNameLicenseURL', '')
+        return self.info.get("openTypeNameLicenseURL", "")
 
     @property
     def glyph_num(self):
@@ -434,36 +448,39 @@ class RoboFabFont(TTFont):
 
     @property
     def style_flags(self):
-        return FT_STYLE_ITALIC \
-            if self.info.get('italicAngle') else ''
+        return FT_STYLE_ITALIC if self.info.get("italicAngle") else ""
 
     @property
     def sub_family(self):
-        return self.info.get('styleName', '')
+        return self.info.get("styleName", "")
 
     @property
     def vendor(self):
         return self._vendor
-    _vendor = ''
+
+    _vendor = ""
 
     @property
     def vendor_url(self):
         return self._vendor_url
-    _vendor_url = ''
+
+    _vendor_url = ""
 
     @property
     def version(self):
-        return self.info.get('openTypeNameVersion', '')
+        return self.info.get("openTypeNameVersion", "")
 
     @property
     def weight(self):
-        return FT_STYLE_BOLD \
-            if self.info.get('openTypeOS2WeightClass', 0) >= 600 \
+        return (
+            FT_STYLE_BOLD
+            if self.info.get("openTypeOS2WeightClass", 0) >= 600
             else FT_STYLE_NORMAL
+        )
 
     @property
     def is_fixed_width(self):
-        return bool(self.info.get('postscriptIsFixedPitch'))
+        return bool(self.info.get("postscriptIsFixedPitch"))
 
     @property
     def has_fixed_sizes(self):

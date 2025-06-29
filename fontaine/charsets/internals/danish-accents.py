@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Danish Accents'
-    native_name = u'Danske Accenter'
-    key = ord(u'å')
-    abbreviation = 'DANA'
-    danishAccents = u"æøåÆØÅ"
+    common_name = "Danish Accents"
+    native_name = "Danske Accenter"
+    key = ord("å")
+    abbreviation = "DANA"
+    danishAccents = "æøåÆØÅ"
     glyphs = map(ord, danishAccents)

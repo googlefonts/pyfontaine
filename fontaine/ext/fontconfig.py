@@ -1,25 +1,24 @@
-import fontaine
 import os
 import os.path
 import re
-
 import unicodedata
 
+import fontaine
 from fontaine.ext.base import BaseExt
 
-
-UNICODE_VALUE_REGEX = re.compile('^(?P<bx>0x)?(?P<begr>[0-9a-f]+)(\-(?!0x)(?P<endr>[0-9a-f]+))?', re.I)
-INCLUDE_REGEX = re.compile('include ([\w]+.orth)', re.I | re.U | re.S)
+UNICODE_VALUE_REGEX = re.compile(
+    r"^(?P<bx>0x)?(?P<begr>[0-9a-f]+)(\-(?!0x)(?P<endr>[0-9a-f]+))?", re.I
+)
+INCLUDE_REGEX = re.compile(r"include ([\w]+.orth)", re.I | re.U | re.S)
 
 
 dirname = os.path.dirname(fontaine.__file__)
-ORTH_SOURCE_DIR = os.path.join(dirname, 'charsets', 'fontconfig', 'fc-lang')
+ORTH_SOURCE_DIR = os.path.join(dirname, "charsets", "fontconfig", "fc-lang")
 
 
 class Extension(BaseExt):
-
-    extension_name = 'fontconfig'
-    description = 'FontConfig collection'
+    extension_name = "fontconfig"
+    description = "FontConfig collection"
 
     @staticmethod
     def __getcharsets__():
@@ -29,10 +28,17 @@ class Extension(BaseExt):
             if not common_name:
                 continue
 
-            yield type('Charset', (object,),
-                       dict(glyphs=unicodes, common_name=common_name,
-                            native_name='', abbreviation=abbr,
-                            short_name=unicodedata.normalize('NFKD', u'fontconfig-{}'.format(abbr))))
+            yield type(
+                "Charset",
+                (object,),
+                dict(
+                    glyphs=unicodes,
+                    common_name=common_name,
+                    native_name="",
+                    abbreviation=abbr,
+                    short_name=unicodedata.normalize("NFKD", f"fontconfig-{abbr}"),
+                ),
+            )
 
     @staticmethod
     def iterate_orth():
@@ -41,7 +47,7 @@ class Extension(BaseExt):
 
         result = []
         for fileorth in os.listdir(ORTH_SOURCE_DIR):
-            if os.path.splitext(fileorth)[1] == '.orth':
+            if os.path.splitext(fileorth)[1] == ".orth":
                 result.append(os.path.join(ORTH_SOURCE_DIR, fileorth))
 
         return result
@@ -56,27 +62,32 @@ class Extension(BaseExt):
         #     ''
         # }
 
-        common_name_regex = re.compile(u'#\s+([\u00E5\u00ED\u00E1,\s\(\)\'\w/-]+)\s*\(([\w_-]{2,6})\)', re.I | re.U | re.S)
+        common_name_regex = re.compile(
+            "#\\s+([\u00e5\u00ed\u00e1,\\s\\(\\)'\\w/-]+)\\s*\\(([\\w_-]{2,6})\\)",
+            re.I | re.U | re.S,
+        )
 
-        content = content.replace('# Chinese (traditional) ZH-TW', '# Chinese traditional (ZH-TW)')
+        content = content.replace(
+            "# Chinese (traditional) ZH-TW", "# Chinese traditional (ZH-TW)"
+        )
 
         common_name_match = common_name_regex.search(content)
         if common_name_match:
-            common_name = u'%s (fc-lang/%s.orth)'
+            common_name = "%s (fc-lang/%s.orth)"
             common_name = common_name % (common_name_match.group(1), fn)
         else:
             # print(fn)
             # print(content.decode('utf-8', 'ignore'))
-            return [], '', ''
+            return [], "", ""
 
-        for line in content.split('\n'):
+        for line in content.split("\n"):
             unicode_match = UNICODE_VALUE_REGEX.match(line.strip())
             if not unicode_match:
                 continue
 
-            value = '0x' + unicode_match.group('begr')
-            if unicode_match.group('endr'):
-                value = value + '-0x' + unicode_match.group('endr')
+            value = "0x" + unicode_match.group("begr")
+            if unicode_match.group("endr"):
+                value = value + "-0x" + unicode_match.group("endr")
             glyphs.append(value)
 
         regex = INCLUDE_REGEX.search(content)
@@ -87,10 +98,10 @@ class Extension(BaseExt):
                 content = fp.read()
             name, abbr, ng = Extension.get_string_glyphlist(include, content)
             if name and ng:
-                glyphs += ng.split(',')
-                common_name += u' + %s' % name
+                glyphs += ng.split(",")
+                common_name += " + %s" % name
 
-        return common_name, common_name_match.group(2), ','.join(glyphs)
+        return common_name, common_name_match.group(2), ",".join(glyphs)
 
     @staticmethod
     def get_orth_charset(orthfile):
@@ -100,6 +111,6 @@ class Extension(BaseExt):
         name, abbr, glyphlist = Extension.get_string_glyphlist(orthfile, content)
 
         if not name:
-            return [], '', ''
+            return [], "", ""
 
         return Extension.convert_to_list_of_unicodes(glyphlist), name, abbr

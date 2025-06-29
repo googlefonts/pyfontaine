@@ -1,12 +1,11 @@
-# -*- coding: utf8 -*-
-
 # 2009.08.31.ET :: Revised and expanded based on patch from Dwayne Bailey
 # 2013.02.12 DC :: Ported from ET's fontaine Afrikaans.h
 
+
 class Charset:
-    common_name = 'African'
-    native_name = 'Afrikaans'
-    abbreviation = 'AFK'
+    common_name = "African"
+    native_name = "Afrikaans"
+    abbreviation = "AFK"
     key = 0x0149
     glyphs = [
         0x00C0,  # À LATIN CAPITAL LETTER A WITH GRAVE

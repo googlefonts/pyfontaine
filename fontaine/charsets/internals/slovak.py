@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Full Slovak Alphabet'
-    native_name = u'Slovenský Abeceda'
-    key = ord(u'Č')
-    abbreviation = 'SLK'
-    slovakAlphabet = u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÁÄÉÍÓÔÚÝáäéíóôúýČčĎďĹĺĽľŇňŔŕŠšŤťŽž"
+    common_name = "Full Slovak Alphabet"
+    native_name = "Slovenský Abeceda"
+    key = ord("Č")
+    abbreviation = "SLK"
+    slovakAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÁÄÉÍÓÔÚÝáäéíóôúýČčĎďĹĺĽľŇňŔŕŠšŤťŽž"
     glyphs = map(ord, slovakAlphabet)

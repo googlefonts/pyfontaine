@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Catalan'
-    native_name = u'Català'
+    common_name = "Catalan"
+    native_name = "Català"
     key = 0x013F
-    abbreviation = 'CAT'
+    abbreviation = "CAT"
     glyphs = [
         0x00C0,
         0x00E0,
@@ -28,8 +27,5 @@ class Charset:
         0x00DC,
         0x00FC,
         0x00D1,
-        0x00F1
+        0x00F1,
     ]
-
-
-

@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Bamum'
-    native_name = u"ꚠꚡꚢꚣ"
+    common_name = "Bamum"
+    native_name = "ꚠꚡꚢꚣ"
     key = 0xA6A0
     glyphs = range(0xA6A0, 0xA6F7)
-
-
-

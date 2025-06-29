@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 class Charset:
-
     common_name = "Pan African Latin"  # Common name
     native_name = "Pan African Latin"  # Native name
     key = 0x00C0  # KEY = LATIN LETTER A WITH GRAVE
-    abbreviation = 'PAL'
+    abbreviation = "PAL"
 
     glyphs = [
         0x00D8,  # Ø
@@ -320,6 +318,3 @@ class Charset:
         #
         0xA7AA,  # Ɦ H with hook
     ]
-
-
-

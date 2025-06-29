@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Icelandic Accents'
-    native_name = u'Íslenska Akcenty'
-    key = ord(u'þ')
-    icelandicAccents = u"ÁáÐðÉéÍíÓóÚúÝýÞþÆæÖö"
-    abbreviation = 'ISLA'
+    common_name = "Icelandic Accents"
+    native_name = "Íslenska Akcenty"
+    key = ord("þ")
+    icelandicAccents = "ÁáÐðÉéÍíÓóÚúÝýÞþÆæÖö"
+    abbreviation = "ISLA"
     glyphs = map(ord, icelandicAccents)

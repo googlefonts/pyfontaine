@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Polish Accents'
-    native_name = u'Polskie Akcenty'
-    key = ord(u'ł')
-    polishAccents = u"ĄĆĘŁŃÓŚŹŻąćęłńóśźż"
-    abbreviation = 'PLKA'
+    common_name = "Polish Accents"
+    native_name = "Polskie Akcenty"
+    key = ord("ł")
+    polishAccents = "ĄĆĘŁŃÓŚŹŻąćęłńóśźż"
+    abbreviation = "PLKA"
     glyphs = map(ord, polishAccents)

@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Baltic'
-    native_name = u'Baltic'
-    abbreviation = 'BAL'
+    common_name = "Baltic"
+    native_name = "Baltic"
+    abbreviation = "BAL"
     key = 0x0136
     glyphs = [
         0x0100,
@@ -44,8 +43,5 @@ class Charset:
         0x0172,
         0x0173,
         0x017D,
-        0x017E
+        0x017E,
     ]
-
-
-

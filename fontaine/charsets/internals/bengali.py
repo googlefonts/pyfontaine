@@ -1,25 +1,22 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Bengali'
-    native_name = u'বাংলা'
-    abbreviation = 'BENG'
+    common_name = "Bengali"
+    native_name = "বাংলা"
+    abbreviation = "BENG"
     key = 0x0985
-    glyphs = \
-        list(range(0x0981, 0x0983)) + \
-        list(range(0x0985, 0x098c)) + \
-        list(range(0x098f, 0x0990)) + \
-        list(range(0x0993, 0x09a8)) + \
-        list(range(0x09aa, 0x09b0)) + \
-        [0x09b2] + \
-        list(range(0x09b6, 0x09b9)) + \
-        [0x09bc] + \
-        list(range(0x09be, 0x09c4)) + \
-        list(range(0x09c7, 0x09c8)) + \
-        list(range(0x09cb, 0x09cd)) + \
-        [0x09d7] + \
-        list(range(0x09dc, 0x09dd)) + \
-        list(range(0x09df, 0x09e3)) + \
-        list(range(0x09e6, 0x09fa))
-
-
-
+    glyphs = (
+        list(range(0x0981, 0x0983))
+        + list(range(0x0985, 0x098C))
+        + list(range(0x098F, 0x0990))
+        + list(range(0x0993, 0x09A8))
+        + list(range(0x09AA, 0x09B0))
+        + [0x09B2]
+        + list(range(0x09B6, 0x09B9))
+        + [0x09BC]
+        + list(range(0x09BE, 0x09C4))
+        + list(range(0x09C7, 0x09C8))
+        + list(range(0x09CB, 0x09CD))
+        + [0x09D7]
+        + list(range(0x09DC, 0x09DD))
+        + list(range(0x09DF, 0x09E3))
+        + list(range(0x09E6, 0x09FA))
+    )

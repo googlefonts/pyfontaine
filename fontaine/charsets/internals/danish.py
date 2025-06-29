@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Full Danish Alphabet'
-    native_name = u'Fuld Dansk Alfabet'
-    key = ord(u'Å')
-    abbreviation = 'DAN'
-    danishAlphabet = u"abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ"
+    common_name = "Full Danish Alphabet"
+    native_name = "Fuld Dansk Alfabet"
+    key = ord("Å")
+    abbreviation = "DAN"
+    danishAlphabet = "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ"
     glyphs = map(ord, danishAlphabet)

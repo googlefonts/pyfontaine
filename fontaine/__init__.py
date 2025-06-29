@@ -1,4 +1,3 @@
-# -*- coding: utf8 -*-
 #
 # __init__.py
 #

@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Central European'
-    native_name = u'Central European'
+    common_name = "Central European"
+    native_name = "Central European"
     key = 0x010C
-    abbreviation = 'CE'
+    abbreviation = "CE"
     glyphs = [
         0x00C1,  # LATIN CAPITAL LETTER A WITH ACUTE
         0x00C2,  # LATIN CAPITAL LETTER A WITH CIRCUMFLEX
@@ -87,6 +86,3 @@ class Charset:
         0x017D,  # LATIN CAPITAL LETTER Z WITH CARON
         0x017E,  # LATIN SMALL LETTER Z WITH CARON
     ]
-
-
-

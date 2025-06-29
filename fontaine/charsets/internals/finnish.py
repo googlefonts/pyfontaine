@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Full Finnish Alphabet'
-    native_name = u'Koko Suomi Alphabet'
-    key = ord(u'Ä')
-    abbreviation = 'FIN'
-    finnishAlphabet = u"AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvXxYyZzÅåÄäÖö"
+    common_name = "Full Finnish Alphabet"
+    native_name = "Koko Suomi Alphabet"
+    key = ord("Ä")
+    abbreviation = "FIN"
+    finnishAlphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvXxYyZzÅåÄäÖö"
     glyphs = map(ord, finnishAlphabet)

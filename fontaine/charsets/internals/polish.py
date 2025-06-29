@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 class Charset:
-    common_name = u'Full Polish Alphabet'
-    native_name = u'Pełny Polski Alfabet'
-    key = ord(u'Ł')
-    abbreviation = 'PLK'
-    polishAlphabet = u"AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻaąbcćdeęfghijklłmnńoóprsśtuwyzźż"
+    common_name = "Full Polish Alphabet"
+    native_name = "Pełny Polski Alfabet"
+    key = ord("Ł")
+    abbreviation = "PLK"
+    polishAlphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻaąbcćdeęfghijklłmnńoóprsśtuwyzźż"
     glyphs = map(ord, polishAlphabet)

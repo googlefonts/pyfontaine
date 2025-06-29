@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # const.py
 #
@@ -8,15 +7,15 @@
 #
 # Released under the GNU General Public License version 3 or later.
 # See accompanying LICENSE.txt file for details.
-FT_STYLE_FLAG_ITALIC = (1 << 0)
-FT_STYLE_FLAG_BOLD = (1 << 1)
-FT_FACE_FLAG_SFNT = (1 << 3)
-FT_FACE_FLAG_FIXED_SIZES = (1 << 1)
-FT_FACE_FLAG_FIXED_WIDTH = (1 << 2)
+FT_STYLE_FLAG_ITALIC = 1 << 0
+FT_STYLE_FLAG_BOLD = 1 << 1
+FT_FACE_FLAG_SFNT = 1 << 3
+FT_FACE_FLAG_FIXED_SIZES = 1 << 1
+FT_FACE_FLAG_FIXED_WIDTH = 1 << 2
 
-FT_STYLE_ITALIC = 'italic'
-FT_STYLE_BOLD = 'bold'
-FT_STYLE_NORMAL = 'normal'
+FT_STYLE_ITALIC = "italic"
+FT_STYLE_BOLD = "bold"
+FT_STYLE_NORMAL = "normal"
 
 NID_COPYRIGHT = 0
 NID_FONT_FAMILY = 1
@@ -42,31 +41,31 @@ NID_FINDFONT_NM = 20
 
 COVERAGE_MINIMAL = 80
 
-SUPPORT_LEVEL_FRAGMENTARY = 'fragmentary'
-SUPPORT_LEVEL_FULL = 'full'
-SUPPORT_LEVEL_PARTIAL = 'partial'
-SUPPORT_LEVEL_UNSUPPORTED = 'unsupported'
+SUPPORT_LEVEL_FRAGMENTARY = "fragmentary"
+SUPPORT_LEVEL_FULL = "full"
+SUPPORT_LEVEL_PARTIAL = "partial"
+SUPPORT_LEVEL_UNSUPPORTED = "unsupported"
 
 NAME_ID_FONTPROPMAP = {
-    NID_COPYRIGHT: 'copyright',
-    NID_FONT_FAMILY: 'common_name',
-    NID_FONT_SUBFAM: 'sub_family',
-    NID_UNIQUE_ID: 'unique_id',
-    NID_FULL_NAME: 'full_name',
-    NID_VERSION: 'version',
-    NID_POSTSCRIPT: 'postscript',
-    NID_TRADEMARK: 'trademark',
-    NID_VENDOR: 'vendor',
-    NID_DESIGNER: 'designer',
-    NID_DESCRIPTION: 'description',
-    NID_URL_VENDOR: 'vendor_url',
-    NID_URL_DESIGNER: 'designer_url',
-    NID_LICENSE: 'license',
-    NID_URL_LICENSE: 'license_url',
-    NID_RESERVED: 'reserved',
-    NID_PREF_NAME: 'pref_name',
-    NID_PREF_SUBFAM: 'sub_family',
-    NID_MAC_FULLNAME: 'mac_fullname',
-    NID_SAMPLETEXT: 'sample_text',
-    NID_FINDFONT_NM: 'findfont_nm',
+    NID_COPYRIGHT: "copyright",
+    NID_FONT_FAMILY: "common_name",
+    NID_FONT_SUBFAM: "sub_family",
+    NID_UNIQUE_ID: "unique_id",
+    NID_FULL_NAME: "full_name",
+    NID_VERSION: "version",
+    NID_POSTSCRIPT: "postscript",
+    NID_TRADEMARK: "trademark",
+    NID_VENDOR: "vendor",
+    NID_DESIGNER: "designer",
+    NID_DESCRIPTION: "description",
+    NID_URL_VENDOR: "vendor_url",
+    NID_URL_DESIGNER: "designer_url",
+    NID_LICENSE: "license",
+    NID_URL_LICENSE: "license_url",
+    NID_RESERVED: "reserved",
+    NID_PREF_NAME: "pref_name",
+    NID_PREF_SUBFAM: "sub_family",
+    NID_MAC_FULLNAME: "mac_fullname",
+    NID_SAMPLETEXT: "sample_text",
+    NID_FINDFONT_NM: "findfont_nm",
 }
